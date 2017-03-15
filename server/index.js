@@ -7,6 +7,7 @@ var passport = require('passport');
 var ensureLogIn = require('connect-ensure-login');
 var FacebookStrat = require('passport-facebook').Strategy;
 var TwitterStrat = require('passport-twitter').Strategy;
+var personalityHelper = require('./watson/personality-insights');
 
 var app = express();
 
@@ -100,6 +101,13 @@ app.get('/twitterProfile',
   function(req, res) {
     res.render('testProfile', { user: req.user });
   });
+
+app.post('/analysis/text', (req, res, next) =>
+    personalityHelper.profileFromText(req.body)
+      .then(res.json.bind(res))
+      .catch(next)
+  );
+
 
 app.listen(3000, function() {
   console.log('Listening on port 3000.');
