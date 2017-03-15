@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import List from './components/List.jsx';
+import LoginForm from './components/LoginForm.jsx';
+import SignupForm from './components/SignupForm.jsx';
+import * as s from './serverCalls.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -9,27 +12,29 @@ class App extends React.Component {
     this.state = { 
       items: []
     }
+
+    this.facebookLogin = this.facebookLogin.bind(this)
   }
 
   componentDidMount() {
-    $.ajax({
-      url: '/items', 
-      success: (data) => {
-        this.setState({
-          items: data
-        })
-      },
-      error: (err) => {
-        console.log('err', err);
-      }
-    });
+  }
+
+  facebookLogin() {
+    console.log('yo')
+    s.serverGet('facebook')
   }
 
   render () {
-    return (<div>
-      <h1>Item List</h1>
-      <List items={this.state.items}/>
-    </div>)
+    return (
+      <div>
+        <h2>logo, menu, powered by watson</h2>
+        <LoginForm formSubmit={this.formSubmit}/>
+        <SignupForm formSubmit={this.formSubmit}/>
+        <h4>description stuff, choose method below</h4>
+        <h5>tabbed logins for fb, twitter, custom</h5>
+        <button onClick={this.facebookLogin}>facebook login</button>
+      </div>
+    )
   }
 }
 
