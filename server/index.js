@@ -102,11 +102,26 @@ app.get('/twitterProfile',
     res.render('testProfile', { user: req.user });
   });
 
-app.post('/analysis/text', (req, res, next) =>
-    personalityHelper.profileFromText(req.body)
-      .then(res.json.bind(res))
-      .catch(next)
-  );
+// get request for testing purposes
+app.get('/analysis/text', function(req, res, next) {
+// app.post('/analysis/text', function(req, res, next) {
+  var params = {
+    text: require('./watson/speech'), // example text
+    // all of the following settings can be turned on for json:
+    // content_items: require('./profile.json').contentItems,
+    // consumption_preferences: true,
+    // raw_scores: true,
+    headers: {
+      // 'accept-language': 'en',
+      // 'accept': 'application/json'
+      'Content-type': 'text/plain'
+    }
+  };
+
+  personalityHelper.profileFromText(params)
+    .then(res.json.bind(res))
+    .catch(next);
+});
 
 
 app.listen(3000, function() {
