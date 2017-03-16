@@ -49,6 +49,7 @@ var parseTraits = function(category) {
     }
     if (trait.children !== undefined) {
       traits = traits.concat(parseTraits(trait.children));
+      delete trait.children;
     }
 
     traits.push(trait);
