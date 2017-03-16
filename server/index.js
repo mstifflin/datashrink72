@@ -134,27 +134,11 @@ app.post('/login', function(req, res) {
   dbHelpers.loginUser(req, res);  
 });
 
-
-//use to test functionality of database
-app.get('/signup', function(req, res) {
-  req.body = {};
-  req.body.username = 'theBest';
-  req.body.password = 'piano';
-  dbHelpers.signup(req, res);
-})
-
-//use to test functionality of database
-app.get('/login', function(req, res) {
-  req.body = {};
-  req.body.username = 'theBest';
-  req.body.password = 'piano';
-  dbHelpers.loginUser(req, res);  
-});
-
 app.get('/*', function(req, res) {
   //take the id included in the star. 
   //query the database for the information for the respective analysis,
   //send the display page with the current analysis data
+  res.send('in progress');
 })
 
 app.listen(3000, function() {
