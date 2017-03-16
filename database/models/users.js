@@ -2,9 +2,7 @@ var db = require('../config');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 
-
 var UsersSchema = mongoose.Schema({
-	id: Number,
 	username: String,
 	email: String,
 	password: String,

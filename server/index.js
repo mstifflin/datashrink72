@@ -8,6 +8,7 @@ var ensureLogIn = require('connect-ensure-login');
 var FacebookStrat = require('passport-facebook').Strategy;
 var TwitterStrat = require('passport-twitter').Strategy;
 var personalityHelper = require('./watson/personality-insights');
+var watsonHelpers = require('./watson/watson-helpers');
 
 var db = require('../database/config');
 var dbHelpers = require('../database/helpers/request_helpers');
@@ -122,7 +123,14 @@ app.get('/analysis/text', function(req, res, next) {
   };
 
   personalityHelper.profileFromText(params)
-    .then(res.json.bind(res))
+    .then(function(profile) {
+      var parseParams = {
+        name: 'Me', // name from form
+        context: 'twitter', // context from somewhere in the request
+        userId: 0 // userId from session
+      }
+      res.send(watsonHelpers.parseProfile(parseParams, profile));
+    })
     .catch(next);
 });
 
