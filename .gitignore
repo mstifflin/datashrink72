@@ -27,7 +27,7 @@ node_modules/
 bower_components/
 
 # API Keys
-server/API_KEYS.js
+server/social/API_KEYS.js
 
 # Floobits
 .floo
