@@ -21,18 +21,20 @@ var parseProfile = function(params, profile) {
     else {
       analysisId = result.id;
     }
+  })
+  .then(function() {
+    var traits = parseTraits(profile.personality);
+    traits = traits.concat(parseTraits(profile.needs));
+    traits = traits.concat(parseTraits(profile.values));
+
+    // if consumption preferences enabled
+    // if (params.inputType === 'JSON') {
+    //   traits = traits.concat(parseTraits(profile.behavior));
+    // }
+
+    analysis.traits = traits;
   });
 
-  var traits = parseTraits(profile.personality);
-  traits = traits.concat(parseTraits(profile.needs));
-  traits = traits.concat(parseTraits(profile.values));
-
-  // if consumption preferences enabled
-  // if (params.inputType === 'JSON') {
-  //   traits = traits.concat(parseTraits(profile.behavior));
-  // }
-
-  analysis.traits = traits;
   return analysis;
 }
 
@@ -51,7 +53,11 @@ var parseTraits = function(category) {
       traits = traits.concat(parseTraits(trait.children));
       delete trait.children;
     }
+    var newTrait = new TraitScore(traitObj);
+    // newTrait.save(function(err, result) {
 
+    // });
+    console.log(traitObj);
     traits.push(trait);
   });
   
