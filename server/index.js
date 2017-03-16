@@ -124,6 +124,21 @@ app.get('/analysis/text', function(req, res, next) {
 });
 
 
+app.get('/*', function(req, res) {
+  url = req.url.slice(1);
+  //anticipating the url to be the id of an analysis that we can query the database for
+  db.findOne({_id: url})
+  .exec(function(err, analysis) {
+    if (err) {
+      console.log('there was an error looking up your analysis', err)
+    } else {
+      //use the id of the analysis to query for all rows of the analyses_traits table
+        //then use the analyses_traits ids to look up all traits from the traits table
+    }
+  })
+  res.send('hello world');
+})
+
 app.listen(3000, function() {
   console.log('Listening on port 3000.');
 });
