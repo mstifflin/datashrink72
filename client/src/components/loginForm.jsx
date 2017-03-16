@@ -8,6 +8,7 @@ class loginForm extends React.Component {
     this.state = { 
       username: '',
       password: '',
+      status: ''
     }
 
     this.updateFormValue = this.updateFormValue.bind(this);
@@ -24,10 +25,13 @@ class loginForm extends React.Component {
     event.preventDefault()
     console.log(this.state)
     s.serverPost('login', this.state).then(e => {
-      //if successful send back message results to app
+      this.setState({status: e.data});
       console.log(e, 'yo');
+      this.render();
     }).catch(e => {
+      this.setState({status: e.data});
       console.log(e);
+      this.render();
       //tell user the info is correct or server is down
     })
   }
@@ -36,6 +40,7 @@ class loginForm extends React.Component {
     return (
       <div>
       <h2>Log In</h2>
+      <p>{this.state.status}</p>
       <form onSubmit={this.sendForm}>
         <label>
           Username:
