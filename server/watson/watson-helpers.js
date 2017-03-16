@@ -18,9 +18,6 @@ var parseProfile = function(params, profile) {
   // persist anaylsis, set analysisId
   analysisId = 1;
 
-  console.log('analysis', analysis);
-  console.log('profile', profile);
-
   var traits = [];
   traits = traits.concat(parseTraits(profile.personality));
   traits = traits.concat(parseTraits(profile.needs));

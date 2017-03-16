@@ -6,6 +6,6 @@ var TraitsSchema = mongoose.Schema({
 	category: String
 });
 
-var trait = mongoose.Model('trait', TraitsSchema);
+var trait = mongoose.model('trait', TraitsSchema);
 
 module.exports = trait;
