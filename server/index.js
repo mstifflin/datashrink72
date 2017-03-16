@@ -9,6 +9,9 @@ var FacebookStrat = require('passport-facebook').Strategy;
 var TwitterStrat = require('passport-twitter').Strategy;
 var personalityHelper = require('./watson/personality-insights');
 
+var db = require('../database/config');
+var dbHelpers = require('../database/helpers/request_helpers');
+
 var app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -123,6 +126,20 @@ app.get('/analysis/text', function(req, res, next) {
     .catch(next);
 });
 
+app.post('/signup', function(req, res) {
+  dbHelpers.signup(req, res);
+});
+
+app.post('/login', function(req, res) {
+  dbHelpers.loginUser(req, res);  
+});
+
+app.get('/*', function(req, res) {
+  //take the id included in the star. 
+  //query the database for the information for the respective analysis,
+  //send the display page with the current analysis data
+  res.send('in progress');
+})
 
 app.get('/*', function(req, res) {
   url = req.url.slice(1);
