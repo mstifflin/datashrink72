@@ -1,12 +1,13 @@
 var db = require('../config');
 var mongoose = require('mongoose');
+require('mongoose-double')(mongoose);
+var SchemaTypes = mongoose.Schema.Types;
 
 var AnalysesTraitsSchema = mongoose.Schema({
-	id: Number,
-	analyses_id: Number,
-	traits_id: Number,
-	raw_score: Number,
-	percentile: Number
+	analysis_id: String,
+	trait_id: String,
+	raw_score: SchemaTypes.Double,
+	percentile: SchemaTypes.Double
 });
 
 var analysis_trait = mongoose.model('analysis_trait', AnalysesTraitsSchema);
