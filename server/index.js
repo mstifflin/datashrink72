@@ -2,13 +2,12 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
-var API = require('./API_KEYS.js');
-var passport = require('passport');
-var ensureLogIn = require('connect-ensure-login');
-var FacebookStrat = require('passport-facebook').Strategy;
-var TwitterStrat = require('passport-twitter').Strategy;
 var personalityHelper = require('./watson/personality-insights');
 var watsonHelpers = require('./watson/watson-helpers');
+var passport = require('passport');
+var ensureLogIn = require('connect-ensure-login').ensureLoggedIn();
+var fb = require('./social/facebook.js');
+var tw = require('./social/twitter.js');
 
 var db = require('../database/config');
 var dbHelpers = require('../database/helpers/request_helpers');
@@ -19,31 +18,10 @@ app.use(express.static(__dirname + '/../client/dist'));
 
 app.set('view engine', 'ejs');
 
-passport.use(new FacebookStrat({
-    clientID: API.facebookID,
-    clientSecret: API.facebookSecret,
-    callbackURL: 'http://localhost:3000/facebook/return'
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    console.log('ACCESS: ', accessToken);
-    console.log('REFRESH: ', refreshToken);
-    console.log('PROFILE: ', profile);
-    return cb(null, profile);
-  }
-));
-
-passport.use(new TwitterStrat({
-    consumerKey: API.twitterKey,
-    consumerSecret: API.twitterSecret,
-    callbackURL: 'http://127.0.0.1:3000/twitter/return'
-  },
-  function(token, tokenSecret, profile, cb) {
-    console.log('TOKEN: ', token);
-    console.log('SECRET: ', tokenSecret);
-    console.log('PROFILE: ', profile);
-
-    return cb(null, profile);
-  }));
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSession({secret: 'keyboard cat', resave: true, saveUnitialized: true}));
 
 //TODO: 
 // Configure Passport authenticated session persistence.
@@ -64,10 +42,6 @@ passport.deserializeUser(function(obj, cb) {
 });
 
 
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(expressSession({secret: 'keyboard cat', resave: true, saveUnitialized: true}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -76,35 +50,23 @@ app.get('/', function (req, res) {
   res.send('Hello world');
 });
 
-app.get('/facebook', passport.authenticate('facebook'));
+/**********************/
+/**** SOCIAL MEDIA ****/
+/**********************/
 
-app.get('/facebook/return', 
-  passport.authenticate('facebook', { failureRedirect: '/'}),
-  function(req, res) {
-    // TODO: redirect to data analysis - test page for now
-    res.redirect('/facebookProfile');
-  });
+app.get('/facebook', fb.toAuth);
+app.get('/facebook/return', fb.afterAuth, fb.toAnalysis);
+//TODO change render test to analysis
+app.get('/facebookProfile', ensureLogIn, fb.renderTest);
 
-app.get('/facebookProfile', 
-  ensureLogIn.ensureLoggedIn(),
-  function(req, res) {
-    res.render('testProfile', { user: req.user });
-  });
+app.get('/twitter', tw.toAuth);
+app.get('/twitter/return', tw.fromAuth, tw.toAnalysis);
+//TODO change render test to analysis
+app.get('/twitterProfile', ensureLogIn, tw.renderTest);
 
-app.get('/twitter', passport.authenticate('twitter'));
-
-app.get('/twitter/return', 
-  passport.authenticate('twitter', { failureRedirect: '/'}),
-  function(req, res) {
-    // TODO: redirect to data analysis
-    res.redirect('/twitterProfile');
-  });
-
-app.get('/twitterProfile',
-  ensureLogIn.ensureLoggedIn(),
-  function(req, res) {
-    res.render('testProfile', { user: req.user });
-  });
+/****************/
+/**** WATSON ****/
+/****************/
 
 // get request for testing purposes
 app.get('/analysis/text', function(req, res, next) {
@@ -133,6 +95,10 @@ app.get('/analysis/text', function(req, res, next) {
     })
     .catch(next);
 });
+
+/****************/
+/**** NATIVE ****/
+/****************/
 
 app.post('/signup', function(req, res) {
   dbHelpers.signup(req, res);
