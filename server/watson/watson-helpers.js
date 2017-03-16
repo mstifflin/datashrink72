@@ -15,11 +15,15 @@ var parseProfile = function(params, profile) {
     user_id: params.userId // get user id from session?
   };
 
-  // persist anaylsis, set analysisId
-  analysisId = 1;
+  var newAnalysis = new Analysis(analysis);
+  newAnalysis.save(function(err, result) {
+    if (err) console.log(err);
+    else {
+      analysisId = result.id;
+    }
+  });
 
-  var traits = [];
-  traits = traits.concat(parseTraits(profile.personality));
+  var traits = parseTraits(profile.personality);
   traits = traits.concat(parseTraits(profile.needs));
   traits = traits.concat(parseTraits(profile.values));
 
@@ -43,8 +47,13 @@ var parseTraits = function(category) {
     if (inputType === 'JSON') {
       traitObj.raw_score = trait.raw_score;
     }
+    if (trait.children !== undefined) {
+      traits = traits.concat(parseTraits(trait.children));
+    }
+
     traits.push(trait);
   });
+  
   return traits;
 }
 
