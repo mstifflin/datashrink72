@@ -6,7 +6,8 @@ import LoginForm from './components/LoginForm.jsx';
 import SignupForm from './components/SignupForm.jsx';
 import CustomForm from './components/CustomForm.jsx';
 import * as s from './serverCalls.js'
-import sampledata from './sampledata'
+import * as data from './sampledata'
+import BubbleChart from './components/BubbleChart.jsx'
 import BarChart from './components/BarChart.jsx'
 
 class App extends React.Component {
@@ -14,7 +15,8 @@ class App extends React.Component {
     super(props);
     this.state = { 
       items: [],
-      data: sampledata.traits,
+      data: data.sampledata,
+      explanations: data.explanations
     }
 
     this.twitterLogin = this.twitterLogin.bind(this);
@@ -53,7 +55,8 @@ class App extends React.Component {
         <button onClick={this.facebookLogin}>facebook login</button>
         <button onClick={this.twitterLogin}>twitter login</button>
         <CustomForm formSubmit={this.formSubmit} />
-        <BarChart data={this.state.data} />
+        <BarChart data={this.state.data.traits} />
+        <BubbleChart data={this.state.data} explanations={this.state.explanations}/>
       </div>
     )
   }

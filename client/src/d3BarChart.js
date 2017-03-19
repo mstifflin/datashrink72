@@ -23,7 +23,6 @@ d3BarChart.create = function(el, data) {
       .attr('width', width)
       .attr('height', barHeight * data.length);
 
-
   //150 is to move it to the right
   var bar = svg.selectAll('g')
     .data(data)
@@ -40,17 +39,26 @@ d3BarChart.create = function(el, data) {
       .exit()
     
     bar.append("text")
-      .attr("x", function(d) { return -130  })
+      .attr("x", function(d) { 
+        return -150
+      })
       .attr("y", barHeight / 2)
       .attr("dy", ".35em")
       .text(function(d) {
-
         let trait = d.trait_id;
-        trait = trait.slice(trait.indexOf('_') + 1);
+        trait = trait.slice(trait.indexOf('_') + 1).replace(/\_/g, ' ');
+        return `${trait}` ;
+      });
 
-        //non functioning spaces
-        trait = '|' + ' '.repeat(30 - trait.length) + trait;
-        return trait + ' : ' + Math.round(d.percentile * 100);
+    bar.append("text")
+      .attr("x", function(d) { 
+        return 0;
+      })
+      .attr("y", barHeight / 2)
+      .attr("dy", ".35em")
+      .style('fill', 'orange')
+      .text(function(d) {
+        return `${Math.round(d.percentile * 100)}`
       });
 };
 
