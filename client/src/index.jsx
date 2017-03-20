@@ -7,6 +7,7 @@ import SignupForm from './components/SignupForm.jsx';
 import CustomForm from './components/CustomForm.jsx';
 import * as s from './serverCalls.js'
 import * as data from './sampledata'
+import ComparisonChart from './components/ComparisonChart.jsx'
 import BubbleChart from './components/BubbleChart.jsx'
 import BarChart from './components/BarChart.jsx'
 
@@ -16,6 +17,7 @@ class App extends React.Component {
     this.state = { 
       items: [],
       data: data.sampledata,
+      data2: data.sampledata2,
       explanations: data.explanations
     }
 
@@ -40,6 +42,10 @@ class App extends React.Component {
     //promise needs to be chained
   }
 
+        //   <ComparisonChart data={this.state.data.traits} data2={this.state.data2.traits} />
+        // <BubbleChart data={this.state.data} explanations={this.state.explanations}/>
+
+
   /* formSubmit is a placeholder for functions that we will need to pass down
     to render data in a prespecified area */
 
@@ -56,7 +62,7 @@ class App extends React.Component {
         <button onClick={this.twitterLogin}>twitter login</button>
         <CustomForm formSubmit={this.formSubmit} />
         <BarChart data={this.state.data.traits} />
-        <BubbleChart data={this.state.data} explanations={this.state.explanations}/>
+
       </div>
     )
   }

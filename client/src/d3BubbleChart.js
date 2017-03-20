@@ -5,6 +5,7 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
   var dataCopy = JSON.stringify(dataOrig);
   var data = JSON.parse(dataCopy)
   data['children'] = data['traits'];
+  const twoDecFormat = (n) => parseFloat(Math.round(n * 10000) / 100).toFixed(2);
   //d3's layout wants a 'children property'
 
   var colorCodes = {
@@ -13,6 +14,13 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
     need: '#a55d22',
     value: '#a0558d'
   }
+
+  var legendData = [
+    {name: 'facet', color: '#79872b'},
+    {name: 'big5', color: '#145b57'},
+    {name: 'need', color: '#a55d22'},
+    {name: 'value', color: '#a0558d'}
+  ];
 
   //set dimensions of the chart
   var svg = d3.select(el).append('svg')
@@ -58,7 +66,6 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
     .append('circle')
     .attr('r', function(d) { return d.r; })
     .attr('fill', function(d) {
-
       var fullTrait = d.data.trait_id;
       var colorGroup = fullTrait.slice(0, fullTrait.indexOf('_'))
       return colorCodes[colorGroup];
@@ -86,7 +93,7 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
   node
     .append('title')
     .text(function(d) { 
-      return d.data.name + ': ' + Math.round(d.data.percentile * 10000) / 100 +
+      return d.data.name + ': ' + twoDecFormat(d.data.percentile) +
         (explanations[d.data.name] ? '\n\n' + explanations[d.data.name] : '')
     });
 
@@ -95,6 +102,29 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
       .attr("y", 30)
       .attr('class', 'bubbleTitle')
       .text("TWITTER PERSONALITY ANALYSIS");
+
+
+  var legend = svg.append('g')
+      .selectAll('g')
+      .data(legendData)
+      .enter()
+      .append('g')
+      .attr('transform', function(d, i) {
+        console.log(i);
+        return `translate(1100, ${i * 15 + 35})`;
+      });
+    legend
+      .append('rect')
+      .attr('fill', (d) => d.color)
+      .attr('width', 20)
+      .attr('height', 10);
+    legend
+      .append('text')
+      .attr('x', + 35)
+      .attr('y', + 10)
+      .text(d => d.name)
+      .attr('class', 'bubbleNode')
+      .exit();
 };
 
 export default d3BubbleChart

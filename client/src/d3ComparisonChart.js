@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 
-var d3BarChart = {};
+var d3ComparisonChart = {};
 
-d3BarChart.create = function(el, data) {
+d3ComparisonChart.create = function(el, data1, data2) {
   //modify width of chart and height of lines
   var totalWidth = 1250;
   var barHeight = 35;
@@ -13,11 +13,11 @@ d3BarChart.create = function(el, data) {
   //scaleLinear will modify the data to a range based on the domain
     //then scale each input to a range specified on the range
 
-  var margin = {top: 65, right: 0, bottom: 15, left: 15};
+  var margin = {top: 100, right: 15, bottom: 15, left: 15};
   var padding = {top: 0, right: 0, bottom: 0, left: 0};
 
   var outerWidth = totalWidth;
-  var outerHeight = barHeight * data.length + margin.top + margin.bottom + padding.top + padding.bottom;
+  var outerHeight = barHeight * data1.length + margin.top + margin.bottom + padding.top + padding.bottom;
   var innerWidth = outerWidth - margin.left - margin.right;
   var innerHeight = outerHeight - margin.top - margin.bottom;
   var width = innerWidth - padding.left - padding.right;
@@ -40,12 +40,12 @@ d3BarChart.create = function(el, data) {
 
   var x = d3.scaleLinear()
     .domain([0, 100])
-    .range([0, 800])
+    .range([0, 450])
 
   //theres 53 inputs..
   var y = d3.scaleLinear()
     .domain([0, 52])
-    .range([0, barHeight * data.length])
+    .range([0, barHeight * data1.length])
 
 
 
@@ -56,57 +56,38 @@ d3BarChart.create = function(el, data) {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  //pass in title as prop w/user
+  // pass in title as prop w/user
   svg.append("g").append('text')
     .attr("x", 30 - margin.left - padding.left)             
     .attr("y", 30 - margin.top - padding.top)
     .attr('class', 'bubbleTitle')
-    .text("TWITTER PERSONALITY ANALYSIS");
+    .text("TWITTER VS FACEBOOK ANALYSIS");
   
-  //165 is to move it to the right
-  var bar = svg.selectAll('g')
-    .data(data)
+
+
+  var bar = svg.selectAll('.data1')
+    .data(data1)
     .enter().append('g')
-    .attr('class', 'chartNode')
-    .attr("transform", function(d, i) {
-      return "translate(165," + i * barHeight + ")" })
+    .attr('class', 'data1')
+    // .attr('class', 'chartNode')
+    .attr("transform", (d,i) => `translate(0, ${i * barHeight})`)
 
     bar.append("rect")
+      .attr("transform", (d, i) => `translate( ${width/ 2 + 80} ,0)`)
       .attr("width", function(d) {
         return x(d.percentile * 100)
       })
       .attr("height", barHeight - 5)
-      .attr('data-legend', function(d) {
-        var fullTrait = d.trait_id;
-        var colorGroup = fullTrait.slice(0, fullTrait.indexOf('_'))
-        return colorGroup;
-      })
       .attr('fill', function(d) {
         var fullTrait = d.trait_id;
         var colorGroup = fullTrait.slice(0, fullTrait.indexOf('_'))
         return colorCodes[colorGroup];
       })
       .exit()
-    
-    bar.append("text")
-      .attr("x", function(d) { 
-        return -165;
-      })
-      .attr("y", barHeight / 2)
-      .attr("dy", ".35em")
-      .attr('class', 'barChartLabels')
-      .text(function(d) {
-        let trait = d.trait_id;
-        trait = trait.slice(trait.indexOf('_') + 1).replace(/\_/g, ' ');
-        return trait;
-      });
 
     bar.append("text")
       .attr("x", function(d) { 
-        return 0;
-      })
-      .attr('x', function(d) {
-        return Math.max(5, x(d.percentile * 100) - 55)
+        return width/2 + 85
       })
       .attr('y', barHeight / 2)
       .attr('dy', ".35em")
@@ -116,6 +97,53 @@ d3BarChart.create = function(el, data) {
       });
 
 
+    bar.append("text")
+      .attr("x", function(d) { 
+        return width / 2;
+      })
+      .attr("y", barHeight / 2)
+      .style("text-anchor", "middle")
+      .attr("dy", ".35em")
+      .attr('class', 'barChartLabels')
+      .text(function(d) {
+        let trait = d.trait_id;
+        trait = trait.slice(trait.indexOf('_') + 1).replace(/\_/g, ' ');
+        return trait;
+      });
+
+    var bar = svg.selectAll('.data2')
+      .data(data2)
+      .enter().append('g')
+      .attr('class', 'data2')
+      .attr("transform", (d,i) => {
+        var w = x(d.percentile * 100);
+        return `translate(${width / 2 - 85 - w}, ${i * barHeight})`
+      });
+
+
+      bar.append("rect")
+        .attr("width", function(d) {
+          return x(d.percentile * 100)
+        })
+        .attr("height", barHeight - 5)
+        .attr('fill', function(d) {
+          var fullTrait = d.trait_id;
+          var colorGroup = fullTrait.slice(0, fullTrait.indexOf('_'))
+          return colorCodes[colorGroup];
+        })
+        .exit()
+
+
+      bar.append("text")
+        .attr("x", function(d) { 
+          return x(d.percentile * 100) - 45;
+        })
+        .attr('y', barHeight / 2)
+        .attr('dy', ".35em")
+        .style('fill', 'white')
+        .text(function(d) {
+          return twoDecFormat(d.percentile);
+        });
 
       var legend = svg.append('g')
             .selectAll('g')
@@ -123,7 +151,7 @@ d3BarChart.create = function(el, data) {
             .enter()
             .append('g')
             .attr('transform', function(d, i) {
-              return "translate(1100," + i * 15 + ")";
+              return `translate(1150, ${i * 15 -75} )`;
             });
           legend
             .append('rect')
@@ -139,4 +167,4 @@ d3BarChart.create = function(el, data) {
             .exit();
 };
 
-export default d3BarChart
+export default d3ComparisonChart
