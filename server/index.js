@@ -6,7 +6,6 @@ var personalityHelper = require('./watson/personality-insights');
 var watsonHelpers = require('./watson/watson-helpers');
 var passport = require('passport');
 var ensureLogIn = require('connect-ensure-login').ensureLoggedIn();
-var fb = require('./social/facebook.js');
 var tw = require('./social/twitter.js');
 var db = require('../database/config');
 var dbHelpers = require('../database/helpers/request_helpers');
@@ -33,11 +32,6 @@ app.get('/', function (req, res) {
 /**********************/
 /**** SOCIAL MEDIA ****/
 /**********************/
-
-app.get('/facebook', fb.toAuth);
-app.get('/facebook/return', fb.afterAuth, fb.toAnalysis);
-//TODO change render test to analysis
-app.get('/facebookProfile', ensureLogIn, fb.renderTest);
 
 app.get('/twitter', tw.toAuth);
 app.get('/twitter/return', tw.fromAuth, tw.toAnalysis);

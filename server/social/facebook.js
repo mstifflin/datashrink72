@@ -45,3 +45,15 @@ module.exports.toAnalysis = function(req, res) {
 module.exports.renderTest = function(req, res) {
   res.render('testProfile', { user: req.user });
 };
+
+
+
+/* TAKEN FROM INDEX */
+
+// var fb = require('./social/facebook.js');
+
+// app.get('/facebook', fb.toAuth);
+// app.get('/facebook/return', fb.afterAuth, fb.toAnalysis);
+// //TODO change render test to analysis
+// app.get('/facebookProfile', ensureLogIn, fb.renderTest);
+
