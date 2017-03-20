@@ -51280,10 +51280,6 @@ var App = function (_React$Component) {
       //promise needs to be chained
     }
 
-    //   <ComparisonChart data={this.state.data.traits} data2={this.state.data2.traits} />
-    // <BubbleChart data={this.state.data} explanations={this.state.explanations}/>
-
-
     /* formSubmit is a placeholder for functions that we will need to pass down
       to render data in a prespecified area */
 
@@ -51326,7 +51322,9 @@ var App = function (_React$Component) {
           'twitter login'
         ),
         _react2.default.createElement(_CustomForm2.default, { formSubmit: this.formSubmit }),
-        _react2.default.createElement(_BarChart2.default, { data: this.state.data.traits })
+        _react2.default.createElement(_BarChart2.default, { data: this.state.data.traits }),
+        _react2.default.createElement(_ComparisonChart2.default, { data: this.state.data.traits, data2: this.state.data2.traits }),
+        _react2.default.createElement(_BubbleChart2.default, { data: this.state.data, explanations: this.state.explanations })
       );
     }
   }]);
