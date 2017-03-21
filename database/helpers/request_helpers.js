@@ -66,12 +66,6 @@ module.exports = {
 		}
 	},
 
-	checkIfAnalysisExists: function(req, res) {
-		//pull the person and the context out of the req
-			//check if there is an analysis for the person and the context
-				//if so pull all relavent data and send 
-	},
-
 	findAllDataFromAnAnalysis: function(req, res) {
 	  var url = req.url.slice(1);
 	  Analysis.findOne({_id: url})
@@ -79,15 +73,31 @@ module.exports = {
 	    if (err) {
 	      console.log('there was an error looking up your analysis', err)
 	    } else {
+	    	//response is the bundle of data that will be sent back, need to coordinate how it will be formated
+	      var response = [];
+	      response.push(analysis);
 	      //use the id of the analysis to query for all rows of the analyses_traits table 
 	      AnalysisTrait.find({_id: analysis._id})
-	      .exec(function(err, analysisTrait) {
+	      .exec(function(err, analysisTraits) {
 	      	if (err) {
-	      		console.log('there was an error looking up the analysisTrait', analysisTrait);
+	      		console.log('there was an error looking up the analysisTrait', err);
 	      	} else {
-	      		// use $in in db query
+	      		response.push(analysisTraits);
+	      		queryParams = [];
+	      		analysisTraits.forEach(function(analysisTrait) {
+	      			queryParams.push(analysisTrait._id)
+	      		}
 	      		//find all traits corresponding to all the ids obtained from the analysisTrait table
-	      		//"bundle" the data and send it to the users
+	      		Trait.find({_id: {$in: queryParams}})
+	      		.exec(function(err, traits) {
+	      			if (err) {
+	      				console.log('there was an error looking up the AnalysisTrait', err);
+	      			} else {
+	      				response.push(traits);
+//---------------------will probaly need to reformate the response before sending, need to coordinate with eugene	      				
+	      				res.send(response);
+	      			}
+	      		})
 	      	}
 	      })
 	    }

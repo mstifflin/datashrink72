@@ -135,9 +135,8 @@ app.post('/login', function(req, res) {
 });
 
 app.get('/analyses/*', function(req, res) {
-  dbHelpers.findAllDataFromAnAnalysis(req, res); 
-  //call a helper function passing it a url
-  //the helper function will find all data associated with the correct analysis and send it to the user.
+  //uncomment when functionality is finalized
+  //dbHelpers.findAllDataFromAnAnalysis(req, res); 
   res.send('hello world');
 })
 

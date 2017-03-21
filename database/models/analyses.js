@@ -8,10 +8,6 @@ var AnalysesSchema = mongoose.Schema({
 	user_id: Number
 })
 
-//when a new analysis is saved
-	//get the object id fo the saved analysis
-	//send the id as a link along with all the data
-
 var analysis = mongoose.model('analysis', AnalysesSchema);
 
 
