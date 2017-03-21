@@ -70,6 +70,28 @@ module.exports = {
 		//pull the person and the context out of the req
 			//check if there is an analysis for the person and the context
 				//if so pull all relavent data and send 
+	},
+
+	findAllDataFromAnAnalysis: function(req, res) {
+	  var url = req.url.slice(1);
+	  Analysis.findOne({_id: url})
+	  .exec(function(err, analysis) {
+	    if (err) {
+	      console.log('there was an error looking up your analysis', err)
+	    } else {
+	      //use the id of the analysis to query for all rows of the analyses_traits table 
+	      AnalysisTrait.find({_id: analysis._id})
+	      .exec(function(err, analysisTrait) {
+	      	if (err) {
+	      		console.log('there was an error looking up the analysisTrait', analysisTrait);
+	      	} else {
+	      		// use $in in db query
+	      		//find all traits corresponding to all the ids obtained from the analysisTrait table
+	      		//"bundle" the data and send it to the users
+	      	}
+	      })
+	    }
+	  })
 	}
 
 }

@@ -134,25 +134,10 @@ app.post('/login', function(req, res) {
   dbHelpers.loginUser(req, res);  
 });
 
-app.get('/*', function(req, res) {
-  //take the id included in the star. 
-  //query the database for the information for the respective analysis,
-  //send the display page with the current analysis data
-  res.send('in progress');
-})
-
-app.get('/*', function(req, res) {
-  url = req.url.slice(1);
-  //anticipating the url to be the id of an analysis that we can query the database for
-  db.findOne({_id: url})
-  .exec(function(err, analysis) {
-    if (err) {
-      console.log('there was an error looking up your analysis', err)
-    } else {
-      //use the id of the analysis to query for all rows of the analyses_traits table
-        //then use the analyses_traits ids to look up all traits from the traits table
-    }
-  })
+app.get('/analyses/*', function(req, res) {
+  dbHelpers.findAllDataFromAnAnalysis(req, res); 
+  //call a helper function passing it a url
+  //the helper function will find all data associated with the correct analysis and send it to the user.
   res.send('hello world');
 })
 
