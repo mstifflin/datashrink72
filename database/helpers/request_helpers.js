@@ -67,7 +67,7 @@ module.exports = {
 	},
 
 	findAllDataFromAnAnalysis: function(req, res) {
-	  var url = req.url.slice(1);
+	  var url = req.url.slice(9);
 	  Analysis.findOne({_id: url})
 	  .exec(function(err, analysis) {
 	    if (err) {
