@@ -86,7 +86,7 @@ module.exports = {
 	      		queryParams = [];
 	      		analysisTraits.forEach(function(analysisTrait) {
 	      			queryParams.push(analysisTrait._id)
-	      		}
+	      		})
 	      		//find all traits corresponding to all the ids obtained from the analysisTrait table
 	      		Trait.find({_id: {$in: queryParams}})
 	      		.exec(function(err, traits) {
