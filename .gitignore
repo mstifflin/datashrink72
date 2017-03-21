@@ -28,6 +28,7 @@ bower_components/
 
 # API Keys
 server/social/API_KEYS.js
+server/API_KEYS.js
 
 # Floobits
 .floo
