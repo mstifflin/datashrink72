@@ -88,6 +88,6 @@ app.get('/analyses/*', function(req, res) {
   res.send('hello world');
 })
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
   console.log('Listening on port 3000.');
 });
