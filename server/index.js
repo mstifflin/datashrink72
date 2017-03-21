@@ -6,11 +6,10 @@ var personalityHelper = require('./watson/personality-insights');
 var watsonHelpers = require('./watson/watson-helpers');
 var passport = require('passport');
 var ensureLogIn = require('connect-ensure-login').ensureLoggedIn();
-var fb = require('./social/facebook.js');
 var tw = require('./social/twitter.js');
-
 var db = require('../database/config');
 var dbHelpers = require('../database/helpers/request_helpers');
+//-------------------------------------------------------------//
 
 var app = express();
 
@@ -23,26 +22,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(expressSession({secret: 'keyboard cat', resave: true, saveUnitialized: true}));
 
-//TODO: 
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  In a
-// production-quality application, this would typically be as simple as
-// supplying the user ID when serializing, and querying the user record by ID
-// from the database when deserializing.  However, due to the fact that this
-// example does not have a database, the complete Facebook profile is serialized
-// and deserialized.
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
-});
-
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
-});
-
-
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -53,11 +32,6 @@ app.get('/', function (req, res) {
 /**********************/
 /**** SOCIAL MEDIA ****/
 /**********************/
-
-app.get('/facebook', fb.toAuth);
-app.get('/facebook/return', fb.afterAuth, fb.toAnalysis);
-//TODO change render test to analysis
-app.get('/facebookProfile', ensureLogIn, fb.renderTest);
 
 app.get('/twitter', tw.toAuth);
 app.get('/twitter/return', tw.fromAuth, tw.toAnalysis);
