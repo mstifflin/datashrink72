@@ -66,7 +66,10 @@ app.get('/analysis/text', function(req, res, next) {
         context: 'twitter', // context from somewhere in the request
         userId: 0 // userId from session
       }
-      res.send(watsonHelpers.parseProfile(parseParams, profile));
+      watsonHelpers.parseProfile(parseParams, profile)
+        .then(function(analysisId) {
+          res.redirect('/analyses/' + analysisId);
+        }) 
     })
     .catch(next);
 });

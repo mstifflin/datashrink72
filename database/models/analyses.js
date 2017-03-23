@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var AnalysesSchema = mongoose.Schema({
 	person: String,
 	context: String,
-  word_count: Number, 
+  word_count: Number,
 	user_id: String
 })
 
