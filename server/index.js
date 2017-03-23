@@ -26,9 +26,7 @@ app.use(expressSession({secret: 'keyboard cat', resave: true, saveUnitialized: t
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', function (req, res) {
-  res.send('Hello world');
-});
+
 
 /**********************/
 /**** SOCIAL MEDIA ****/
