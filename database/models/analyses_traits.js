@@ -1,15 +1,47 @@
-var db = require('../config');
 var mongoose = require('mongoose');
 require('mongoose-double')(mongoose);
 var SchemaTypes = mongoose.Schema.Types;
+var Analysis = require('./analyses.js');
 
 var AnalysesTraitsSchema = mongoose.Schema({
 	analysis_id: String,
-	trait_id: String,
-	raw_score: SchemaTypes.Double,
-	percentile: SchemaTypes.Double
+  trait_id: String,
+  name: String,
+  category: String,
+	percentile: SchemaTypes.Double,
+  raw_score: SchemaTypes.Double
 });
 
-var analysis_trait = mongoose.model('analysis_trait', AnalysesTraitsSchema);
+var AnalysisTrait = mongoose.model('AnalysisTrait', AnalysesTraitsSchema);
 
-module.exports = analysis_trait;
+AnalysisTrait.populateTestData = function(sampledata) {
+  // Find matching analysis id
+  Analysis.findOne({person: sampledata.name}, function(err, found) {
+    if (err) { console.error(err); }
+    if (found) {
+      analysisId = found._id;
+      // Ensure that test data has not been populated yet
+      AnalysisTrait.findOne({analysis_id: analysisId}, function(err, found) {
+        if (err) { console.error(err); }
+        if (!found) {
+          for (var i = 0; i < sampledata.traits.length; i++) {
+            console.log(sampledata.traits[i].trait_id);
+            var newTrait = new AnalysisTrait({
+              analysis_id: analysisId,
+              trait_id: sampledata.traits[i].trait_id,
+              name: sampledata.traits[i].name,
+              category: sampledata.traits[i].category,
+              percentile: sampledata.traits[i].percentile,
+              raw_score: sampledata.traits[i].raw_score
+            });
+            newTrait.save(function(err, newTrait) {
+              if (err) { console.error(err); }
+            });
+          }
+        }
+      });
+    }
+  });
+};
+
+module.exports = AnalysisTrait;
