@@ -67,8 +67,8 @@ app.get('/analysis/text', function(req, res, next) {
         userId: 0 // userId from session
       }
       watsonHelpers.parseProfile(parseParams, profile)
-        .then(function(analysis) {
-          res.send(analysis);
+        .then(function(analysisId) {
+          res.redirect('/analyses/' + analysisId);
         }) 
     })
     .catch(next);

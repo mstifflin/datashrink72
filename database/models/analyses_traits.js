@@ -9,7 +9,7 @@ var AnalysesTraitsSchema = mongoose.Schema({
   name: String,
   category: String,
 	percentile: SchemaTypes.Double,
-  raw_score: SchemaTypes.Double
+  raw_score: SchemaTypes.Double,
 });
 
 var AnalysisTrait = mongoose.model('AnalysisTrait', AnalysesTraitsSchema);

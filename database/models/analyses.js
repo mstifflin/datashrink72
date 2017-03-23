@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
+var AnalysisTrait = require('./analyses_traits.js');
 
 var AnalysesSchema = mongoose.Schema({
 	person: String,
 	context: String,
-  word_count: Number, 
+  word_count: Number,
 	user_id: String
 })
 
