@@ -19,8 +19,8 @@ AnalysisTrait.populateTestData = function(sampledata) {
   Analysis.findOne({person: sampledata.name}, function(err, found) {
     if (err) { console.error(err); }
     if (found) {
-      analysisId = found._id;
-      // Ensure that test data has not been populated yet
+      var  analysisId = found._id;
+      // Ensure that test data hasnot been populated yet
       AnalysisTrait.findOne({analysis_id: analysisId}, function(err, found) {
         if (err) { console.error(err); }
         if (!found) {
@@ -35,6 +35,7 @@ AnalysisTrait.populateTestData = function(sampledata) {
             });
             newTrait.save(function(err, newTrait) {
               if (err) { console.error(err); }
+              // console.log('saving trait', newTrait)
             });
           }
         }

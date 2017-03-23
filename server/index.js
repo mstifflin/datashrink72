@@ -88,7 +88,11 @@ app.post('/login', function(req, res) {
 
 app.get('/analyze/*', function(req, res) {
   dbHelpers.findAllDataFromAnAnalysis(req, res); 
-})
+});
+
+app.get('/publicanalyses', function(req, res) {
+  dbHelpers.getPublicAnalyses(req, res);
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'))
