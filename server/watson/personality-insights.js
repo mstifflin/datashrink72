@@ -36,6 +36,7 @@ const getProfile = (params) =>
       if (err) {
         reject(err);
       } else {
+        console.log('here it is', profile)
         resolve(profile);
       }
     });

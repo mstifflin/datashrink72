@@ -26,22 +26,21 @@ class CustomForm extends React.Component {
   sendForm(event) {
     event.preventDefault()
     // this.props.history.replace('/LoginForm')
-    // s.serverPost('customform', this.state)
-    // .then(e => {
-      //render   the data somewhere
+    s.serverPost('customform', this.state)
+    .then(e => {
+      console.log(e)
       // s.customGet(e.request.responseURL.slice(22));
-
-      this.props.history.replace('/analyses/58d45cca2bfa6dd67523a436')
-      // this.props.router.push(e.request.responseURL.slice(22))
-    // }).catch(e => {
-    //   console.log('error', e);
-      //tell user they done messed up
-    // })
+    }).catch(e => {
+      console.log('error', e);
+      tell user they done messed up
+    })
   }
 
   render () {
     return (
-
+      <Redirect to="/LoginForm">
+    )
+  }
       <div>
       <h2>Enter your own input to analyze</h2>
       <form onSubmit={this.sendForm}>
