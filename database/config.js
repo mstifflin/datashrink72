@@ -4,6 +4,8 @@ var Analysis = require('./models/analyses.js');
 var User = require('./models/users.js');
 var AnalysisTrait = require('./models/analyses_traits.js');
 
+dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/datashrink72';
+
 mongoose.connect('mongodb://localhost:27017/datashrink72');
 
 var db = mongoose.connection;
