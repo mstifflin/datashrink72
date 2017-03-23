@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as s from '../serverCalls.js'
 
-class loginForm extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = { 
@@ -13,6 +13,8 @@ class loginForm extends React.Component {
 
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
+
+    console.log(this)
   }
 
 
@@ -35,6 +37,8 @@ class loginForm extends React.Component {
       //tell user the info is correct or server is down
     })
   }
+
+
 
   render () {
     return (
@@ -59,6 +63,6 @@ class loginForm extends React.Component {
 }
 
 
-export default loginForm
+export default LoginForm
 
 

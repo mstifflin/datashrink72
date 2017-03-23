@@ -1,0 +1,27 @@
+{
+  "name": "datashrink72",
+  "scripts": { 
+    "postdeploy": "npm start"
+  },
+  "env": {
+    "DB_URL": {
+      "required": true
+    },
+    "S1_KEY": {
+      "required": true
+    },
+    "S1_SECRET": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
