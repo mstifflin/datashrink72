@@ -36,6 +36,7 @@ app.get('/twitter', tw.toAuth);
 app.get('/twitter/return', tw.fromAuth, tw.toAnalysis);
 //TODO change render test to analysis
 app.get('/twitterProfile', ensureLogIn, tw.renderTest);
+app.get('/twitterProfile/*', tw.testAnalysis);
 
 /****************/
 /**** WATSON ****/
