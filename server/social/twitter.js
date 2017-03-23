@@ -4,7 +4,7 @@ var Twitter = require('twitter');
 
 var API = {
   twitterKey: process.env.S1_KEY,
-  twitterSecret: process.env.S1_secret
+  twitterSecret: process.env.S1_SECRET
 }
 
 var client;
