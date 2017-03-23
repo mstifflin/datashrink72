@@ -13,6 +13,8 @@ class CustomForm extends React.Component {
     }
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
+
+    console.log(this)
   }
 
 
@@ -23,19 +25,23 @@ class CustomForm extends React.Component {
 
   sendForm(event) {
     event.preventDefault()
-    console.log(this.state)
-    s.serverPost('analyze', this.state)
-    .then(e => {
-      //render the data somewhere
-      console.log(e, 'yo');
-    }).catch(e => {
-      console.log(e);
+    // this.props.history.replace('/LoginForm')
+    // s.serverPost('customform', this.state)
+    // .then(e => {
+      //render   the data somewhere
+      // s.customGet(e.request.responseURL.slice(22));
+
+      this.props.history.replace('/analyses/58d45cca2bfa6dd67523a436')
+      // this.props.router.push(e.request.responseURL.slice(22))
+    // }).catch(e => {
+    //   console.log('error', e);
       //tell user they done messed up
-    })
+    // })
   }
 
   render () {
     return (
+
       <div>
       <h2>Enter your own input to analyze</h2>
       <form onSubmit={this.sendForm}>
