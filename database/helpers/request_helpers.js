@@ -1,9 +1,6 @@
-
-
 var db = require('../config');
 var User = require('../models/users');
 var Analysis = require('../models/analyses');
-var Trait = require('../models/traits');
 var AnalysisTrait = require('../models/analyses_traits');
 
 module.exports = {
@@ -67,43 +64,36 @@ module.exports = {
 	},
 
 	findAllDataFromAnAnalysis: function(req, res) {
-	  var url = req.url.slice(9);
+	  var url = req.url.slice(10);
 	  Analysis.findOne({_id: url})
 	  .exec(function(err, analysis) {
 	    if (err) {
 	      console.log('there was an error looking up your analysis', err)
-	    } else {
-	    	//response is the bundle of data that will be sent back, need to coordinate how it will be formated
-	      var response = [];
-	      response.push(analysis);
+	    } else if (analysis) {
+	    	//response is the bundle of data that will be sent back
+	    	//formatting the way the sample data is formatted
+	      var response = {
+	      	name: analysis.person,
+	      	context: analysis.context,
+	      	word_count: analysis.word_count,
+	      	user_id: analysis.user_id
+	      };
+
 	      //use the id of the analysis to query for all rows of the analyses_traits table 
-	      AnalysisTrait.find({_id: analysis._id})
+	      AnalysisTrait.find({analysis_id: url})
 	      .exec(function(err, analysisTraits) {
 	      	if (err) {
 	      		console.log('there was an error looking up the analysisTrait', err);
 	      	} else {
-	      		response.push(analysisTraits);
-	      		queryParams = [];
-	      		analysisTraits.forEach(function(analysisTrait) {
-	      			queryParams.push(analysisTrait._id)
-	      		})
-	      		//find all traits corresponding to all the ids obtained from the analysisTrait table
-	      		Trait.find({_id: {$in: queryParams}})
-	      		.exec(function(err, traits) {
-	      			if (err) {
-	      				console.log('there was an error looking up the AnalysisTrait', err);
-	      			} else {
-	      				response.push(traits);
-//---------------------will probaly need to reformate the response before sending, need to coordinate with eugene	      				
-	      				res.send(response);
-	      			}
-	      		})
+	      		response.traits = analysisTraits.slice();
+	      		res.send(JSON.stringify(response));
 	      	}
-	      })
+	      });
+	    } else {
+	    	res.send('No analysis found.');
 	    }
-	  })
+	  });
 	}
-
 }
 
 function validateEmail(email) {

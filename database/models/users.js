@@ -1,4 +1,3 @@
-var db = require('../config');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 
@@ -24,13 +23,32 @@ UsersSchema.pre('save', function(next) {
  	}.bind(this));
 })
 
-var user = mongoose.model('user', UsersSchema);
+var User = mongoose.model('User', UsersSchema);
 
-user.comparePassword = function(attemptedPassword, salt, actualPassword) {
+User.populateTestData = function(sampledata) {
+	User.findOne({username: 'TestUser'}, function(err, found) {
+    if (err) { console.error(err); }
+    if (!found) {
+      var testUser = new User({
+        username: 'TestUser',
+        email: 'tu@test.com'
+      });
+      testUser.save(function(err, testUser) {
+        if (err) { console.error(err); }
+      });
+    }
+  });
+};
+
+User.comparePassword = function(attemptedPassword, salt, actualPassword) {
 	var hash = crypto.createHash('sha256');
 	hash.update(attemptedPassword + salt);
 	attemptedPasswordHash = hash.digest('hex');
 	return (actualPassword === attemptedPasswordHash);	
-}
+};
 
-module.exports = user;
+module.exports = User;
+
+
+
+

@@ -83,9 +83,7 @@ app.post('/login', function(req, res) {
 });
 
 app.get('/analyses/*', function(req, res) {
-  //uncomment when functionality is finalized
-  //dbHelpers.findAllDataFromAnAnalysis(req, res); 
-  res.send('hello world');
+  dbHelpers.findAllDataFromAnAnalysis(req, res); 
 })
 
 app.listen(process.env.PORT || 3000, function() {
