@@ -3,7 +3,7 @@ import axios from 'axios'
 var routes = {
     login: '/login',
     signup: '/signup',
-    public: '/publicanalyses'
+    public: '/publicanalyses',
     twitter: '/twitter',
     analyze: '/analyze/'
 }
@@ -17,7 +17,7 @@ const analysesGet = (id) => {
 }
 
 const serverGet = (routeName) => {
-    axios.get(routes[routeName])
+    return axios.get(routes[routeName])
 }
 
 export {serverPost, serverGet, analysesGet}
