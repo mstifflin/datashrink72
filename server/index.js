@@ -9,6 +9,7 @@ var ensureLogIn = require('connect-ensure-login').ensureLoggedIn();
 var tw = require('./social/twitter.js');
 var db = require('../database/config');
 var dbHelpers = require('../database/helpers/request_helpers');
+var path = require('path')
 //-------------------------------------------------------------//
 
 var app = express();
@@ -65,7 +66,10 @@ app.get('/analysis/text', function(req, res, next) {
         context: 'twitter', // context from somewhere in the request
         userId: 0 // userId from session
       }
-      res.send(watsonHelpers.parseProfile(parseParams, profile));
+      watsonHelpers.parseProfile(parseParams, profile)
+        .then(function(analysisId) {
+          res.redirect('/analyses/' + analysisId);
+        }) 
     })
     .catch(next);
 });
@@ -82,9 +86,15 @@ app.post('/login', function(req, res) {
   dbHelpers.loginUser(req, res);  
 });
 
-app.get('/analyses/*', function(req, res) {
+app.get('/analyze/*', function(req, res) {
   dbHelpers.findAllDataFromAnAnalysis(req, res); 
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+});
+
+
 
 app.listen(process.env.PORT || 3000, function() {
   console.log('Listening on port 3000.');
