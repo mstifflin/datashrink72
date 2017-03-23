@@ -51256,6 +51256,7 @@ var App = function (_React$Component) {
 
     _this.twitterLogin = _this.twitterLogin.bind(_this);
     _this.facebookLogin = _this.facebookLogin.bind(_this);
+    _this.logout = _this.logout.bind(_this);
     return _this;
   }
 
@@ -51279,6 +51280,18 @@ var App = function (_React$Component) {
       s.serverGet('twitter');
       //promise needs to be chained
     }
+  }, {
+    key: 'logout',
+    value: function logout() {
+      var _this2 = this;
+
+      event.preventDefault();
+      s.serverPost('logout', 'logout').then(function (e) {
+        _this2.render();
+      }).catch(function (e) {
+        _this2.render();
+      });
+    }
 
     /* formSubmit is a placeholder for functions that we will need to pass down
       to render data in a prespecified area */
@@ -51296,6 +51309,11 @@ var App = function (_React$Component) {
         ),
         _react2.default.createElement(_LoginForm2.default, { formSubmit: this.formSubmit }),
         _react2.default.createElement(_SignupForm2.default, { formSubmit: this.formSubmit }),
+        _react2.default.createElement(
+          'button',
+          { onClick: this.logout },
+          'Logout'
+        ),
         _react2.default.createElement(
           'h4',
           null,

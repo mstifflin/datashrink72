@@ -43,6 +43,8 @@ module.exports = {
 						email: email,
 						salt: undefined //salt should be automatically generated on save
 					});
+					res.cookie("user", username);
+					console.log(res);
 					newUser.save(function(err, newUser) {
 						if (err) {
 							console.log('there was an error in creating a new user', err);
@@ -93,6 +95,12 @@ module.exports = {
 	    	res.send('No analysis found.');
 	    }
 	  });
+	},
+
+	logoutUser: function(req, res) {
+		req.session.destroy(function() {
+			res.redirect('/');
+		});
 	}
 }
 

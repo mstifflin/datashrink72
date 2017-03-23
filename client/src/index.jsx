@@ -23,6 +23,7 @@ class App extends React.Component {
 
     this.twitterLogin = this.twitterLogin.bind(this);
     this.facebookLogin = this.facebookLogin.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentWillMount() {
@@ -42,7 +43,14 @@ class App extends React.Component {
     //promise needs to be chained
   }
 
-
+  logout() {
+    event.preventDefault();
+    s.serverPost('logout', 'logout').then(e => {
+      this.render();
+    }).catch(e => {
+      this.render();
+    })
+  }
 
   /* formSubmit is a placeholder for functions that we will need to pass down
     to render data in a prespecified area */
@@ -55,6 +63,7 @@ class App extends React.Component {
         <h2>logo, menu, powered by watson</h2>
           <LoginForm formSubmit={this.formSubmit}/>
           <SignupForm formSubmit={this.formSubmit}/>
+        <button onClick={this.logout}>Logout</button>
         <h4>description stuff, choose method below</h4>
         <h5>tabbed logins for fb, twitter, custom</h5>
         <a href="\facebook">yo</a>
