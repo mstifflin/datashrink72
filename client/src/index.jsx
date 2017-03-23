@@ -106,7 +106,7 @@ class App extends React.Component {
           <Route path="/Create" render={() => <Create {...this.state} /> } />
           <Route path="/Public" />
           <Route path="/analyses" component={Analyses} />
-          <Route path="/analyses/*" component={Analyses} />
+          <Route path="/analyses/:id" component={Analyses} />
 
         </div>
       </Router>

@@ -6,7 +6,7 @@ var routes = {
 
     facebook: '/facebook',
     twitter: '/twitter',
-    analyze: '/analyses'
+    analyze: '/analyze/'
 }
 
 const serverPost = (routeName, message) => {
@@ -14,7 +14,8 @@ const serverPost = (routeName, message) => {
 }
 
 const analysesGet = (id) => {
-    return axios.get('/analyses/' + id)
+    console.log('in get', routes['analyze'] + id)
+    return axios.get(routes['analyze'] + id)
 }
 
 const serverGet = (routeName) => {

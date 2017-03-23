@@ -83,7 +83,7 @@ app.post('/login', function(req, res) {
   dbHelpers.loginUser(req, res);  
 });
 
-app.get('/analyses/*', function(req, res) {
+app.get('/analyze/*', function(req, res) {
   dbHelpers.findAllDataFromAnAnalysis(req, res); 
 })
 
