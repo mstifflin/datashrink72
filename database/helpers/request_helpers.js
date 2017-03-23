@@ -68,7 +68,7 @@ module.exports = {
 	  Analysis.findOne({_id: url})
 	  .exec(function(err, analysis) {
 	    if (err) {
-	      console.log('there was an error looking up your analysis', err)
+	      console.log('error1 there was an error looking up your analysis', err)
 	    } else if (analysis) {
 	    	//response is the bundle of data that will be sent back
 	    	//formatting the way the sample data is formatted
@@ -83,7 +83,9 @@ module.exports = {
 	      AnalysisTrait.find({analysis_id: url})
 	      .exec(function(err, analysisTraits) {
 	      	if (err) {
-	      		console.log('there was an error looking up the analysisTrait', err);
+	      		console.log('error2 there was an error looking up the analysisTrait', err);
+	    		// res.send('No analysis found.');
+	      	
 	      	} else {
 	      		response.traits = analysisTraits.slice();
 	      		res.send(JSON.stringify(response));

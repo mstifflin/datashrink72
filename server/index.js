@@ -9,6 +9,7 @@ var ensureLogIn = require('connect-ensure-login').ensureLoggedIn();
 var tw = require('./social/twitter.js');
 var db = require('../database/config');
 var dbHelpers = require('../database/helpers/request_helpers');
+var path = require('path')
 //-------------------------------------------------------------//
 
 var app = express();
@@ -85,6 +86,12 @@ app.post('/login', function(req, res) {
 app.get('/analyses/*', function(req, res) {
   dbHelpers.findAllDataFromAnAnalysis(req, res); 
 })
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+});
+
+
 
 app.listen(process.env.PORT || 3000, function() {
   console.log('Listening on port 3000.');
