@@ -27891,17 +27891,26 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Create = function Create(props) {
   return _react2.default.createElement(
-    _reactRouterDom.BrowserRouter,
+    'div',
     null,
     _react2.default.createElement(
-      'div',
+      _reactRouterDom.BrowserRouter,
       null,
       _react2.default.createElement(
-        _reactRouterDom.Link,
-        { to: '/CustomForm' },
-        'Custom Input'
-      ),
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: _CustomForm2.default })
+        'div',
+        null,
+        _react2.default.createElement(
+          'a',
+          { href: '\\twitter' },
+          ' twitter'
+        ),
+        _react2.default.createElement(
+          _reactRouterDom.Link,
+          { to: '/CustomForm' },
+          'Custom Input'
+        ),
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: _CustomForm2.default })
+      )
     )
   );
 };
