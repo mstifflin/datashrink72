@@ -5,6 +5,7 @@ var Analysis = require('./analyses.js');
 
 var AnalysesTraitsSchema = mongoose.Schema({
 	analysis_id: String,
+  trait_id: String,
   name: String,
   category: String,
 	percentile: SchemaTypes.Double,
@@ -24,12 +25,14 @@ AnalysisTrait.populateTestData = function(sampledata) {
         if (err) { console.error(err); }
         if (!found) {
           for (var i = 0; i < sampledata.traits.length; i++) {
+            console.log(sampledata.traits[i].trait_id);
             var newTrait = new AnalysisTrait({
               analysis_id: analysisId,
+              trait_id: sampledata.traits[i].trait_id,
               name: sampledata.traits[i].name,
               category: sampledata.traits[i].category,
               percentile: sampledata.traits[i].percentile,
-              // raw_score: sampledata.traits[i].raw_score
+              raw_score: sampledata.traits[i].raw_score
             });
             newTrait.save(function(err, newTrait) {
               if (err) { console.error(err); }

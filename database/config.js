@@ -21,7 +21,7 @@ db.once('open', function(status) {
   // analysis
   setTimeout(function() {
     AnalysisTrait.populateTestData(sampledata);
-  }, 0);
+  }, 1500);
 });
 
 module.exports = db;
