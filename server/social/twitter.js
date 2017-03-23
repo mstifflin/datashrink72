@@ -53,7 +53,7 @@ var analyzeProfile = (cb, username) => {
         tweetStrings.push(tweet.text);
       });
       tweetStrings = tweetStrings.join(' ');
-      cb(tweetStrings);
+      cb(JSON.stringify(tweetStrings));
   });
 }
 

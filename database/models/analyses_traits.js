@@ -25,7 +25,6 @@ AnalysisTrait.populateTestData = function(sampledata) {
         if (err) { console.error(err); }
         if (!found) {
           for (var i = 0; i < sampledata.traits.length; i++) {
-            console.log(sampledata.traits[i].trait_id);
             var newTrait = new AnalysisTrait({
               analysis_id: analysisId,
               trait_id: sampledata.traits[i].trait_id,
