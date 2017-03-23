@@ -104,6 +104,13 @@ module.exports = {
 	logoutUser: function(req, res) {
 		req.session.destroy(function() {
 			res.redirect('/');
+	});
+
+	getPublicAnalyses: function(req, res) {
+		Analysis.find({context: 'global'}, function(err, publicArray) {
+			if (err) { res.status(500).send('Databases failed to query'); }
+			console.log(publicArray);
+			res.send(JSON.stringify(publicArray));
 		});
 	}
 }

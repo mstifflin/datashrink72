@@ -27,9 +27,7 @@ app.use(expressSession({secret: secret, resave: true, saveUnitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', function (req, res) {
-  res.send('Hello world');
-});
+
 
 /**********************/
 /**** SOCIAL MEDIA ****/
@@ -95,7 +93,11 @@ app.post('/logout', function(req, res) {
 
 app.get('/analyses/*', function(req, res) {
   dbHelpers.findAllDataFromAnAnalysis(req, res); 
-})
+});
+
+app.get('/publicanalyses', function(req, res) {
+  dbHelpers.getPublicAnalyses(req, res);
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'))

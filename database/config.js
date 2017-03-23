@@ -16,14 +16,18 @@ db.on('error', function(error) {
 
 db.once('open', function(status) {
 	console.log('the connection to mongodb was successful');
-  User.populateTestData(sampledata);
-  Analysis.populateTestData(sampledata);
+  User.populateTestData();
+  Analysis.populateTestData(sampledata[0]);
+  Analysis.populateTestData(sampledata[1]);
+  Analysis.populateTestData(sampledata[2]);
   // Ensure that the analysis has been added before
   // Querying for analysis id to associate with the
   // analysis
   setTimeout(function() {
-    AnalysisTrait.populateTestData(sampledata);
-  }, 1500);
+    AnalysisTrait.populateTestData(sampledata[0]);
+    AnalysisTrait.populateTestData(sampledata[1]);
+    AnalysisTrait.populateTestData(sampledata[2]);
+  }, 2000);
 });
 
 module.exports = db;

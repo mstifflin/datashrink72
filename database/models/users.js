@@ -25,7 +25,7 @@ UsersSchema.pre('save', function(next) {
 
 var User = mongoose.model('User', UsersSchema);
 
-User.populateTestData = function(sampledata) {
+User.populateTestData = function() {
 	User.findOne({username: 'TestUser'}, function(err, found) {
     if (err) { console.error(err); }
     if (!found) {

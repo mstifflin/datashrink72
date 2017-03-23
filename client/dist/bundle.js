@@ -20523,8 +20523,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var routes = {
     login: '/login',
     signup: '/signup',
-
-    facebook: '/facebook',
+    public: '/publicanalyses',
     twitter: '/twitter',
     analyze: '/analyze/'
 };
@@ -20534,12 +20533,11 @@ var serverPost = function serverPost(routeName, message) {
 };
 
 var analysesGet = function analysesGet(id) {
-    console.log('in get', routes['analyze'] + id);
     return _axios2.default.get(routes['analyze'] + id);
 };
 
 var serverGet = function serverGet(routeName) {
-    _axios2.default.get(routes[routeName]);
+    return _axios2.default.get(routes[routeName]);
 };
 
 exports.serverPost = serverPost;
@@ -27737,10 +27735,6 @@ var Analyses = function (_React$Component) {
       explanations: globalData.explanations
     };
 
-    console.log(props.match.params.id);
-    // this.updateFormValue = this.updateFormValue.bind(this);
-    // this.sendForm = this.sendForm.bind(this);
-
     return _this;
   }
 
@@ -27749,7 +27743,6 @@ var Analyses = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      console.log('here', this.props.match.params.id);
       s.analysesGet(this.props.match.params.id).then(function (e) {
         _this2.setState({
           dataLoaded: true,
@@ -39797,6 +39790,18 @@ exports.default = d3ComparisonChart;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var sampleIds = [{
+  'person': 'donaldtrump',
+  'id': '58d36a06ca0cc1b6e6c3b24b'
+}, {
+  'person': 'tefflontifflin',
+  'id': '123498safdiasdfkljsadf'
+}, {
+  'person': 'eugene',
+  'id': '2384asdflkjasdfsdf'
+}];
+
 var sampledata = { "name": "Me", "context": "twitter", "word_count": 70579, "user_id": 0, "traits": [{ "trait_id": "facet_adventurousness", "name": "Adventurousness", "category": "personality", "percentile": 0.9037395069022328 }, { "trait_id": "facet_artistic_interests", "name": "Artistic interests", "category": "personality", "percentile": 0.6205062638629305 }, { "trait_id": "facet_emotionality", "name": "Emotionality", "category": "personality", "percentile": 0.4723329915374732 }, { "trait_id": "facet_imagination", "name": "Imagination", "category": "personality", "percentile": 0.8010691516775699 }, { "trait_id": "facet_intellect", "name": "Intellect", "category": "personality", "percentile": 0.9367793513247026 }, { "trait_id": "facet_liberalism", "name": "Authority-challenging", "category": "personality", "percentile": 0.999776237659666 }, { "trait_id": "big5_openness", "name": "Openness", "category": "personality", "percentile": 0.9967142476049433 }, { "trait_id": "facet_achievement_striving", "name": "Achievement striving", "category": "personality", "percentile": 0.9911250273229886 }, { "trait_id": "facet_cautiousness", "name": "Cautiousness", "category": "personality", "percentile": 0.11424653511391758 }, { "trait_id": "facet_dutifulness", "name": "Dutifulness", "category": "personality", "percentile": 0.9654794613571962 }, { "trait_id": "facet_orderliness", "name": "Orderliness", "category": "personality", "percentile": 0.924180587721715 }, { "trait_id": "facet_self_discipline", "name": "Self-discipline", "category": "personality", "percentile": 0.9999986692620955 }, { "trait_id": "facet_self_efficacy", "name": "Self-efficacy", "category": "personality", "percentile": 0.9989748710101649 }, { "trait_id": "big5_conscientiousness", "name": "Conscientiousness", "category": "personality", "percentile": 0.800226014635765 }, { "trait_id": "facet_activity_level", "name": "Activity level", "category": "personality", "percentile": 0.9800579414990858 }, { "trait_id": "facet_assertiveness", "name": "Assertiveness", "category": "personality", "percentile": 0.8708864781208485 }, { "trait_id": "facet_cheerfulness", "name": "Cheerfulness", "category": "personality", "percentile": 0.9999661195506149 }, { "trait_id": "facet_excitement_seeking", "name": "Excitement-seeking", "category": "personality", "percentile": 0.7193721256279233 }, { "trait_id": "facet_friendliness", "name": "Outgoing", "category": "personality", "percentile": 0.9974160144881665 }, { "trait_id": "facet_gregariousness", "name": "Gregariousness", "category": "personality", "percentile": 0.14312262675671722 }, { "trait_id": "big5_extraversion", "name": "Extraversion", "category": "personality", "percentile": 0.8687805022677546 }, { "trait_id": "facet_altruism", "name": "Altruism", "category": "personality", "percentile": 0.9740855370427379 }, { "trait_id": "facet_cooperation", "name": "Cooperation", "category": "personality", "percentile": 0.9261448876433107 }, { "trait_id": "facet_modesty", "name": "Modesty", "category": "personality", "percentile": 0.03656582541856468 }, { "trait_id": "facet_morality", "name": "Uncompromising", "category": "personality", "percentile": 0.972704165767362 }, { "trait_id": "facet_sympathy", "name": "Sympathy", "category": "personality", "percentile": 0.9943242815791982 }, { "trait_id": "facet_trust", "name": "Trust", "category": "personality", "percentile": 0.9886295814539946 }, { "trait_id": "big5_agreeableness", "name": "Agreeableness", "category": "personality", "percentile": 0.7207174830367982 }, { "trait_id": "facet_anger", "name": "Fiery", "category": "personality", "percentile": 0.035619060868778585 }, { "trait_id": "facet_anxiety", "name": "Prone to worry", "category": "personality", "percentile": 0.011754711234350068 }, { "trait_id": "facet_depression", "name": "Melancholy", "category": "personality", "percentile": 0.00037727107754875755 }, { "trait_id": "facet_immoderation", "name": "Immoderation", "category": "personality", "percentile": 0.05057276243845138 }, { "trait_id": "facet_self_consciousness", "name": "Self-consciousness", "category": "personality", "percentile": 0.0001554927008197149 }, { "trait_id": "facet_vulnerability", "name": "Susceptible to stress", "category": "personality", "percentile": 0.0014640046911069682 }, { "trait_id": "big5_neuroticism", "name": "Emotional range", "category": "personality", "percentile": 0.17545265410348582 }, { "trait_id": "need_challenge", "name": "Challenge", "category": "needs", "percentile": 0.16775728821817515 }, { "trait_id": "need_closeness", "name": "Closeness", "category": "needs", "percentile": 0.2720892844800976 }, { "trait_id": "need_curiosity", "name": "Curiosity", "category": "needs", "percentile": 0.7765089339973477 }, { "trait_id": "need_excitement", "name": "Excitement", "category": "needs", "percentile": 0.49766745192799483 }, { "trait_id": "need_harmony", "name": "Harmony", "category": "needs", "percentile": 0.0003247412315824372 }, { "trait_id": "need_ideal", "name": "Ideal", "category": "needs", "percentile": 0.7401027907269764 }, { "trait_id": "need_liberty", "name": "Liberty", "category": "needs", "percentile": 0.5119168830613983 }, { "trait_id": "need_love", "name": "Love", "category": "needs", "percentile": 0.1693232937193887 }, { "trait_id": "need_practicality", "name": "Practicality", "category": "needs", "percentile": 0.08291086228722955 }, { "trait_id": "need_self_expression", "name": "Self-expression", "category": "needs", "percentile": 0.12911117028023583 }, { "trait_id": "need_stability", "name": "Stability", "category": "needs", "percentile": 0.6626032905647137 }, { "trait_id": "need_structure", "name": "Structure", "category": "needs", "percentile": 0.36004430616619554 }, { "trait_id": "value_conservation", "name": "Conservation", "category": "values", "percentile": 0.11911922856537493 }, { "trait_id": "value_openness_to_change", "name": "Openness to change", "category": "values", "percentile": 0.9632453512516206 }, { "trait_id": "value_hedonism", "name": "Hedonism", "category": "values", "percentile": 0.030872372305521534 }, { "trait_id": "value_self_enhancement", "name": "Self-enhancement", "category": "values", "percentile": 0.19170154156247754 }, { "trait_id": "value_self_transcendence", "name": "Self-transcendence", "category": "values", "percentile": 0.3743747688381239 }] };
 var sampledata2 = { name: 'Me',
   context: 'twitter',
@@ -40016,6 +40021,7 @@ var explanations = {
   'Helping others': 'Preserving and enhancing the welfare of those with whom one is in frequent personal contact.'
 };
 
+exports.sampleIds = sampleIds;
 exports.sampledata = sampledata;
 exports.sampledata2 = sampledata2;
 exports.explanations = explanations;
@@ -54446,6 +54452,10 @@ var _Analyses = __webpack_require__(102);
 
 var _Analyses2 = _interopRequireDefault(_Analyses);
 
+var _Public = __webpack_require__(255);
+
+var _Public2 = _interopRequireDefault(_Public);
+
 var _reactRouterDom = __webpack_require__(66);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -54474,6 +54484,7 @@ var App = function (_React$Component) {
   //the Create style is for illustrative purposes
   //to pass in props:
   // <Route path="/Create" render={() => <Create {...this.state} /> } />
+
 
   _createClass(App, [{
     key: 'render',
@@ -54546,7 +54557,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', render: function render() {
               return _react2.default.createElement(_Create2.default, _this2.state);
             } }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/Public' }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', component: _Analyses2.default })
         )
       );
@@ -54557,6 +54568,102 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(16);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _serverCalls = __webpack_require__(32);
+
+var s = _interopRequireWildcard(_serverCalls);
+
+var _sampledata = __webpack_require__(132);
+
+var globalData = _interopRequireWildcard(_sampledata);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Public = function (_React$Component) {
+  _inherits(Public, _React$Component);
+
+  function Public(props) {
+    _classCallCheck(this, Public);
+
+    var _this = _possibleConstructorReturn(this, (Public.__proto__ || Object.getPrototypeOf(Public)).call(this, props));
+
+    _this.state = {
+      dataLoaded: false,
+      data: ''
+    };
+    return _this;
+  }
+
+  _createClass(Public, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      s.serverGet('public').then(function (e) {
+        _this2.setState({
+          dataLoaded: true,
+          data: e.data
+        });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        !this.state.dataLoaded ? null : _react2.default.createElement(
+          'div',
+          null,
+          this.state.data.map(function (e) {
+            return _react2.default.createElement(
+              'div',
+              { key: e._id },
+              _react2.default.createElement(
+                'a',
+                { href: 'analyses/' + e._id },
+                e.person
+              )
+            );
+          })
+        )
+      );
+    }
+  }]);
+
+  return Public;
+}(_react2.default.Component);
+
+exports.default = Public;
 
 /***/ })
 /******/ ]);

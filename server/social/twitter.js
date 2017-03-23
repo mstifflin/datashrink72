@@ -1,12 +1,12 @@
 var passport = require('passport');
 var Strategy = require('passport-twitter').Strategy;
 var Twitter = require('twitter');
-var API = require('./API_KEYS.js');
+// var API = require('./API_KEYS.js');
 
-// var API = {
-//   twitterKey: process.env.S1_KEY,
-//   twitterSecret: process.env.S1_SECRET
-// }
+var API = {
+  twitterKey: process.env.S1_KEY,
+  twitterSecret: process.env.S1_SECRET
+}
 
 var client;
 passport.use(new Strategy({
@@ -53,7 +53,7 @@ var analyzeProfile = (cb, username) => {
         tweetStrings.push(tweet.text);
       });
       tweetStrings = tweetStrings.join(' ');
-      cb(tweetStrings);
+      cb(JSON.stringify(tweetStrings));
   });
 }
 
