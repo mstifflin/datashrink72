@@ -54733,67 +54733,88 @@ var App = function (_React$Component) {
           'div',
           null,
           _react2.default.createElement(
-            'h1',
-            null,
-            'DATASHRINK'
-          ),
-          _react2.default.createElement(
-            'ul',
-            null,
+            'nav',
+            { className: 'navbar navbar-inverse navbar-fixed-top' },
             _react2.default.createElement(
-              'li',
-              null,
+              'div',
+              { className: 'container' },
               _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/Home' },
-                'Home'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
+                'div',
+                { className: 'navbar-header' },
+                _react2.default.createElement(
+                  'a',
+                  { className: 'navbar-brand' },
+                  'Datashrink'
+                )
+              ),
               _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/LoginForm' },
-                'Log In'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/SignUpForm' },
-                'Sign Up'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/Create' },
-                'Create Analysis'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/Public' },
-                'Public Analyses'
+                'ul',
+                { className: 'nav navbar-nav' },
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/Home' },
+                    'Home'
+                  )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/LoginForm' },
+                    'Log In'
+                  )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/SignUpForm' },
+                    'Sign Up'
+                  )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/Create' },
+                    'Create Analysis'
+                  )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/Public' },
+                    'Public Analyses'
+                  )
+                )
               )
             )
           ),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: _LoginForm2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: _SignupForm2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', render: function render() {
-              return _react2.default.createElement(_Create2.default, _this2.state);
-            } }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', component: _Analyses2.default })
+          _react2.default.createElement(
+            'div',
+            { className: 'container' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              'DATASHRINK'
+            ),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: _LoginForm2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: _SignupForm2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', render: function render() {
+                return _react2.default.createElement(_Create2.default, _this2.state);
+              } }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', component: _Analyses2.default })
+          )
         )
       );
     }

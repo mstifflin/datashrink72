@@ -32,21 +32,30 @@ class App extends React.Component {
     return (
       <Router>
         <div>
-          <h1>DATASHRINK</h1>
-          <ul>
-            <li><Link to="/Home">Home</Link></li>
-            <li><Link to="/LoginForm">Log In</Link></li>
-            <li><Link to="/SignUpForm">Sign Up</Link></li>
-            <li><Link to="/Create">Create Analysis</Link></li>
-            <li><Link to="/Public">Public Analyses</Link></li>
-          </ul>
+          <nav className="navbar navbar-inverse navbar-fixed-top">
+            <div className="container">
+              <div className="navbar-header">
+                <a className="navbar-brand">Datashrink</a>
+              </div>
+              <ul className="nav navbar-nav">
+                <li><Link to="/Home">Home</Link></li>
+                <li><Link to="/LoginForm">Log In</Link></li>
+                <li><Link to="/SignUpForm">Sign Up</Link></li>
+                <li><Link to="/Create">Create Analysis</Link></li>
+                <li><Link to="/Public">Public Analyses</Link></li>
+              </ul>
+            </div>
+          </nav>
+          <div className="container">
+            <h1>DATASHRINK</h1>
 
-          <Route path="/Home" />
-          <Route path="/LoginForm" component={LoginForm} />
-          <Route path="/SignUpForm" component={SignupForm}/>
-          <Route path="/Create" render={() => <Create {...this.state} /> } />
-          <Route path="/Public" component={Public}/>
-          <Route path="/analyses/:id" component={Analyses} />
+            <Route path="/Home" />
+            <Route path="/LoginForm" component={LoginForm} />
+            <Route path="/SignUpForm" component={SignupForm}/>
+            <Route path="/Create" render={() => <Create {...this.state} /> } />
+            <Route path="/Public" component={Public}/>
+            <Route path="/analyses/:id" component={Analyses} />
+          </div>
         </div>
       </Router>
     )
