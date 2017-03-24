@@ -78,17 +78,27 @@ app.get('/analysis/text', function(req, res, next) {
 /****************/
 
 app.post('/signup', function(req, res) {
-  console.log(req);
-  dbHelpers.signup(req, res);
+  if (dbHelpers.checkIfUserIsLoggedin(req.cookies.session)) {
+    res.send('you are already logged in');
+  } else {
+    dbHelpers.signup(req, res);
+  }
 });
 
 app.post('/login', function(req, res) {
-  dbHelpers.loginUser(req, res);  
+  if (dbHelpers.checkIfUserIsLoggedin(req.cookies.session)) {
+    res.send('you are already logged in')
+  } else {
+    dbHelpers.loginUser(req, res);     
+  }
 });
 
 app.post('/logout', function(req, res) {
-  console.log('was here');
-  dbHelpers.logout(req, res);  
+  dbHelpers.logoutUser(req, res);  
+});
+
+app.get('/logout', function(req, res) {
+  dbHelpers.logoutUser(req, res);  
 });
 
 app.get('/analyses/*', function(req, res) {
