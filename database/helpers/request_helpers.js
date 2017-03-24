@@ -107,7 +107,6 @@ module.exports = {
 	findAllDataFromAnAnalysis: function(req, res) {
 	  var routeLength = '/analyze/'.length
 	  var url = req.url.slice(routeLength);
-	  console.log(url)
 	  Analysis.findOne({_id: url})
 	  .exec(function(err, analysis) {
 	    if (err) {
@@ -156,7 +155,6 @@ module.exports = {
 	getPublicAnalyses: function(req, res) {
 		Analysis.find({context: 'global'}, function(err, publicArray) {
 			if (err) { res.status(500).send('Databases failed to query'); }
-			console.log(publicArray);
 			res.send(JSON.stringify(publicArray));
 		});
 	},
