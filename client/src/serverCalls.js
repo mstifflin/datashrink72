@@ -4,7 +4,9 @@ var routes = {
     login: '/login',
     signup: '/signup',
     public: '/publicanalyses',
+    customform: '/analysis/text',
     twitter: '/twitter',
+    twitterProfile: '/analysis',
     analyze: '/analyze/'
 }
 
@@ -16,9 +18,13 @@ const analysesGet = (id) => {
     return axios.get(routes['analyze'] + id)
 }
 
+const customGet = (routeName) => {
+    return axios.get(routeName);
+}
+
 const serverGet = (routeName) => {
     return axios.get(routes[routeName])
 }
 
-export {serverPost, serverGet, analysesGet}
+export {customGet, serverPost, serverGet, analysesGet}
 
