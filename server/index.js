@@ -32,6 +32,8 @@ app.use(passport.session());
 /**** SOCIAL MEDIA ****/
 /**********************/
 
+
+
 app.get('/twitter', tw.toAuth);
 app.get('/twitter/return', tw.fromAuth, tw.toAnalysis);
 //TODO change render test to analysis
@@ -43,14 +45,15 @@ app.get('/twitterProfile/*', tw.testAnalysis);
 /****************/
 
 // get request for testing purposes
-app.get('/analysis/text', function(req, res, next) {
+app.post('/analysis/text', function(req, res, next) {
 // app.post('/analysis/text', function(req, res, next) {
   var params = {
-    text: require('./watson/speech'), // example text
+    text: req.body.text, //require('./watson/speech'), // example text
     // all of the following settings can be turned on for json:
     // content_items: require('./profile.json').contentItems,
     // consumption_preferences: true,
     // raw_scores: true,
+    
     headers: {
       // 'accept-language': 'en',
       // 'accept': 'application/json'
@@ -61,13 +64,14 @@ app.get('/analysis/text', function(req, res, next) {
   personalityHelper.profileFromText(params)
     .then(function(profile) {
       var parseParams = {
-        name: 'Me', // name from form
-        context: 'twitter', // context from somewhere in the request
+        name: req.body.name, // name from form
+        context: 'custom', // context from somewhere in the request
         userId: 0 // userId from session
       }
       watsonHelpers.parseProfile(parseParams, profile)
         .then(function(analysisId) {
-          res.redirect('/analyses/' + analysisId);
+          console.log('about to redirect', analysisId)
+          res.redirect(301, '/analyses/' + analysisId);
         }) 
     })
     .catch(next);

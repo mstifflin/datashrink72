@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as s from '../serverCalls.js'
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from 'react-router-dom'
 
 
 class CustomForm extends React.Component {
@@ -15,7 +21,6 @@ class CustomForm extends React.Component {
     this.sendForm = this.sendForm.bind(this);
   }
 
-
   updateFormValue(e) {
     const name = e.target.name
     this.setState({[name]: e.target.value});
@@ -23,14 +28,11 @@ class CustomForm extends React.Component {
 
   sendForm(event) {
     event.preventDefault()
-    console.log(this.state)
-    s.serverPost('analyze', this.state)
+    s.serverPost('customform', this.state)
     .then(e => {
-      //render the data somewhere
-      console.log(e, 'yo');
+      window.location.href = e.request.responseURL;
     }).catch(e => {
-      console.log(e);
-      //tell user they done messed up
+      console.log('error', e);
     })
   }
 
