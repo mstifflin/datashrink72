@@ -6,6 +6,7 @@ var routes = {
     public: '/publicanalyses',
     customform: '/analysis/text',
     twitter: '/twitter',
+    twitterProfile: '/analysis',
     analyze: '/analyze/'
 }
 
