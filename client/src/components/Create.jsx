@@ -1,4 +1,5 @@
 import React from 'react';
+import TwitterSearch from './TwitterSearch.jsx';
 import CustomForm from './CustomForm.jsx';
 import {
   BrowserRouter as Router,
@@ -12,7 +13,11 @@ var Create = function(props) {
     <div>
   <Router>
    <div>
-    <a href="\twitter"> twitter</a>
+    <a href="\twitter">Twitter</a>
+    <br></br>
+    <Link to="/TwitterSearch">Twitter Account </Link>
+    <Route path="/TwitterSearch" component={TwitterSearch}/>
+    <br/>
     <Link to="/CustomForm">Custom Input</Link>
     <Route path="/CustomForm" component={CustomForm}/>
    </div>

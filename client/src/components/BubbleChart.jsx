@@ -10,11 +10,11 @@ var BubbleChart = React.createClass({
     d3BubbleChart.create(el, this.props.data, this.props.explanations);
   },
 
-  componentDidUpdate: function() {
-    d3.select('svg' ).remove();
-    var el = ReactDOM.findDOMNode(this);
-    d3BubbleChart.create(el, this.props.data, this.props.explanations);
-  },
+  // componentDidUpdate: function() {
+  //   d3.select('svg' ).remove();
+  //   var el = ReactDOM.findDOMNode(this);
+  //   d3BubbleChart.create(el, this.props.data, this.props.explanations);
+  // },
 
   render: function() {
     return (

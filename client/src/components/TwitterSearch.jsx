@@ -1,25 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as s from '../serverCalls.js'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter
-} from 'react-router-dom'
+import * as s from '../serverCalls.js';
 
-
-class CustomForm extends React.Component {
+class TwitterSearch extends React.Component {
   constructor(props) {
     super(props)
     this.state = { 
       name: '',
-      text: ''
+      context: 'twitter'
     }
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
   }
+
 
   updateFormValue(e) {
     const name = e.target.name
@@ -28,11 +21,10 @@ class CustomForm extends React.Component {
 
   sendForm(event) {
     event.preventDefault()
-    s.serverPost('customform', this.state)
+    console.log(this.state)
+    s.serverPost('twitterProfile', this.state)
     .then(e => {
-      window.location.href = e.request.responseURL;
     }).catch(e => {
-      console.log('error', e);
     })
   }
 
@@ -42,12 +34,9 @@ class CustomForm extends React.Component {
       <h2>Enter your own input to analyze</h2>
       <form onSubmit={this.sendForm}>
         <label>
-          Name your input
-          <p></p>
-          <input type="text" name='name' onChange={this.updateFormValue} defaultValue=''/>          
-          <p></p>
+          Analyze tweets from: 
+          <input type='text' name='name' onChange={this.updateFormValue} defaultValue='@'/>
         </label>
-        <textarea rows='30' cols='60' name='text' onChange={this.updateFormValue} defaultValue=''/>
         <input type="submit" defaultValue ='submit'/>
       </form>
       </div>
@@ -56,5 +45,4 @@ class CustomForm extends React.Component {
 }
 
 
-export default CustomForm
-
+export default TwitterSearch;

@@ -44,24 +44,28 @@ var populateClient = (token, tokenSecret, username) => {
 
 // Takes a username an a callback, the cb is executed on the string generated 
 // from all the tweets
-var analyzeProfile = (cb, username) => {
-  username = username || client.username;
-  var params = {
-    screen_name: username,
-    count: 200,
-    exclude_replies: true
-  };
+var analyzeProfile = (username) => {
+  return new Promise(function(resolve, reject) {
+    username = username || client.username;
+    var params = {
+      screen_name: username,
+      count: 200,
+      exclude_replies: true
+    };
 
-  var tweetStrings = [];
-  client.get('/statuses/user_timeline.json', 
-    params, function(err, tweets, res) {
-      if (err) { console.error(err); }
-      tweets.forEach(function(tweet) {
-        tweetStrings.push(tweet.text);
-      });
-      tweetStrings = tweetStrings.join(' ');
-      cb(JSON.stringify(tweetStrings));
-  });
+    var tweetStrings = [];
+    client.get('/statuses/user_timeline.json', 
+      params, function(err, tweets, res) {
+        if (err) reject(err);
+        else {
+          tweets.forEach(function(tweet) {
+            tweetStrings.push(tweet.text);
+          });
+          tweetStrings = tweetStrings.join(' ');
+          resolve(JSON.stringify(tweetStrings));
+        }
+    });
+  })
 }
 
 var testAnalysis = (req, res) => {

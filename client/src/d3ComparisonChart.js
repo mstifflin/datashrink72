@@ -4,6 +4,7 @@ var d3ComparisonChart = {};
 
 d3ComparisonChart.create = function(el, data1, data2) {
   //modify width of chart and height of lines
+  // console.log('data being input', data1, data2)
   var totalWidth = 1250;
   var barHeight = 35;
 

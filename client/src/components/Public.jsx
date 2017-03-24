@@ -11,6 +11,7 @@ class Public extends React.Component {
       dataLoaded: false,
       data: '',
     }
+    console.log('Props in public: ', props);
   }
 
   componentWillMount() {
@@ -28,7 +29,9 @@ class Public extends React.Component {
         {!this.state.dataLoaded ? null :
           <div>
             {this.state.data.map(e => {
-              return <div key={e._id}><a href={`analyses/${e._id}`} >{e.person}</a></div>
+              return this.props.click ? 
+                (<div key={e._id}><a name={e._id} onClick={this.props.click} >{e.person}</a></div>) :
+                (<div key={e._id}><a href={`analyses/${e._id}`} >{e.person}</a></div>)
             })}
           </div>
         }
