@@ -38,6 +38,8 @@ var analyzeProfile = function(req, res) {
       });
   } else if (req.body.context === 'text') {
     analyze(JSON.stringify(req.body.text));
+  } else {
+    res.redirect(500, '/');
   }
 }
 

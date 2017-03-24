@@ -2934,7 +2934,7 @@ var routes = {
     login: '/login',
     signup: '/signup',
     public: '/publicanalyses',
-    customform: '/analysis/text',
+    customform: '/analysis',
     twitter: '/twitter',
     twitterProfile: '/analysis',
     analyze: '/analyze/'
@@ -39809,6 +39809,7 @@ var CustomForm = function (_React$Component) {
     _this.state = {
       name: '',
       text: '',
+      context: 'text',
       private: true
     };
     _this.updateFormValue = _this.updateFormValue.bind(_this);

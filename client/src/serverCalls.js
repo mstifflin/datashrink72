@@ -4,7 +4,7 @@ var routes = {
     login: '/login',
     signup: '/signup',
     public: '/publicanalyses',
-    customform: '/analysis/text',
+    customform: '/analysis',
     twitter: '/twitter',
     twitterProfile: '/analysis',
     analyze: '/analyze/'
