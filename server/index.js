@@ -32,8 +32,6 @@ app.use(passport.session());
 /**** SOCIAL MEDIA ****/
 /**********************/
 
-
-
 app.get('/twitter', tw.toAuth);
 app.get('/twitter/return', tw.fromAuth, tw.toAnalysis, 
   watsonHelpers.analyzeProfile);
@@ -85,6 +83,10 @@ app.get('/analyze/*', function(req, res) {
 
 app.get('/publicanalyses', function(req, res) {
   dbHelpers.getPublicAnalyses(req, res);
+});
+
+app.get('/useranalyses', function(req, res) {
+  dbHelpers.getUserAnalyses(req, res);
 });
 
 app.get('*', (req, res) => {

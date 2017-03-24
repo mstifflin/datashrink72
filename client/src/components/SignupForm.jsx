@@ -50,7 +50,7 @@ class SignUpForm extends React.Component {
         </label>
         <label>
           Password:
-          <input type="text" name='password' onChange={this.updateFormValue} defaultValue=''
+          <input type="password" name='password' onChange={this.updateFormValue} defaultValue=''
           />
         </label>
         <label>
