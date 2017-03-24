@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom'
 
 var Create = function(props) {
+  console.log('props in create', props)
  return (
     <div>
   <Router>
@@ -19,7 +20,7 @@ var Create = function(props) {
     <Route path="/TwitterSearch" component={TwitterSearch}/>
     <br/>
     <Link to="/CustomForm">Custom Input</Link>
-    <Route path="/CustomForm" component={CustomForm}/>
+    <Route path="/CustomForm" component={() => <CustomForm click={props.click}/> }/>
    </div>
   </Router>
   </div>

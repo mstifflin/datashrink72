@@ -1,4 +1,6 @@
 import * as d3 from 'd3';
+var reorder = require('./d3order.js')
+
 
 var d3BarChart = {};
 
@@ -6,7 +8,7 @@ d3BarChart.create = function(el, data) {
   //modify width of chart and height of lines
   var totalWidth = 1250;
   var barHeight = 35;
-
+  var sortedData = reorder(data);
   //abstract somewhere
   const twoDecFormat = (n) => parseFloat(Math.round(n * 10000) / 100).toFixed(2);
 
@@ -30,7 +32,6 @@ d3BarChart.create = function(el, data) {
     value: '#a0558d'
   }
 
-
   var legendData = [
     {name: 'facet', color: '#79872b'},
     {name: 'big5', color: '#145b57'},
@@ -51,11 +52,15 @@ d3BarChart.create = function(el, data) {
 
   var svg = d3.select(el).append('svg')
     .attr('class', 'barChart')
-    .attr("width", width + margin.left + margin.right)
+    .attr("width", totalWidth)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  svg.append("rect")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("fill", '#293950');
   //pass in title as prop w/user
   svg.append("g").append('text')
     .attr("x", 30 - margin.left - padding.left)             
@@ -64,8 +69,9 @@ d3BarChart.create = function(el, data) {
     .text("TWITTER PERSONALITY ANALYSIS");
   
   //165 is to move it to the right
-  var bar = svg.selectAll('g')
-    .data(data)
+
+  var bar = svg.selectAll('.arbitraryClassName')
+    .data(sortedData)
     .enter().append('g')
     .attr('class', 'chartNode')
     .attr("transform", function(d, i) {
@@ -76,11 +82,6 @@ d3BarChart.create = function(el, data) {
         return x(d.percentile * 100)
       })
       .attr("height", barHeight - 5)
-      .attr('data-legend', function(d) {
-        var fullTrait = d.trait_id;
-        var colorGroup = fullTrait.slice(0, fullTrait.indexOf('_'))
-        return colorGroup;
-      })
       .attr('fill', function(d) {
         var fullTrait = d.trait_id;
         var colorGroup = fullTrait.slice(0, fullTrait.indexOf('_'))
@@ -114,8 +115,6 @@ d3BarChart.create = function(el, data) {
       .text(function(d) {
         return twoDecFormat(d.percentile);
       });
-
-
 
       var legend = svg.append('g')
             .selectAll('g')

@@ -6,6 +6,7 @@ import BarChart from './BarChart.jsx';
 import ComparisonChart from './ComparisonChart.jsx';
 import * as globalData from '../sampledata'
 import Public from './Public.jsx'
+import Create from './Create.jsx'
 
 import {
   BrowserRouter as Router,
@@ -25,6 +26,7 @@ class Analyses extends React.Component {
 
     }
     this.getSecondSet = this.getSecondSet.bind(this);
+    this.getSecondSetFromForm = this.getSecondSetFromForm.bind(this);
   }
 
   componentWillMount() {
@@ -38,14 +40,32 @@ class Analyses extends React.Component {
 
   getSecondSet(e) {
     e.preventDefault();
-    console.log('E E E: ', e);
-    console.log(e.target.name);
-    s.analysesGet(e.target.name).then(e => { 
+    s.analysesGet(e.target.name).then(results => { 
       this.setState({
         secondDataSet: true,
-        data2: e.data
+        data2: results.data
       });
     });
+  }
+
+
+  getSecondSetFromForm(event, state) {
+    event.preventDefault()
+    s.serverPost('customform', state)
+    .then(e => {
+      var redirectURL = e.request.responseURL;
+      var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
+      console.log('calling with', hash)
+      s.analysesGet(hash).then(results => {
+        console.log('getting secondData Set', results)
+        this.setState({
+          secondDataSet: true,
+          data2: results.data
+        });
+      })
+    }).catch(err => {
+      console.log('failed', err)
+    })
   }
 
   render () {
@@ -55,8 +75,14 @@ class Analyses extends React.Component {
           <div>
           <Router>
             <div>
-              <Link to="/Public">Compare To:</Link>
+              Compare To:
+              <ul>
+              <li><Link to="/Public">Public</Link></li>
+              <li><Link to="/Create">Create</Link></li>
+              </ul>
               <Route path="/Public" component={() => <Public click={this.getSecondSet} />} />
+              <Route path="/Create" component={() => <Create click={this.getSecondSetFromForm}/> } />
+
             </div>
           </Router>
           {!this.state.secondDataSet ? null :

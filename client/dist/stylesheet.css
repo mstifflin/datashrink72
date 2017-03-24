@@ -25,7 +25,9 @@
     font-family: Helvetica Neue, Helvetica, Arial, san-serif;
 }            
 
-.barChart {
+
+
+.barChart, .comparisonChart {
     background-color: #293950;
     font-size: 15px;
     letter-spacing: .07em;
