@@ -32,8 +32,6 @@ app.use(passport.session());
 /**** SOCIAL MEDIA ****/
 /**********************/
 
-
-
 app.get('/twitter', tw.toAuth);
 app.get('/twitter/return', tw.fromAuth, tw.toAnalysis, 
   watsonHelpers.analyzeProfile);
