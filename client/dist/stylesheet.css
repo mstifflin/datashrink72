@@ -7,7 +7,6 @@
 
 }
 
-
 .bubbleNode:hover {
   stroke: #fff;
   stroke-width: .25px;
@@ -25,7 +24,6 @@
     letter-spacing: .65em;
     font-family: Helvetica Neue, Helvetica, Arial, san-serif;
 }            
-
 
 .barChart {
     background-color: #293950;
