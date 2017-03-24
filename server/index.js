@@ -2,7 +2,6 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
-var personalityHelper = require('./watson/personality-insights');
 var watsonHelpers = require('./watson/watson-helpers');
 var passport = require('passport');
 var ensureLogIn = require('connect-ensure-login').ensureLoggedIn();
@@ -36,7 +35,8 @@ app.use(passport.session());
 
 
 app.get('/twitter', tw.toAuth);
-app.get('/twitter/return', tw.fromAuth, tw.toAnalysis);
+app.get('/twitter/return', tw.fromAuth, tw.toAnalysis, 
+  watsonHelpers.analyzeProfile);
 //TODO change render test to analysis
 app.get('/twitterProfile', ensureLogIn, tw.renderTest);
 app.get('/twitterProfile/*', tw.testAnalysis);
@@ -49,41 +49,7 @@ app.get('/twitterProfile/*', tw.testAnalysis);
 /**** WATSON ****/
 /****************/
 
-app.post('/analysis', function(req, res, next) {
-  var analyze = function(text) {
-    var params = {
-      content_items: [{ content: text }],
-      // consumption_preferences: true,
-      raw_scores: true,
-      headers: {
-        'accept-language': 'en',
-        'accept': 'application/json'
-      }
-    };
-    personalityHelper.profileFromText(params)
-      .then(function(profile) {
-        var parseParams = {
-          name: req.body.name,
-          context: req.body.context,
-          userId: 0 // userId from session
-        }
-        watsonHelpers.parseProfile(parseParams, profile)
-          .then(function(analysisId) {
-            res.redirect(301, '/analyses/' + analysisId);
-          }); 
-      })
-      .catch(next);
-  }
-
-  if (req.body.context === 'twitter') {
-    tw.analyzeProfile(req.body.name.slice(1))
-      .then(function(tweets) {
-        analyze(tweets);
-      });
-  } else if (req.body.context === 'text') {
-    analyze(JSON.stringify(req.body.text));
-  }
-});
+app.post('/analysis', watsonHelpers.analyzeProfile);
 
 /****************/
 /**** NATIVE ****/
@@ -113,7 +79,7 @@ app.get('/logout', function(req, res) {
   dbHelpers.logoutUser(req, res);  
 });
 
-app.get('/analyses/*', function(req, res) {
+app.get('/analyze/*', function(req, res) {
   dbHelpers.findAllDataFromAnAnalysis(req, res); 
 });
 

@@ -4,6 +4,7 @@ var AnalysesSchema = mongoose.Schema({
 	person: String,
 	context: String,
   word_count: Number,
+  private: Boolean,
 	user_id: String
 })
 
@@ -17,6 +18,7 @@ Analysis.populateTestData = function(sampledata) {
         person: sampledata.name,
         context: sampledata.context,
         word_count: sampledata.word_count,
+        private: false,
         user_id: sampledata.user_id // to be changed to 
         // a query to get the user_id in the future
       });

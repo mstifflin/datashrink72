@@ -15,7 +15,9 @@ class CustomForm extends React.Component {
     super(props)
     this.state = { 
       name: '',
-      text: ''
+      text: '',
+      context: 'text',
+      private: true
     }
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
