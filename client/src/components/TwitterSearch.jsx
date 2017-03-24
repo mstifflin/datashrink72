@@ -7,7 +7,8 @@ class TwitterSearch extends React.Component {
     super(props)
     this.state = { 
       name: '',
-      context: 'twitter'
+      context: 'twitter',
+      private: false
     }
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
@@ -24,6 +25,7 @@ class TwitterSearch extends React.Component {
     console.log(this.state)
     s.serverPost('twitterProfile', this.state)
     .then(e => {
+      window.location.href = e.request.responseURL;
     }).catch(e => {
     })
   }

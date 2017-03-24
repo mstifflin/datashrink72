@@ -42,8 +42,6 @@ var populateClient = (token, tokenSecret, username) => {
   return client;
 };
 
-// Takes a username an a callback, the cb is executed on the string generated 
-// from all the tweets
 var analyzeProfile = (username) => {
   return new Promise(function(resolve, reject) {
     username = username || client.username;
@@ -99,8 +97,13 @@ module.exports.toAuth = passport.authenticate('twitter');
 module.exports.fromAuth = passport.authenticate('twitter', { failureRedirect: '/'});
 module.exports.analyzeProfile = analyzeProfile;
 module.exports.testAnalysis = testAnalysis;
-module.exports.toAnalysis = function(req, res) {
-  res.redirect('/twitterProfile');
+module.exports.toAnalysis = function(req, res, next) {
+  req.body = {
+    name: '@' + req.user.username,
+    context: 'twitter',
+    private: true
+  };
+  next();
 };
 
 module.exports.renderTest = function(req, res) {
