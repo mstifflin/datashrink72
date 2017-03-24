@@ -13,8 +13,6 @@ class LoginForm extends React.Component {
 
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
-
-    console.log(this)
   }
 
 

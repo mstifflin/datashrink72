@@ -85,6 +85,10 @@ app.get('/publicanalyses', function(req, res) {
   dbHelpers.getPublicAnalyses(req, res);
 });
 
+app.get('/useranalyses', function(req, res) {
+  dbHelpers.getUserAnalyses(req, res);
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 });

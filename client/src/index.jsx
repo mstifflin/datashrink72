@@ -7,6 +7,7 @@ import SignupForm from './components/SignupForm.jsx';
 import ComparisonChart from './components/ComparisonChart.jsx'
 import Analyses from './components/Analyses.jsx'
 import Public from './components/Public.jsx'
+import UserAnalyses from './components/UserAnalyses.jsx'
 
 import {
   BrowserRouter as Router,
@@ -39,6 +40,7 @@ class App extends React.Component {
             <li><Link to="/SignUpForm">Sign Up</Link></li>
             <li><Link to="/Create">Create Analysis</Link></li>
             <li><Link to="/Public">Public Analyses</Link></li>
+            <li><Link to="/UserAnalyses">My Stored Analyses</Link></li>
           </ul>
 
           <Route path="/Home" />
@@ -46,6 +48,7 @@ class App extends React.Component {
           <Route path="/SignUpForm" component={SignupForm}/>
           <Route path="/Create" render={() => <Create {...this.state} /> } />
           <Route path="/Public" component={Public}/>
+          <Route path="/UserAnalyses" component={UserAnalyses}/>
           <Route path="/analyses/:id" component={Analyses} />
         </div>
       </Router>

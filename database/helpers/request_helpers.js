@@ -6,19 +6,6 @@ var crypto = require('crypto');
 
 var sessions = {};
 
-// var checkIfUserIsLoggedin = function(session) {
-// 	if (!session) {
-// 		return false;
-// 	} else {
-// 		if (sessions[session.username] === session.sessionID) {
-// 			return true;
-// 		} else {
-// 			return false;
-// 		}
-// 	}
-// };
-
-
 module.exports = {
 	loginUser: function(req, res) {
 		username = req.body.username;
@@ -46,8 +33,9 @@ module.exports = {
 									sessionID: session.toString(),
 									user_id: id
 								}
-								res.cookie('session', newSession);
+								res.cookie('session', newSession.user_id);
 								sessions[username] = newSession;
+								console.log('SESSIONS login: ', sessions);								
 								res.send('you are successfully logged in');
 							}
 						})
@@ -83,16 +71,24 @@ module.exports = {
 							res.send(err);
 						} else {
 							id = newUser._id;
-							var newSession = {
-								username: username,
-								sessionID: session.toString(),
-								user_id: id
-							}
-							res.cookie('session', newSession);
-							sessions[username] = newSession;
-							res.send('account created');
+							// crypto
+							crypto.randomBytes(40, function(err, session) {
+								if (err) {
+									console.log(err);
+								} else {
+									var newSession = {
+										username: username,
+										sessionID: session.toString(),
+										user_id: id
+									}
+									res.cookie('session', newSession.user_id);
+									sessions[username] = newSession;
+									console.log('SESSIONS signup: ', sessions);
+									res.send('account created');
+								}
+							});
 						}
-					})
+					});
 				} else {
 					//account already exists redirect them back to the login page
 					res.send('user already exists');
@@ -153,10 +149,22 @@ module.exports = {
 	)},
 
 	getPublicAnalyses: function(req, res) {
-		Analysis.find({context: 'global'}, function(err, publicArray) {
+		Analysis.find({private: false}, function(err, publicArray) {
 			if (err) { res.status(500).send('Databases failed to query'); }
 			res.send(JSON.stringify(publicArray));
 		});
+	},
+
+	getUserAnalyses: function(req, res) {
+		if (req.cookies.session !== undefined) {
+			Analysis.find({user_id: req.cookies.session}, function(err, userAnalyses) {
+				if (err) { res.status(500).send('Databases failed to query'); }
+				res.send(JSON.stringify(userAnalyses));
+			});			
+		} else {
+			console.log('in else');
+			res.send('No user.');
+		}
 	},
 
 	checkIfUserIsLoggedin: function(session) {
