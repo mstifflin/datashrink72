@@ -49,61 +49,39 @@ app.get('/twitterProfile/*', tw.testAnalysis);
 /****************/
 
 app.post('/analysis', function(req, res, next) {
-  var text;
+  var analyze = function(text) {
+    var params = {
+      content_items: [{ content: text }],
+      // consumption_preferences: true,
+      raw_scores: true,
+      headers: {
+        'accept-language': 'en',
+        'accept': 'application/json'
+      }
+    };
+    personalityHelper.profileFromText(params)
+      .then(function(profile) {
+        var parseParams = {
+          name: req.body.name,
+          context: req.body.context,
+          userId: 0 // userId from session
+        }
+        watsonHelpers.parseProfile(parseParams, profile)
+          .then(function(analysisId) {
+            res.redirect(301, '/analyses/' + analysisId);
+          }); 
+      })
+      .catch(next);
+  }
+
   if (req.body.context === 'twitter') {
     tw.analyzeProfile(req.body.name.slice(1))
       .then(function(tweets) {
-        var params = {
-          content_items: [{ content: tweets }],
-          // consumption_preferences: true,
-          raw_scores: true,
-          headers: {
-            'accept-language': 'en',
-            'accept': 'application/json'
-          }
-        };
-        personalityHelper.profileFromText(params)
-          .then(function(profile) {
-            var parseParams = {
-              name: req.body.name, // name from form
-              context: req.body.context, // context from somewhere in the request
-              userId: 0 // userId from session
-            }
-            watsonHelpers.parseProfile(parseParams, profile)
-              .then(function(analysisId) {
-                res.redirect(301, '/analyses/' + analysisId);
-              }) 
-          })
-          .catch(next);
+        analyze(tweets);
       });
   } else if (req.body.context === 'text') {
-    text = JSON.stringify(req.body.text);
+    analyze(JSON.stringify(req.body.text));
   }
-  // var params = {
-  //   content_items: text,
-  //   // consumption_preferences: true,
-  //   raw_scores: true,
-  //   headers: {
-  //     'accept-language': 'en',
-  //     'accept': 'application/json'
-  //     // 'Content-type': 'text/plain'
-  //   }
-  // };
-
-  // personalityHelper.profileFromText(params)
-  //   .then(function(profile) {
-  //     var parseParams = {
-  //       name: req.body.name, // name from form
-  //       context: req.body.context, // context from somewhere in the request
-  //       userId: 0 // userId from session
-  //     }
-  //     watsonHelpers.parseProfile(parseParams, profile)
-  //       .then(function(analysisId) {
-  //         console.log(analysisId);
-  //         res.redirect('/analyses/' + analysisId);
-  //       }) 
-  //   })
-  //   .catch(next);
 });
 
 /****************/

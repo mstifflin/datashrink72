@@ -17,6 +17,7 @@ var Create = function(props) {
     <br></br>
     <Link to="/TwitterSearch">Twitter Account </Link>
     <Route path="/TwitterSearch" component={TwitterSearch}/>
+    <br/>
     <Link to="/CustomForm">Custom Input</Link>
     <Route path="/CustomForm" component={CustomForm}/>
    </div>
