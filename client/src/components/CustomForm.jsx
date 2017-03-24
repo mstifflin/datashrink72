@@ -13,6 +13,7 @@ import {
 class CustomForm extends React.Component {
   constructor(props) {
     super(props)
+    console.log(this)
     this.state = { 
       name: '',
       text: '',
@@ -34,7 +35,6 @@ class CustomForm extends React.Component {
     .then(e => {
       window.location.href = e.request.responseURL;
     }).catch(e => {
-      console.log('error', e);
     })
   }
 
@@ -42,7 +42,7 @@ class CustomForm extends React.Component {
     return (
       <div>
       <h2>Enter your own input to analyze</h2>
-      <form onSubmit={this.sendForm}>
+      <form onSubmit={(e) => this.props.click === undefined ? this.sendForm(e) : this.props.click(e, this.state)}>
         <label>
           Name your input
           <p></p>

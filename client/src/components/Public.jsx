@@ -11,7 +11,6 @@ class Public extends React.Component {
       dataLoaded: false,
       data: '',
     }
-    console.log('Props in public: ', props);
   }
 
   componentWillMount() {

@@ -1,12 +1,17 @@
 import * as d3 from 'd3';
+var reorder = require('./d3order.js')
 
 var d3ComparisonChart = {};
-
 d3ComparisonChart.create = function(el, data1, data2) {
   //modify width of chart and height of lines
   // console.log('data being input', data1, data2)
   var totalWidth = 1250;
   var barHeight = 35;
+
+  var sortedData1 = reorder(data1);
+  var sortedData2 = reorder(data2);
+
+
 
   //abstract somewhere
   const twoDecFormat = (n) => parseFloat(Math.round(n * 10000) / 100).toFixed(2);
@@ -46,12 +51,14 @@ d3ComparisonChart.create = function(el, data1, data2) {
   //theres 53 inputs..
   var y = d3.scaleLinear()
     .domain([0, 52])
-    .range([0, barHeight * data1.length])
+    .range([0, barHeight * sortedData1.length])
 
+  console.log('sortedData1', sortedData1)
+  console.log('sortedData2', sortedData2)
 
 
   var svg = d3.select(el).append('svg')
-    .attr('class', 'barChart')
+    .attr('class', 'comparisonChart')
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -64,13 +71,10 @@ d3ComparisonChart.create = function(el, data1, data2) {
     .attr('class', 'bubbleTitle')
     .text("TWITTER VS FACEBOOK ANALYSIS");
   
-
-
-  var bar = svg.selectAll('.data1')
-    .data(data1)
+  var bar = svg.selectAll('.data2')
+    .data(sortedData2)
     .enter().append('g')
-    .attr('class', 'data1')
-    // .attr('class', 'chartNode')
+    .attr('class', 'sortedData2')
     .attr("transform", (d,i) => `translate(0, ${i * barHeight})`)
 
     bar.append("rect")
@@ -112,10 +116,10 @@ d3ComparisonChart.create = function(el, data1, data2) {
         return trait;
       });
 
-    var bar = svg.selectAll('.data2')
-      .data(data2)
+    var bar = svg.selectAll('.data1')
+      .data(sortedData1)
       .enter().append('g')
-      .attr('class', 'data2')
+      .attr('class', 'data1')
       .attr("transform", (d,i) => {
         var w = x(d.percentile * 100);
         return `translate(${width / 2 - 85 - w}, ${i * barHeight})`
