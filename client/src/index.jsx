@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm.jsx';
 import SignupForm from './components/SignupForm.jsx';
 import ComparisonChart from './components/ComparisonChart.jsx'
 import Analyses from './components/Analyses.jsx'
+import Public from './components/Public.jsx'
 
 import {
   BrowserRouter as Router,
@@ -27,6 +28,7 @@ class App extends React.Component {
     //to pass in props:
     // <Route path="/Create" render={() => <Create {...this.state} /> } />
 
+
   render () {
     return (
       <Router>
@@ -44,9 +46,8 @@ class App extends React.Component {
           <Route path="/LoginForm" component={LoginForm} />
           <Route path="/SignUpForm" component={SignupForm}/>
           <Route path="/Create" render={() => <Create {...this.state} /> } />
-          <Route path="/Public" />
+          <Route path="/Public" component={Public}/>
           <Route path="/analyses/:id" component={Analyses} />
-
         </div>
       </Router>
     )

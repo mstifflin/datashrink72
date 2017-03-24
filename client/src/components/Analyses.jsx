@@ -15,15 +15,9 @@ class Analyses extends React.Component {
       explanations: globalData.explanations
     }
 
-    console.log(props.match.params.id)
-    // this.updateFormValue = this.updateFormValue.bind(this);
-    // this.sendForm = this.sendForm.bind(this);
-
   }
 
-
   componentWillMount() {
-    console.log('here', this.props.match.params.id)
     s.analysesGet(this.props.match.params.id).then(e => {
       this.setState({
         dataLoaded: true,

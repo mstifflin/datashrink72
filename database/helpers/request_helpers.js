@@ -97,6 +97,14 @@ module.exports = {
 	    	res.send('No analysis found.');
 	    }
 	  });
+	},
+
+	getPublicAnalyses: function(req, res) {
+		Analysis.find({context: 'global'}, function(err, publicArray) {
+			if (err) { res.status(500).send('Databases failed to query'); }
+			console.log(publicArray);
+			res.send(JSON.stringify(publicArray));
+		});
 	}
 }
 

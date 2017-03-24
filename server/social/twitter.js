@@ -8,13 +8,20 @@ var API = {
   twitterSecret: process.env.S1_SECRET
 }
 
-var client;
+var client = new Twitter({
+  consumer_key: API.twitterKey,
+  consumer_secret: API.twitterSecret,
+  access_token_key: '845032805713141761-uugr3b0pI4Pskn6RbfJoIRloUAUzzEg',
+  access_token_secret: 'qoQMqmYrTktGUhKR9WIfHb61JCqZH9Yx2b5DV4RyeOcju'
+});
+
 passport.use(new Strategy({
     consumerKey: API.twitterKey,
     consumerSecret: API.twitterSecret,
     callbackURL: 'http://127.0.0.1:3000/twitter/return'
   },
   function(token, tokenSecret, profile, cb) {
+    console.log(token, ' ', tokenSecret);
     client = populateClient(token, tokenSecret, profile.username);
     analyzeProfile(console.log);
 
@@ -53,8 +60,16 @@ var analyzeProfile = (cb, username) => {
         tweetStrings.push(tweet.text);
       });
       tweetStrings = tweetStrings.join(' ');
-      cb(tweetStrings);
+      cb(JSON.stringify(tweetStrings));
   });
+}
+
+var testAnalysis = (req, res) => {
+  var length = '/twitterProfile/'.length;
+  var user = req.url.slice(length);
+  analyzeProfile(function(tweets) {
+    res.send(JSON.stringify(tweets));
+  }, user);
 }
 
 //TODO: 
@@ -79,7 +94,7 @@ passport.deserializeUser(function(obj, cb) {
 module.exports.toAuth = passport.authenticate('twitter');
 module.exports.fromAuth = passport.authenticate('twitter', { failureRedirect: '/'});
 module.exports.analyzeProfile = analyzeProfile;
-
+module.exports.testAnalysis = testAnalysis;
 module.exports.toAnalysis = function(req, res) {
   res.redirect('/twitterProfile');
 };

@@ -26,9 +26,7 @@ app.use(expressSession({secret: 'keyboard cat', resave: true, saveUnitialized: t
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', function (req, res) {
-  res.send('Hello world');
-});
+
 
 /**********************/
 /**** SOCIAL MEDIA ****/
@@ -38,6 +36,7 @@ app.get('/twitter', tw.toAuth);
 app.get('/twitter/return', tw.fromAuth, tw.toAnalysis);
 //TODO change render test to analysis
 app.get('/twitterProfile', ensureLogIn, tw.renderTest);
+app.get('/twitterProfile/*', tw.testAnalysis);
 
 /****************/
 /**** WATSON ****/
@@ -88,7 +87,11 @@ app.post('/login', function(req, res) {
 
 app.get('/analyze/*', function(req, res) {
   dbHelpers.findAllDataFromAnAnalysis(req, res); 
-})
+});
+
+app.get('/publicanalyses', function(req, res) {
+  dbHelpers.getPublicAnalyses(req, res);
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'))

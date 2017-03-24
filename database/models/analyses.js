@@ -10,7 +10,7 @@ var AnalysesSchema = mongoose.Schema({
 var Analysis = mongoose.model('Analysis', AnalysesSchema);
 
 Analysis.populateTestData = function(sampledata) {
-  Analysis.findOne({person: 'Me'}, function(err, found) {
+  Analysis.findOne({person: sampledata.name}, function(err, found) {
     if (err) { console.log(err); }
     if (!found) {
       var testAnalysis = new Analysis({
