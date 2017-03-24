@@ -11,7 +11,7 @@ var ComparisonChart = React.createClass({
   },
 
   componentDidUpdate: function() {
-    d3.select('svg' ).remove();
+    // d3.select('svg' ).remove();
     var el = ReactDOM.findDOMNode(this);
     d3ComparisonChart.create(el, this.props.data);
   },
