@@ -63,11 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-<<<<<<< HEAD
-/******/ 	return __webpack_require__(__webpack_require__.s = 135);
-=======
 /******/ 	return __webpack_require__(__webpack_require__.s = 257);
->>>>>>> can now compare with public or new custom
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -20955,11 +20951,7 @@ var _assign = __webpack_require__(5);
 
 var EventPluginRegistry = __webpack_require__(35);
 var ReactEventEmitterMixin = __webpack_require__(185);
-<<<<<<< HEAD
-var ViewportMetrics = __webpack_require__(91);
-=======
 var ViewportMetrics = __webpack_require__(93);
->>>>>>> can now compare with public or new custom
 
 var getVendorPrefixedEventName = __webpack_require__(221);
 var isEventSupported = __webpack_require__(57);
@@ -23998,7 +23990,7 @@ Router.childContextTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (Router);
+/* harmony default export */ __webpack_exports__["a"] = Router;
 
 /***/ }),
 /* 61 */
@@ -24073,7 +24065,7 @@ var matchPath = function matchPath(pathname) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (matchPath);
+/* harmony default export */ __webpack_exports__["a"] = matchPath;
 
 /***/ }),
 /* 62 */
@@ -24450,15 +24442,9 @@ var ComparisonChart = _react2.default.createClass({
   },
 
   componentDidUpdate: function componentDidUpdate() {
-<<<<<<< HEAD
-    // d3.select('svg' ).remove();
-    var el = _reactDom2.default.findDOMNode(this);
-    _d3ComparisonChart2.default.create(el, this.props.data);
-=======
     d3.select('.comparisonChart').remove();
     var el = _reactDom2.default.findDOMNode(this);
     _d3ComparisonChart2.default.create(el, this.props.data, this.props.data2);
->>>>>>> can now compare with public or new custom
   },
 
   render: function render() {
@@ -24496,38 +24482,39 @@ var _reactRouterDom = __webpack_require__(33);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Create = function Create(props) {
-  console.log('props in create', props);
   return _react2.default.createElement(
-    'div',
+    _reactRouterDom.BrowserRouter,
     null,
     _react2.default.createElement(
-      _reactRouterDom.BrowserRouter,
+      'div',
       null,
-      _react2.default.createElement(
+      !props.ownTwitter ? null : _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           'a',
           { href: '\\twitter' },
-          'Twitter'
+          'My Twitter Account'
         ),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/TwitterSearch' },
-          'Twitter Account '
-        ),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: _TwitterSearch2.default }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/CustomForm' },
-          'Custom Input'
-        ),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: function component() {
-            return _react2.default.createElement(_CustomForm2.default, { click: props.click });
-          } })
-      )
+        _react2.default.createElement('br', null)
+      ),
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: '/TwitterSearch' },
+        'Public Twitter Account'
+      ),
+      _react2.default.createElement('br', null),
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: '/CustomForm' },
+        'Custom Input'
+      ),
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: function component() {
+          return _react2.default.createElement(_TwitterSearch2.default, { click: props.otherTwitterClick });
+        } }),
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: function component() {
+          return _react2.default.createElement(_CustomForm2.default, { click: props.customClick });
+        } })
     )
   );
 };
@@ -24617,7 +24604,7 @@ var Public = function (_React$Component) {
               { key: e._id },
               _react2.default.createElement(
                 'a',
-                { name: e._id, onClick: _this3.props.click },
+                { name: e._id, href: '#', onClick: _this3.props.click },
                 e.person
               )
             ) : _react2.default.createElement(
@@ -25349,7 +25336,7 @@ module.exports = focusNode;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global) {
+
 
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -25370,24 +25357,19 @@ module.exports = focusNode;
  *
  * The activeElement will be null only if the document or document body is not
  * yet defined.
- *
- * @param {?DOMDocument} doc Defaults to current document.
- * @return {?DOMElement}
  */
-function getActiveElement(doc) /*?DOMElement*/{
-  doc = doc || global.document;
-  if (typeof doc === 'undefined') {
+function getActiveElement() /*?DOMElement*/{
+  if (typeof document === 'undefined') {
     return null;
   }
   try {
-    return doc.activeElement || doc.body;
+    return document.activeElement || document.body;
   } catch (e) {
-    return doc.body;
+    return document.body;
   }
 }
 
 module.exports = getActiveElement;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(257)))
 
 /***/ }),
 /* 80 */
@@ -26356,13 +26338,8 @@ module.exports = ReactHostComponent;
 var ReactDOMSelection = __webpack_require__(176);
 
 var containsNode = __webpack_require__(138);
-<<<<<<< HEAD
-var focusNode = __webpack_require__(76);
-var getActiveElement = __webpack_require__(77);
-=======
 var focusNode = __webpack_require__(78);
 var getActiveElement = __webpack_require__(79);
->>>>>>> can now compare with public or new custom
 
 function isInDocument(node) {
   return containsNode(document.documentElement, node);
@@ -26497,11 +26474,7 @@ var ReactCurrentOwner = __webpack_require__(15);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMContainerInfo = __webpack_require__(168);
 var ReactDOMFeatureFlags = __webpack_require__(170);
-<<<<<<< HEAD
-var ReactFeatureFlags = __webpack_require__(85);
-=======
 var ReactFeatureFlags = __webpack_require__(87);
->>>>>>> can now compare with public or new custom
 var ReactInstanceMap = __webpack_require__(31);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactMarkupChecksum = __webpack_require__(190);
@@ -27312,13 +27285,8 @@ var _prodInvariant = __webpack_require__(3),
     _assign = __webpack_require__(5);
 
 var ReactCompositeComponent = __webpack_require__(165);
-<<<<<<< HEAD
-var ReactEmptyComponent = __webpack_require__(84);
-var ReactHostComponent = __webpack_require__(86);
-=======
 var ReactEmptyComponent = __webpack_require__(86);
 var ReactHostComponent = __webpack_require__(88);
->>>>>>> can now compare with public or new custom
 
 var getNextDebugID = __webpack_require__(219);
 var invariant = __webpack_require__(1);
@@ -27823,7 +27791,7 @@ Link.contextTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (Link);
+/* harmony default export */ __webpack_exports__["a"] = Link;
 
 /***/ }),
 /* 103 */
@@ -27966,7 +27934,7 @@ Route.childContextTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (Route);
+/* harmony default export */ __webpack_exports__["a"] = Route;
 
 /***/ }),
 /* 104 */
@@ -28332,8 +28300,10 @@ var Analyses = function (_React$Component) {
       data2: ''
 
     };
-    _this.getSecondSet = _this.getSecondSet.bind(_this);
-    _this.getSecondSetFromForm = _this.getSecondSetFromForm.bind(_this);
+    _this.publicDataClick = _this.publicDataClick.bind(_this);
+    _this.customFormClick = _this.customFormClick.bind(_this);
+    _this.otherTwitterClick = _this.otherTwitterClick.bind(_this);
+    _this.ownTwitterClick = _this.ownTwitterClick.bind(_this);
     return _this;
   }
 
@@ -28350,31 +28320,53 @@ var Analyses = function (_React$Component) {
       });
     }
   }, {
-    key: 'getSecondSet',
-    value: function getSecondSet(e) {
+    key: 'ownTwitterClick',
+    value: function ownTwitterClick(event, state) {}
+  }, {
+    key: 'otherTwitterClick',
+    value: function otherTwitterClick(event, state) {
       var _this3 = this;
+
+      console.log('getting', event);
+      event.preventDefault();
+      s.serverPost('twitterProfile', state).then(function (e) {
+        console.log(e);
+        var redirectURL = e.request.responseURL;
+        var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
+        s.analysesGet(hash).then(function (results) {
+          _this3.setState({
+            secondDataSet: true,
+            data2: results.data
+          });
+        });
+      }).catch(function (err) {
+        console.log('failed', err);
+      });
+    }
+  }, {
+    key: 'publicDataClick',
+    value: function publicDataClick(e) {
+      var _this4 = this;
 
       e.preventDefault();
       s.analysesGet(e.target.name).then(function (results) {
-        _this3.setState({
+        _this4.setState({
           secondDataSet: true,
           data2: results.data
         });
       });
     }
   }, {
-    key: 'getSecondSetFromForm',
-    value: function getSecondSetFromForm(event, state) {
-      var _this4 = this;
+    key: 'customFormClick',
+    value: function customFormClick(event, state) {
+      var _this5 = this;
 
       event.preventDefault();
       s.serverPost('customform', state).then(function (e) {
         var redirectURL = e.request.responseURL;
         var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
-        console.log('calling with', hash);
         s.analysesGet(hash).then(function (results) {
-          console.log('getting secondData Set', results);
-          _this4.setState({
+          _this5.setState({
             secondDataSet: true,
             data2: results.data
           });
@@ -28386,7 +28378,7 @@ var Analyses = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       return _react2.default.createElement(
         'div',
@@ -28424,10 +28416,13 @@ var Analyses = function (_React$Component) {
                 )
               ),
               _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: function component() {
-                  return _react2.default.createElement(_Public2.default, { click: _this5.getSecondSet });
+                  return _react2.default.createElement(_Public2.default, { click: _this6.publicDataClick });
                 } }),
               _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', component: function component() {
-                  return _react2.default.createElement(_Create2.default, { click: _this5.getSecondSetFromForm });
+                  return _react2.default.createElement(_Create2.default, {
+                    customClick: _this6.customFormClick,
+                    otherTwitterClick: _this6.otherTwitterClick
+                  });
                 } })
             )
           ),
@@ -28497,8 +28492,6 @@ var LoginForm = function (_React$Component) {
 
     _this.updateFormValue = _this.updateFormValue.bind(_this);
     _this.sendForm = _this.sendForm.bind(_this);
-
-    console.log(_this);
     return _this;
   }
 
@@ -28517,11 +28510,9 @@ var LoginForm = function (_React$Component) {
       console.log(this.state);
       s.serverPost('login', this.state).then(function (e) {
         _this2.setState({ status: e.data });
-        console.log(e, 'yo');
         _this2.render();
       }).catch(function (e) {
         _this2.setState({ status: e.data });
-        console.log(e);
         _this2.render();
         //tell user the info is correct or server is down
       });
@@ -28705,17 +28696,17 @@ exports.default = SignUpForm;
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.2.1
+ * jQuery JavaScript Library v3.1.1
  * https://jquery.com/
  *
  * Includes Sizzle.js
  * https://sizzlejs.com/
  *
- * Copyright JS Foundation and other contributors
+ * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2017-03-20T18:59Z
+ * Date: 2016-09-22T22:30Z
  */
 ( function( global, factory ) {
 
@@ -28794,7 +28785,7 @@ var support = {};
 
 
 var
-	version = "3.2.1",
+	version = "3.1.1",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -28942,11 +28933,11 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 				// Recurse if we're merging plain objects or arrays
 				if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
-					( copyIsArray = Array.isArray( copy ) ) ) ) {
+					( copyIsArray = jQuery.isArray( copy ) ) ) ) {
 
 					if ( copyIsArray ) {
 						copyIsArray = false;
-						clone = src && Array.isArray( src ) ? src : [];
+						clone = src && jQuery.isArray( src ) ? src : [];
 
 					} else {
 						clone = src && jQuery.isPlainObject( src ) ? src : {};
@@ -28984,6 +28975,8 @@ jQuery.extend( {
 	isFunction: function( obj ) {
 		return jQuery.type( obj ) === "function";
 	},
+
+	isArray: Array.isArray,
 
 	isWindow: function( obj ) {
 		return obj != null && obj === obj.window;
@@ -29057,6 +29050,10 @@ jQuery.extend( {
 	// Microsoft forgot to hump their vendor prefix (#9572)
 	camelCase: function( string ) {
 		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
+	},
+
+	nodeName: function( elem, name ) {
+		return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
 	},
 
 	each: function( obj, callback ) {
@@ -31543,13 +31540,6 @@ var siblings = function( n, elem ) {
 
 var rneedsContext = jQuery.expr.match.needsContext;
 
-
-
-function nodeName( elem, name ) {
-
-  return elem.nodeName && elem.nodeName.toLowerCase() === name.toLowerCase();
-
-};
 var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
 
 
@@ -31901,18 +31891,7 @@ jQuery.each( {
 		return siblings( elem.firstChild );
 	},
 	contents: function( elem ) {
-        if ( nodeName( elem, "iframe" ) ) {
-            return elem.contentDocument;
-        }
-
-        // Support: IE 9 - 11 only, iOS 7 only, Android Browser <=4.3 only
-        // Treat the template element as a regular one in browsers that
-        // don't support it.
-        if ( nodeName( elem, "template" ) ) {
-            elem = elem.content || elem;
-        }
-
-        return jQuery.merge( [], elem.childNodes );
+		return elem.contentDocument || jQuery.merge( [], elem.childNodes );
 	}
 }, function( name, fn ) {
 	jQuery.fn[ name ] = function( until, selector ) {
@@ -32010,7 +31989,7 @@ jQuery.Callbacks = function( options ) {
 		fire = function() {
 
 			// Enforce single-firing
-			locked = locked || options.once;
+			locked = options.once;
 
 			// Execute callbacks for all pending executions,
 			// respecting firingIndex overrides and runtime changes
@@ -32179,7 +32158,7 @@ function Thrower( ex ) {
 	throw ex;
 }
 
-function adoptValue( value, resolve, reject, noValue ) {
+function adoptValue( value, resolve, reject ) {
 	var method;
 
 	try {
@@ -32195,10 +32174,9 @@ function adoptValue( value, resolve, reject, noValue ) {
 		// Other non-thenables
 		} else {
 
-			// Control `resolve` arguments by letting Array#slice cast boolean `noValue` to integer:
-			// * false: [ value ].slice( 0 ) => resolve( value )
-			// * true: [ value ].slice( 1 ) => resolve()
-			resolve.apply( undefined, [ value ].slice( noValue ) );
+			// Support: Android 4.0 only
+			// Strict mode functions invoked without .call/.apply get global-object context
+			resolve.call( undefined, value );
 		}
 
 	// For Promises/A+, convert exceptions into rejections
@@ -32208,7 +32186,7 @@ function adoptValue( value, resolve, reject, noValue ) {
 
 		// Support: Android 4.0 only
 		// Strict mode functions invoked without .call/.apply get global-object context
-		reject.apply( undefined, [ value ] );
+		reject.call( undefined, value );
 	}
 }
 
@@ -32533,8 +32511,7 @@ jQuery.extend( {
 
 		// Single- and empty arguments are adopted like Promise.resolve
 		if ( remaining <= 1 ) {
-			adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject,
-				!remaining );
+			adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject );
 
 			// Use .then() to unwrap secondary thenables (cf. gh-3000)
 			if ( master.state() === "pending" ||
@@ -32605,6 +32582,15 @@ jQuery.extend( {
 	// A counter to track how many items to wait for before
 	// the ready event fires. See #6781
 	readyWait: 1,
+
+	// Hold (or release) the ready event
+	holdReady: function( hold ) {
+		if ( hold ) {
+			jQuery.readyWait++;
+		} else {
+			jQuery.ready( true );
+		}
+	},
 
 	// Handle when the DOM is ready
 	ready: function( wait ) {
@@ -32841,7 +32827,7 @@ Data.prototype = {
 		if ( key !== undefined ) {
 
 			// Support array or space separated string of keys
-			if ( Array.isArray( key ) ) {
+			if ( jQuery.isArray( key ) ) {
 
 				// If key is an array of keys...
 				// We always set camelCase keys, so remove that.
@@ -33067,7 +33053,7 @@ jQuery.extend( {
 
 			// Speed up dequeue by getting out quickly if this is just a lookup
 			if ( data ) {
-				if ( !queue || Array.isArray( data ) ) {
+				if ( !queue || jQuery.isArray( data ) ) {
 					queue = dataPriv.access( elem, type, jQuery.makeArray( data ) );
 				} else {
 					queue.push( data );
@@ -33444,7 +33430,7 @@ function getAll( context, tag ) {
 		ret = [];
 	}
 
-	if ( tag === undefined || tag && nodeName( context, tag ) ) {
+	if ( tag === undefined || tag && jQuery.nodeName( context, tag ) ) {
 		return jQuery.merge( [ context ], ret );
 	}
 
@@ -34051,7 +34037,7 @@ jQuery.event = {
 
 			// For checkbox, fire native event so checked state will be right
 			trigger: function() {
-				if ( this.type === "checkbox" && this.click && nodeName( this, "input" ) ) {
+				if ( this.type === "checkbox" && this.click && jQuery.nodeName( this, "input" ) ) {
 					this.click();
 					return false;
 				}
@@ -34059,7 +34045,7 @@ jQuery.event = {
 
 			// For cross-browser consistency, don't fire native .click() on links
 			_default: function( event ) {
-				return nodeName( event.target, "a" );
+				return jQuery.nodeName( event.target, "a" );
 			}
 		},
 
@@ -34336,12 +34322,11 @@ var
 	rscriptTypeMasked = /^true\/(.*)/,
 	rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
 
-// Prefer a tbody over its parent table for containing new rows
 function manipulationTarget( elem, content ) {
-	if ( nodeName( elem, "table" ) &&
-		nodeName( content.nodeType !== 11 ? content : content.firstChild, "tr" ) ) {
+	if ( jQuery.nodeName( elem, "table" ) &&
+		jQuery.nodeName( content.nodeType !== 11 ? content : content.firstChild, "tr" ) ) {
 
-		return jQuery( ">tbody", elem )[ 0 ] || elem;
+		return elem.getElementsByTagName( "tbody" )[ 0 ] || elem;
 	}
 
 	return elem;
@@ -34871,18 +34856,12 @@ var getStyles = function( elem ) {
 
 function curCSS( elem, name, computed ) {
 	var width, minWidth, maxWidth, ret,
-
-		// Support: Firefox 51+
-		// Retrieving style before computed somehow
-		// fixes an issue with getting wrong values
-		// on detached elements
 		style = elem.style;
 
 	computed = computed || getStyles( elem );
 
-	// getPropertyValue is needed for:
-	//   .css('filter') (IE 9 only, #12537)
-	//   .css('--customProperty) (#3144)
+	// Support: IE <=9 only
+	// getPropertyValue is only needed for .css('filter') (#12537)
 	if ( computed ) {
 		ret = computed.getPropertyValue( name ) || computed[ name ];
 
@@ -34948,7 +34927,6 @@ var
 	// except "table", "table-cell", or "table-caption"
 	// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
 	rdisplayswap = /^(none|table(?!-c[ea]).+)/,
-	rcustomProp = /^--/,
 	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
 	cssNormalTransform = {
 		letterSpacing: "0",
@@ -34976,16 +34954,6 @@ function vendorPropName( name ) {
 			return name;
 		}
 	}
-}
-
-// Return a property mapped along what jQuery.cssProps suggests or to
-// a vendor prefixed property.
-function finalPropName( name ) {
-	var ret = jQuery.cssProps[ name ];
-	if ( !ret ) {
-		ret = jQuery.cssProps[ name ] = vendorPropName( name ) || name;
-	}
-	return ret;
 }
 
 function setPositiveNumber( elem, value, subtract ) {
@@ -35048,30 +35016,43 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 
 function getWidthOrHeight( elem, name, extra ) {
 
-	// Start with computed style
-	var valueIsBorderBox,
+	// Start with offset property, which is equivalent to the border-box value
+	var val,
+		valueIsBorderBox = true,
 		styles = getStyles( elem ),
-		val = curCSS( elem, name, styles ),
 		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
 
-	// Computed unit is not pixels. Stop here and return.
-	if ( rnumnonpx.test( val ) ) {
-		return val;
+	// Support: IE <=11 only
+	// Running getBoundingClientRect on a disconnected node
+	// in IE throws an error.
+	if ( elem.getClientRects().length ) {
+		val = elem.getBoundingClientRect()[ name ];
 	}
 
-	// Check for style in case a browser which returns unreliable values
-	// for getComputedStyle silently falls back to the reliable elem.style
-	valueIsBorderBox = isBorderBox &&
-		( support.boxSizingReliable() || val === elem.style[ name ] );
+	// Some non-html elements return undefined for offsetWidth, so check for null/undefined
+	// svg - https://bugzilla.mozilla.org/show_bug.cgi?id=649285
+	// MathML - https://bugzilla.mozilla.org/show_bug.cgi?id=491668
+	if ( val <= 0 || val == null ) {
 
-	// Fall back to offsetWidth/Height when value is "auto"
-	// This happens for inline elements with no explicit setting (gh-3571)
-	if ( val === "auto" ) {
-		val = elem[ "offset" + name[ 0 ].toUpperCase() + name.slice( 1 ) ];
+		// Fall back to computed then uncomputed css if necessary
+		val = curCSS( elem, name, styles );
+		if ( val < 0 || val == null ) {
+			val = elem.style[ name ];
+		}
+
+		// Computed unit is not pixels. Stop here and return.
+		if ( rnumnonpx.test( val ) ) {
+			return val;
+		}
+
+		// Check for style in case a browser which returns unreliable values
+		// for getComputedStyle silently falls back to the reliable elem.style
+		valueIsBorderBox = isBorderBox &&
+			( support.boxSizingReliable() || val === elem.style[ name ] );
+
+		// Normalize "", auto, and prepare for extra
+		val = parseFloat( val ) || 0;
 	}
-
-	// Normalize "", auto, and prepare for extra
-	val = parseFloat( val ) || 0;
 
 	// Use the active box-sizing model to add/subtract irrelevant styles
 	return ( val +
@@ -35136,15 +35117,10 @@ jQuery.extend( {
 		// Make sure that we're working with the right name
 		var ret, type, hooks,
 			origName = jQuery.camelCase( name ),
-			isCustomProp = rcustomProp.test( name ),
 			style = elem.style;
 
-		// Make sure that we're working with the right name. We don't
-		// want to query the value if it is a CSS custom property
-		// since they are user-defined.
-		if ( !isCustomProp ) {
-			name = finalPropName( origName );
-		}
+		name = jQuery.cssProps[ origName ] ||
+			( jQuery.cssProps[ origName ] = vendorPropName( origName ) || origName );
 
 		// Gets hook for the prefixed version, then unprefixed version
 		hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
@@ -35180,11 +35156,7 @@ jQuery.extend( {
 			if ( !hooks || !( "set" in hooks ) ||
 				( value = hooks.set( elem, value, extra ) ) !== undefined ) {
 
-				if ( isCustomProp ) {
-					style.setProperty( name, value );
-				} else {
-					style[ name ] = value;
-				}
+				style[ name ] = value;
 			}
 
 		} else {
@@ -35203,15 +35175,11 @@ jQuery.extend( {
 
 	css: function( elem, name, extra, styles ) {
 		var val, num, hooks,
-			origName = jQuery.camelCase( name ),
-			isCustomProp = rcustomProp.test( name );
+			origName = jQuery.camelCase( name );
 
-		// Make sure that we're working with the right name. We don't
-		// want to modify the value if it is a CSS custom property
-		// since they are user-defined.
-		if ( !isCustomProp ) {
-			name = finalPropName( origName );
-		}
+		// Make sure that we're working with the right name
+		name = jQuery.cssProps[ origName ] ||
+			( jQuery.cssProps[ origName ] = vendorPropName( origName ) || origName );
 
 		// Try prefixed name followed by the unprefixed name
 		hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
@@ -35236,7 +35204,6 @@ jQuery.extend( {
 			num = parseFloat( val );
 			return extra === true || isFinite( num ) ? num || 0 : val;
 		}
-
 		return val;
 	}
 } );
@@ -35336,7 +35303,7 @@ jQuery.fn.extend( {
 				map = {},
 				i = 0;
 
-			if ( Array.isArray( name ) ) {
+			if ( jQuery.isArray( name ) ) {
 				styles = getStyles( elem );
 				len = name.length;
 
@@ -35474,18 +35441,13 @@ jQuery.fx.step = {};
 
 
 var
-	fxNow, inProgress,
+	fxNow, timerId,
 	rfxtypes = /^(?:toggle|show|hide)$/,
 	rrun = /queueHooks$/;
 
-function schedule() {
-	if ( inProgress ) {
-		if ( document.hidden === false && window.requestAnimationFrame ) {
-			window.requestAnimationFrame( schedule );
-		} else {
-			window.setTimeout( schedule, jQuery.fx.interval );
-		}
-
+function raf() {
+	if ( timerId ) {
+		window.requestAnimationFrame( raf );
 		jQuery.fx.tick();
 	}
 }
@@ -35712,7 +35674,7 @@ function propFilter( props, specialEasing ) {
 		name = jQuery.camelCase( index );
 		easing = specialEasing[ name ];
 		value = props[ index ];
-		if ( Array.isArray( value ) ) {
+		if ( jQuery.isArray( value ) ) {
 			easing = value[ 1 ];
 			value = props[ index ] = value[ 0 ];
 		}
@@ -35771,19 +35733,12 @@ function Animation( elem, properties, options ) {
 
 			deferred.notifyWith( elem, [ animation, percent, remaining ] );
 
-			// If there's more to do, yield
 			if ( percent < 1 && length ) {
 				return remaining;
+			} else {
+				deferred.resolveWith( elem, [ animation ] );
+				return false;
 			}
-
-			// If this was an empty animation, synthesize a final progress notification
-			if ( !length ) {
-				deferred.notifyWith( elem, [ animation, 1, 0 ] );
-			}
-
-			// Resolve the animation and report its conclusion
-			deferred.resolveWith( elem, [ animation ] );
-			return false;
 		},
 		animation = deferred.promise( {
 			elem: elem,
@@ -35848,13 +35803,6 @@ function Animation( elem, properties, options ) {
 		animation.opts.start.call( elem, animation );
 	}
 
-	// Attach callbacks from options
-	animation
-		.progress( animation.opts.progress )
-		.done( animation.opts.done, animation.opts.complete )
-		.fail( animation.opts.fail )
-		.always( animation.opts.always );
-
 	jQuery.fx.timer(
 		jQuery.extend( tick, {
 			elem: elem,
@@ -35863,7 +35811,11 @@ function Animation( elem, properties, options ) {
 		} )
 	);
 
-	return animation;
+	// attach callbacks from options
+	return animation.progress( animation.opts.progress )
+		.done( animation.opts.done, animation.opts.complete )
+		.fail( animation.opts.fail )
+		.always( animation.opts.always );
 }
 
 jQuery.Animation = jQuery.extend( Animation, {
@@ -35914,8 +35866,8 @@ jQuery.speed = function( speed, easing, fn ) {
 		easing: fn && easing || easing && !jQuery.isFunction( easing ) && easing
 	};
 
-	// Go to the end state if fx are off
-	if ( jQuery.fx.off ) {
+	// Go to the end state if fx are off or if document is hidden
+	if ( jQuery.fx.off || document.hidden ) {
 		opt.duration = 0;
 
 	} else {
@@ -36107,7 +36059,7 @@ jQuery.fx.tick = function() {
 	for ( ; i < timers.length; i++ ) {
 		timer = timers[ i ];
 
-		// Run the timer and safely remove it when done (allowing for external removal)
+		// Checks the timer has not already been removed
 		if ( !timer() && timers[ i ] === timer ) {
 			timers.splice( i--, 1 );
 		}
@@ -36121,21 +36073,30 @@ jQuery.fx.tick = function() {
 
 jQuery.fx.timer = function( timer ) {
 	jQuery.timers.push( timer );
-	jQuery.fx.start();
+	if ( timer() ) {
+		jQuery.fx.start();
+	} else {
+		jQuery.timers.pop();
+	}
 };
 
 jQuery.fx.interval = 13;
 jQuery.fx.start = function() {
-	if ( inProgress ) {
-		return;
+	if ( !timerId ) {
+		timerId = window.requestAnimationFrame ?
+			window.requestAnimationFrame( raf ) :
+			window.setInterval( jQuery.fx.tick, jQuery.fx.interval );
 	}
-
-	inProgress = true;
-	schedule();
 };
 
 jQuery.fx.stop = function() {
-	inProgress = null;
+	if ( window.cancelAnimationFrame ) {
+		window.cancelAnimationFrame( timerId );
+	} else {
+		window.clearInterval( timerId );
+	}
+
+	timerId = null;
 };
 
 jQuery.fx.speeds = {
@@ -36252,7 +36213,7 @@ jQuery.extend( {
 		type: {
 			set: function( elem, value ) {
 				if ( !support.radioValue && value === "radio" &&
-					nodeName( elem, "input" ) ) {
+					jQuery.nodeName( elem, "input" ) ) {
 					var val = elem.value;
 					elem.setAttribute( "type", value );
 					if ( val ) {
@@ -36683,7 +36644,7 @@ jQuery.fn.extend( {
 			} else if ( typeof val === "number" ) {
 				val += "";
 
-			} else if ( Array.isArray( val ) ) {
+			} else if ( jQuery.isArray( val ) ) {
 				val = jQuery.map( val, function( value ) {
 					return value == null ? "" : value + "";
 				} );
@@ -36742,7 +36703,7 @@ jQuery.extend( {
 							// Don't return options that are disabled or in a disabled optgroup
 							!option.disabled &&
 							( !option.parentNode.disabled ||
-								!nodeName( option.parentNode, "optgroup" ) ) ) {
+								!jQuery.nodeName( option.parentNode, "optgroup" ) ) ) {
 
 						// Get the specific value for the option
 						value = jQuery( option ).val();
@@ -36794,7 +36755,7 @@ jQuery.extend( {
 jQuery.each( [ "radio", "checkbox" ], function() {
 	jQuery.valHooks[ this ] = {
 		set: function( elem, value ) {
-			if ( Array.isArray( value ) ) {
+			if ( jQuery.isArray( value ) ) {
 				return ( elem.checked = jQuery.inArray( jQuery( elem ).val(), value ) > -1 );
 			}
 		}
@@ -37089,7 +37050,7 @@ var
 function buildParams( prefix, obj, traditional, add ) {
 	var name;
 
-	if ( Array.isArray( obj ) ) {
+	if ( jQuery.isArray( obj ) ) {
 
 		// Serialize array item.
 		jQuery.each( obj, function( i, v ) {
@@ -37141,7 +37102,7 @@ jQuery.param = function( a, traditional ) {
 		};
 
 	// If an array was passed in, assume that it is an array of form elements.
-	if ( Array.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
+	if ( jQuery.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
 
 		// Serialize the form elements
 		jQuery.each( a, function() {
@@ -37187,7 +37148,7 @@ jQuery.fn.extend( {
 				return null;
 			}
 
-			if ( Array.isArray( val ) ) {
+			if ( jQuery.isArray( val ) ) {
 				return jQuery.map( val, function( val ) {
 					return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
 				} );
@@ -38612,6 +38573,13 @@ jQuery.expr.pseudos.animated = function( elem ) {
 
 
 
+/**
+ * Gets a window from an element
+ */
+function getWindow( elem ) {
+	return jQuery.isWindow( elem ) ? elem : elem.nodeType === 9 && elem.defaultView;
+}
+
 jQuery.offset = {
 	setOffset: function( elem, options, i ) {
 		var curPosition, curLeft, curCSSTop, curTop, curOffset, curCSSLeft, calculatePosition,
@@ -38676,14 +38644,13 @@ jQuery.fn.extend( {
 				} );
 		}
 
-		var doc, docElem, rect, win,
+		var docElem, win, rect, doc,
 			elem = this[ 0 ];
 
 		if ( !elem ) {
 			return;
 		}
 
-		// Return zeros for disconnected and hidden (display: none) elements (gh-2310)
 		// Support: IE <=11 only
 		// Running getBoundingClientRect on a
 		// disconnected node in IE throws an error
@@ -38693,14 +38660,20 @@ jQuery.fn.extend( {
 
 		rect = elem.getBoundingClientRect();
 
-		doc = elem.ownerDocument;
-		docElem = doc.documentElement;
-		win = doc.defaultView;
+		// Make sure element is not hidden (display: none)
+		if ( rect.width || rect.height ) {
+			doc = elem.ownerDocument;
+			win = getWindow( doc );
+			docElem = doc.documentElement;
 
-		return {
-			top: rect.top + win.pageYOffset - docElem.clientTop,
-			left: rect.left + win.pageXOffset - docElem.clientLeft
-		};
+			return {
+				top: rect.top + win.pageYOffset - docElem.clientTop,
+				left: rect.left + win.pageXOffset - docElem.clientLeft
+			};
+		}
+
+		// Return zeros for disconnected and hidden elements (gh-2310)
+		return rect;
 	},
 
 	position: function() {
@@ -38726,7 +38699,7 @@ jQuery.fn.extend( {
 
 			// Get correct offsets
 			offset = this.offset();
-			if ( !nodeName( offsetParent[ 0 ], "html" ) ) {
+			if ( !jQuery.nodeName( offsetParent[ 0 ], "html" ) ) {
 				parentOffset = offsetParent.offset();
 			}
 
@@ -38773,14 +38746,7 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 
 	jQuery.fn[ method ] = function( val ) {
 		return access( this, function( elem, method, val ) {
-
-			// Coalesce documents and windows
-			var win;
-			if ( jQuery.isWindow( elem ) ) {
-				win = elem;
-			} else if ( elem.nodeType === 9 ) {
-				win = elem.defaultView;
-			}
+			var win = getWindow( elem );
 
 			if ( val === undefined ) {
 				return win ? win[ prop ] : elem[ method ];
@@ -38889,16 +38855,7 @@ jQuery.fn.extend( {
 	}
 } );
 
-jQuery.holdReady = function( hold ) {
-	if ( hold ) {
-		jQuery.readyWait++;
-	} else {
-		jQuery.ready( true );
-	}
-};
-jQuery.isArray = Array.isArray;
 jQuery.parseJSON = JSON.parse;
-jQuery.nodeName = nodeName;
 
 
 
@@ -38952,6 +38909,7 @@ jQuery.noConflict = function( deep ) {
 if ( !noGlobal ) {
 	window.jQuery = window.$ = jQuery;
 }
+
 
 
 
@@ -39891,13 +39849,6 @@ var BubbleChart = _react2.default.createClass({
     var el = _reactDom2.default.findDOMNode(this);
     _d3BubbleChart2.default.create(el, this.props.data, this.props.explanations);
   },
-
-  // componentDidUpdate: function() {
-  //   d3.select('svg' ).remove();
-  //   var el = ReactDOM.findDOMNode(this);
-  //   d3BubbleChart.create(el, this.props.data, this.props.explanations);
-  // },
-
   render: function render() {
     return _react2.default.createElement('div', null);
   }
@@ -40081,10 +40032,7 @@ var TwitterSearch = function (_React$Component) {
     key: 'sendForm',
     value: function sendForm(event) {
       event.preventDefault();
-<<<<<<< HEAD
       console.log(this.state);
-=======
->>>>>>> can now compare with public or new custom
       s.serverPost('twitterProfile', this.state).then(function (e) {
         window.location.href = e.request.responseURL;
       }).catch(function (e) {});
@@ -40092,6 +40040,8 @@ var TwitterSearch = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         'div',
         null,
@@ -40102,7 +40052,9 @@ var TwitterSearch = function (_React$Component) {
         ),
         _react2.default.createElement(
           'form',
-          { onSubmit: this.sendForm },
+          { onSubmit: function onSubmit(e) {
+              return _this2.props.click === undefined ? _this2.sendForm(e) : _this2.props.click(e, _this2.state);
+            } },
           _react2.default.createElement(
             'label',
             null,
@@ -40185,11 +40137,8 @@ d3BarChart.create = function (el, data) {
   svg.append("g").append('text').attr("x", 30 - margin.left - padding.left).attr("y", 30 - margin.top - padding.top).attr('class', 'bubbleTitle').text("TWITTER PERSONALITY ANALYSIS");
 
   //165 is to move it to the right
-<<<<<<< HEAD
-  var bar = svg.selectAll('g').data(data).enter().append('g').attr('class', 'chartNode').attr("transform", function (d, i) {
-=======
+
   var bar = svg.selectAll('.arbitraryClassName').data(sortedData).enter().append('g').attr('class', 'chartNode').attr("transform", function (d, i) {
->>>>>>> can now compare with public or new custom
     return "translate(165," + i * barHeight + ")";
   });
 
@@ -40463,164 +40412,6 @@ d3ComparisonChart.create = function (el, data1, data2) {
 };
 
 exports.default = d3ComparisonChart;
-
-/***/ }),
-/* 136 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(13);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _jquery = __webpack_require__(109);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _Create = __webpack_require__(106);
-
-var _Create2 = _interopRequireDefault(_Create);
-
-var _LoginForm = __webpack_require__(107);
-
-var _LoginForm2 = _interopRequireDefault(_LoginForm);
-
-var _SignupForm = __webpack_require__(108);
-
-var _SignupForm2 = _interopRequireDefault(_SignupForm);
-
-var _ComparisonChart = __webpack_require__(67);
-
-var _ComparisonChart2 = _interopRequireDefault(_ComparisonChart);
-
-var _Analyses = __webpack_require__(105);
-
-var _Analyses2 = _interopRequireDefault(_Analyses);
-
-var _Public = __webpack_require__(68);
-
-var _Public2 = _interopRequireDefault(_Public);
-
-var _reactRouterDom = __webpack_require__(33);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var App = function (_React$Component) {
-  _inherits(App, _React$Component);
-
-  function App(props) {
-    _classCallCheck(this, App);
-
-    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-    _this.state = {
-      user: 'guest',
-      loggedIn: false
-    };
-    return _this;
-  }
-
-  //the Create style is for illustrative purposes
-  //to pass in props:
-  // <Route path="/Create" render={() => <Create {...this.state} /> } />
-
-
-  _createClass(App, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        _reactRouterDom.BrowserRouter,
-        null,
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'h1',
-            null,
-            'DATASHRINK'
-          ),
-          _react2.default.createElement(
-            'ul',
-            null,
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/Home' },
-                'Home'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/LoginForm' },
-                'Log In'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/SignUpForm' },
-                'Sign Up'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/Create' },
-                'Create Analysis'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/Public' },
-                'Public Analyses'
-              )
-            )
-          ),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: _LoginForm2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: _SignupForm2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', render: function render() {
-              return _react2.default.createElement(_Create2.default, _this2.state);
-            } }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', component: _Analyses2.default })
-        )
-      );
-    }
-  }]);
-
-  return App;
-}(_react2.default.Component);
-
-_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
 
 /***/ }),
 /* 136 */
@@ -41103,10 +40894,10 @@ module.exports = getMarkupWrap;
  */
 
 function getUnboundedScrollPosition(scrollable) {
-  if (scrollable.Window && scrollable instanceof scrollable.Window) {
+  if (scrollable === window) {
     return {
-      x: scrollable.pageXOffset || scrollable.document.documentElement.scrollLeft,
-      y: scrollable.pageYOffset || scrollable.document.documentElement.scrollTop
+      x: window.pageXOffset || document.documentElement.scrollLeft,
+      y: window.pageYOffset || document.documentElement.scrollTop
     };
   }
   return {
@@ -41222,9 +41013,7 @@ module.exports = hyphenateStyleName;
  * @return {boolean} Whether or not the object is a DOM node.
  */
 function isNode(object) {
-  var doc = object ? object.ownerDocument || object : document;
-  var defaultView = doc.defaultView || window;
-  return !!(object && (typeof defaultView.Node === 'function' ? object instanceof defaultView.Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
+  return !!(object && (typeof Node === 'function' ? object instanceof Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
 }
 
 module.exports = isNode;
@@ -44849,21 +44638,13 @@ module.exports = ReactCompositeComponent;
 
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDefaultInjection = __webpack_require__(183);
-<<<<<<< HEAD
-var ReactMount = __webpack_require__(88);
-=======
 var ReactMount = __webpack_require__(90);
->>>>>>> can now compare with public or new custom
 var ReactReconciler = __webpack_require__(25);
 var ReactUpdates = __webpack_require__(14);
 var ReactVersion = __webpack_require__(198);
 
 var findDOMNode = __webpack_require__(215);
-<<<<<<< HEAD
-var getHostComponentFromComposite = __webpack_require__(94);
-=======
 var getHostComponentFromComposite = __webpack_require__(96);
->>>>>>> can now compare with public or new custom
 var renderSubtreeIntoContainer = __webpack_require__(223);
 var warning = __webpack_require__(2);
 
@@ -44988,11 +44769,7 @@ var ReactDOMComponentFlags = __webpack_require__(84);
 var ReactDOMComponentTree = __webpack_require__(6);
 var ReactDOMInput = __webpack_require__(172);
 var ReactDOMOption = __webpack_require__(175);
-<<<<<<< HEAD
-var ReactDOMSelect = __webpack_require__(83);
-=======
 var ReactDOMSelect = __webpack_require__(85);
->>>>>>> can now compare with public or new custom
 var ReactDOMTextarea = __webpack_require__(178);
 var ReactInstrumentation = __webpack_require__(10);
 var ReactMultiChild = __webpack_require__(191);
@@ -46712,11 +46489,7 @@ module.exports = ReactDOMOption;
 var ExecutionEnvironment = __webpack_require__(7);
 
 var getNodeForCharacterOffset = __webpack_require__(220);
-<<<<<<< HEAD
-var getTextContentAccessor = __webpack_require__(95);
-=======
 var getTextContentAccessor = __webpack_require__(97);
->>>>>>> can now compare with public or new custom
 
 /**
  * While `isCollapsed` is available on the Selection object and `collapsed`
@@ -50864,11 +50637,7 @@ module.exports = adler32;
 var _prodInvariant = __webpack_require__(3);
 
 var ReactPropTypeLocationNames = __webpack_require__(193);
-<<<<<<< HEAD
-var ReactPropTypesSecret = __webpack_require__(90);
-=======
 var ReactPropTypesSecret = __webpack_require__(92);
->>>>>>> can now compare with public or new custom
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -51645,7 +51414,7 @@ BrowserRouter.propTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (BrowserRouter);
+/* harmony default export */ __webpack_exports__["a"] = BrowserRouter;
 
 /***/ }),
 /* 225 */
@@ -51701,7 +51470,7 @@ HashRouter.propTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (HashRouter);
+/* harmony default export */ __webpack_exports__["a"] = HashRouter;
 
 /***/ }),
 /* 226 */
@@ -51779,7 +51548,7 @@ NavLink.defaultProps = {
   activeClassName: 'active'
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (NavLink);
+/* harmony default export */ __webpack_exports__["a"] = NavLink;
 
 /***/ }),
 /* 228 */
@@ -51908,7 +51677,7 @@ MemoryRouter.propTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (MemoryRouter);
+/* harmony default export */ __webpack_exports__["a"] = MemoryRouter;
 
 /***/ }),
 /* 237 */
@@ -51991,7 +51760,7 @@ Prompt.contextTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (Prompt);
+/* harmony default export */ __webpack_exports__["a"] = Prompt;
 
 /***/ }),
 /* 238 */
@@ -52074,7 +51843,7 @@ Redirect.contextTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (Redirect);
+/* harmony default export */ __webpack_exports__["a"] = Redirect;
 
 /***/ }),
 /* 239 */
@@ -52247,7 +52016,7 @@ StaticRouter.childContextTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (StaticRouter);
+/* harmony default export */ __webpack_exports__["a"] = StaticRouter;
 
 /***/ }),
 /* 240 */
@@ -52328,7 +52097,7 @@ Switch.propTypes = {
 };
 
 
-/* harmony default export */ __webpack_exports__["a"] = (Switch);
+/* harmony default export */ __webpack_exports__["a"] = Switch;
 
 /***/ }),
 /* 241 */
@@ -52358,7 +52127,7 @@ var withRouter = function withRouter(Component) {
   return C;
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (withRouter);
+/* harmony default export */ __webpack_exports__["a"] = withRouter;
 
 /***/ }),
 /* 242 */
@@ -55098,30 +54867,92 @@ var App = function (_React$Component) {
     };
     return _this;
   }
->>>>>>> can now compare with public or new custom
 
-var g;
+  //the Create style is for illustrative purposes
+  //to pass in props:
+  // <Route path="/Create" render={() => <Create {...this.state} /> } />
 
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
 
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
+  _createClass(App, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactRouterDom.BrowserRouter,
+        null,
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'h1',
+            null,
+            'DATASHRINK'
+          ),
+          _react2.default.createElement(
+            'ul',
+            null,
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/Home' },
+                'Home'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/LoginForm' },
+                'Log In'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/SignUpForm' },
+                'Sign Up'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/Create' },
+                'Create Analysis'
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                _reactRouterDom.Link,
+                { to: '/Public' },
+                'Public Analyses'
+              )
+            )
+          ),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: _LoginForm2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: _SignupForm2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', component: function component() {
+              return _react2.default.createElement(_Create2.default, { ownTwitter: 'true' });
+            } }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', component: _Analyses2.default })
+        )
+      );
+    }
+  }]);
 
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
+  return App;
+}(_react2.default.Component);
 
-module.exports = g;
-
+_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
 
 /***/ })
 /******/ ]);

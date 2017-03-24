@@ -46,7 +46,7 @@ class App extends React.Component {
           <Route path="/Home" />
           <Route path="/LoginForm" component={LoginForm} />
           <Route path="/SignUpForm" component={SignupForm}/>
-          <Route path="/Create" render={() => <Create {...this.state} /> } />
+          <Route path="/Create" component={() => <Create ownTwitter="true"/>} />
           <Route path="/Public" component={Public}/>
           <Route path="/UserAnalyses" component={UserAnalyses}/>
           <Route path="/analyses/:id" component={Analyses} />
