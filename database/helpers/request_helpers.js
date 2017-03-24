@@ -33,6 +33,7 @@ module.exports = {
 					console.log('there was an error in looking up the username in the database', err);
 					res.send(err);
 				} else if (user) {
+					id = user._id
 					if (User.comparePassword(password, user.salt, user.password)) {
 						//send a response that the user has successfully logged in
 						//create a new session for the user
@@ -42,10 +43,11 @@ module.exports = {
 							} else {
 								var newSession = {
 									username: username,
-									sessionID: session.toString()
+									sessionID: session.toString(),
+									user_id: id
 								}
 								res.cookie('session', newSession);
-								sessions[username] = newSession.sessionID;
+								sessions[username] = newSession;
 								res.send('you are successfully logged in');
 							}
 						})
@@ -65,38 +67,41 @@ module.exports = {
 		email = req.body.email;
 		password = req.body.password;
 
-		// if (checkIfUserIsLoggedin(req.cookies.session)) {
-		// 	res.send('you are already logged in!');
-		// } else {
-			if (validateEmail(email)) {
-				User.findOne({username: username})
-				.exec(function(err, user) {
-					if(!user) {
-						var newUser = new User({
-							username: username,
-							password: password, //password should automatically hash on save
-							email: email,
-							salt: undefined //salt should be automatically generated on save
-						});
-						newUser.save(function(err, newUser) {
-							if (err) {
-								console.log('there was an error in creating a new user', err);
-								res.send(err);
-							} else {
-								//need to create a new session for the new user
-								res.send('account created')
+		if (validateEmail(email)) {
+			User.findOne({username: username})
+			.exec(function(err, user) {
+				if(!user) {
+					var newUser = new User({
+						username: username,
+						password: password, //password should automatically hash on save
+						email: email,
+						salt: undefined //salt should be automatically generated on save
+					});
+					newUser.save(function(err, newUser) {
+						if (err) {
+							console.log('there was an error in creating a new user', err);
+							res.send(err);
+						} else {
+							id = newUser._id;
+							var newSession = {
+								username: username,
+								sessionID: session.toString(),
+								user_id: id
 							}
-						})
-					} else {
-						//account already exists redirect them back to the login page
-						res.send('user already exists');
-						//res.redirect('whatever the login route is');
-					}
-				})
-			} else {
-				res.send('not a valid email address');
-			}
-		// }
+							res.cookie('session', newSession);
+							sessions[username] = newSession;
+							res.send('account created');
+						}
+					})
+				} else {
+					//account already exists redirect them back to the login page
+					res.send('user already exists');
+					//res.redirect('whatever the login route is');
+				}
+			})
+		} else {
+			res.send('not a valid email address');
+		}
 	},
 
 	findAllDataFromAnAnalysis: function(req, res) {
@@ -160,8 +165,8 @@ module.exports = {
 		if (!session) {
 			return false;
 		} else {
-			if (sessions[session.username] === session.sessionID) {
-				return true;
+			if (sessions[session.username]){
+					return true;
 			} else {
 				return false;
 			}
