@@ -31,10 +31,7 @@ app.use(passport.session());
 /**********************/
 /**** SOCIAL MEDIA ****/
 /**********************/
-app.get('/*', (req, res, next) => {
-  console.log('getting new get request', req)
-  next()
-})
+
 
 
 app.get('/twitter', tw.toAuth);

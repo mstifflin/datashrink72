@@ -29,18 +29,15 @@ class CustomForm extends React.Component {
     s.serverPost('customform', this.state)
     .then(e => {
       console.log(e)
-      // s.customGet(e.request.responseURL.slice(22));
+      // s.customGet(e.request.responseURL);
     }).catch(e => {
       console.log('error', e);
-      tell user they done messed up
+      //tell user they done messed up
     })
   }
 
   render () {
     return (
-      <Redirect to="/LoginForm">
-    )
-  }
       <div>
       <h2>Enter your own input to analyze</h2>
       <form onSubmit={this.sendForm}>

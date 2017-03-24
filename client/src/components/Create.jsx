@@ -13,6 +13,7 @@ var Create = function(props) {
   <Router>
    <div>
     <a href="\twitter"> twitter</a>
+    <br></br>
     <Link to="/CustomForm">Custom Input</Link>
     <Route path="/CustomForm" component={CustomForm}/>
    </div>
