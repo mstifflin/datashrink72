@@ -6781,6 +6781,18 @@ form {
 
 input {
   display: block;
+  margin: 3px auto;
+  border-radius: 3px;
+  border: solid 1px #bbbcbf;
 }
 
+input [text] {
+  width: 80%;
+}
+
+
+label {
+  display: block;
+  text-align: center;
+}
 

@@ -28443,17 +28443,17 @@ var LoginForm = function (_React$Component) {
           _react2.default.createElement(
             'label',
             null,
-            'Username:',
-            _react2.default.createElement('input', { type: 'text', name: 'username', onChange: this.updateFormValue, defaultValue: '' })
+            'Username:'
           ),
+          _react2.default.createElement('input', { type: 'text', name: 'username', onChange: this.updateFormValue, defaultValue: '' }),
           _react2.default.createElement(
             'label',
             null,
-            'Password:',
-            _react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.updateFormValue, defaultValue: ''
-            })
+            'Password:'
           ),
-          _react2.default.createElement('input', { type: 'submit', defaultValue: 'submit' })
+          _react2.default.createElement('input', { type: 'text', name: 'password', onChange: this.updateFormValue, defaultValue: ''
+          }),
+          _react2.default.createElement('input', { id: 'button', type: 'submit', defaultValue: 'submit' })
         )
       );
     }
