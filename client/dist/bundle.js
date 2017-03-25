@@ -24538,7 +24538,7 @@ var Public = function (_React$Component) {
               { key: e._id },
               _react2.default.createElement(
                 'a',
-                { name: e._id, onClick: _this3.props.click },
+                { name: e._id, href: '#', onClick: _this3.props.click },
                 e.person
               )
             ) : _react2.default.createElement(
@@ -28135,6 +28135,10 @@ var _Create = __webpack_require__(106);
 
 var _Create2 = _interopRequireDefault(_Create);
 
+var _UserAnalyses = __webpack_require__(258);
+
+var _UserAnalyses2 = _interopRequireDefault(_UserAnalyses);
+
 var _reactRouterDom = __webpack_require__(33);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -28163,8 +28167,9 @@ var Analyses = function (_React$Component) {
       data2: ''
 
     };
-    _this.getSecondSet = _this.getSecondSet.bind(_this);
-    _this.getSecondSetFromForm = _this.getSecondSetFromForm.bind(_this);
+    _this.existingDataClick = _this.existingDataClick.bind(_this);
+    _this.customFormClick = _this.customFormClick.bind(_this);
+    _this.otherTwitterClick = _this.otherTwitterClick.bind(_this);
     return _this;
   }
 
@@ -28181,31 +28186,50 @@ var Analyses = function (_React$Component) {
       });
     }
   }, {
-    key: 'getSecondSet',
-    value: function getSecondSet(e) {
+    key: 'otherTwitterClick',
+    value: function otherTwitterClick(event, state) {
       var _this3 = this;
+
+      console.log('getting', event);
+      event.preventDefault();
+      s.serverPost('twitterProfile', state).then(function (e) {
+        console.log(e);
+        var redirectURL = e.request.responseURL;
+        var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
+        s.analysesGet(hash).then(function (results) {
+          _this3.setState({
+            secondDataSet: true,
+            data2: results.data
+          });
+        });
+      }).catch(function (err) {
+        console.log('failed', err);
+      });
+    }
+  }, {
+    key: 'existingDataClick',
+    value: function existingDataClick(e) {
+      var _this4 = this;
 
       e.preventDefault();
       s.analysesGet(e.target.name).then(function (results) {
-        _this3.setState({
+        _this4.setState({
           secondDataSet: true,
           data2: results.data
         });
       });
     }
   }, {
-    key: 'getSecondSetFromForm',
-    value: function getSecondSetFromForm(event, state) {
-      var _this4 = this;
+    key: 'customFormClick',
+    value: function customFormClick(event, state) {
+      var _this5 = this;
 
       event.preventDefault();
       s.serverPost('customform', state).then(function (e) {
         var redirectURL = e.request.responseURL;
         var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
-        console.log('calling with', hash);
         s.analysesGet(hash).then(function (results) {
-          console.log('getting secondData Set', results);
-          _this4.setState({
+          _this5.setState({
             secondDataSet: true,
             data2: results.data
           });
@@ -28217,7 +28241,7 @@ var Analyses = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       return _react2.default.createElement(
         'div',
@@ -28252,13 +28276,29 @@ var Analyses = function (_React$Component) {
                     { to: '/Create' },
                     'Create'
                   )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/UserAnalyses' },
+                    'My Stored Analyses'
+                  )
                 )
               ),
               _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: function component() {
-                  return _react2.default.createElement(_Public2.default, { click: _this5.getSecondSet });
+                  return _react2.default.createElement(_Public2.default, { click: _this6.existingDataClick });
                 } }),
               _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', component: function component() {
-                  return _react2.default.createElement(_Create2.default, { click: _this5.getSecondSetFromForm });
+                  return _react2.default.createElement(_Create2.default, {
+                    customClick: _this6.customFormClick,
+                    otherTwitterClick: _this6.otherTwitterClick
+                  });
+                }
+              }),
+              _react2.default.createElement(_reactRouterDom.Route, { path: '/UserAnalyses', component: function component() {
+                  return _react2.default.createElement(_UserAnalyses2.default, { click: _this6.existingDataClick });
                 } })
             )
           ),
@@ -28303,38 +28343,39 @@ var _reactRouterDom = __webpack_require__(33);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Create = function Create(props) {
-  console.log('props in create', props);
   return _react2.default.createElement(
-    'div',
+    _reactRouterDom.BrowserRouter,
     null,
     _react2.default.createElement(
-      _reactRouterDom.BrowserRouter,
+      'div',
       null,
-      _react2.default.createElement(
+      !props.ownTwitter ? null : _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           'a',
           { href: '\\twitter' },
-          'Twitter'
+          'My Twitter Account'
         ),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/TwitterSearch' },
-          'Twitter Account '
-        ),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: _TwitterSearch2.default }),
-        _react2.default.createElement('br', null),
-        _react2.default.createElement(
-          _reactRouterDom.Link,
-          { to: '/CustomForm' },
-          'Custom Input'
-        ),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: function component() {
-            return _react2.default.createElement(_CustomForm2.default, { click: props.click });
-          } })
-      )
+        _react2.default.createElement('br', null)
+      ),
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: '/TwitterSearch' },
+        'Public Twitter Account'
+      ),
+      _react2.default.createElement('br', null),
+      _react2.default.createElement(
+        _reactRouterDom.Link,
+        { to: '/CustomForm' },
+        'Custom Input'
+      ),
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: function component() {
+          return _react2.default.createElement(_TwitterSearch2.default, { click: props.otherTwitterClick });
+        } }),
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: function component() {
+          return _react2.default.createElement(_CustomForm2.default, { click: props.customClick });
+        } })
     )
   );
 };
@@ -28412,11 +28453,9 @@ var LoginForm = function (_React$Component) {
       console.log(this.state);
       s.serverPost('login', this.state).then(function (e) {
         _this2.setState({ status: e.data });
-        console.log(e, 'yo');
         _this2.render();
       }).catch(function (e) {
         _this2.setState({ status: e.data });
-        console.log(e);
         _this2.render();
         //tell user the info is correct or server is down
       });
@@ -39944,6 +39983,8 @@ var TwitterSearch = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         'div',
         null,
@@ -39954,7 +39995,9 @@ var TwitterSearch = function (_React$Component) {
         ),
         _react2.default.createElement(
           'form',
-          { onSubmit: this.sendForm },
+          { onSubmit: function onSubmit(e) {
+              return _this2.props.click === undefined ? _this2.sendForm(e) : _this2.props.click(e, _this2.state);
+            } },
           _react2.default.createElement(
             'label',
             null,
@@ -54766,16 +54809,11 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
-      user: 'guest',
+      user: 'guest', //should be changed to username when logged in
       loggedIn: false
     };
     return _this;
   }
-
-  //the Create style is for illustrative purposes
-  //to pass in props:
-  // <Route path="/Create" render={() => <Create {...this.state} /> } />
-
 
   _createClass(App, [{
     key: 'render',
@@ -54882,11 +54920,8 @@ var App = function (_React$Component) {
               null,
               'datashrink'
             ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'Find out your friend\'s personality.'
-            ),
+            'Welcome, ',
+            this.state.user,
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: _LoginForm2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: _SignupForm2.default }),

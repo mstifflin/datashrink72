@@ -19,15 +19,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 'guest', 
+      user: 'guest',  //should be changed to username when logged in
       loggedIn: false,
     }
   }
-
-  //the Create style is for illustrative purposes
-    //to pass in props:
-    // <Route path="/Create" render={() => <Create {...this.state} /> } />
-
 
   render () {
 
@@ -58,8 +53,7 @@ class App extends React.Component {
           </nav>
           <div className="container">
             <h1>datashrink</h1>
-            <p>Find out your friend's personality.
-            </p>
+            Welcome, {this.state.user}
             <Route path="/Home" />
             <Route path="/LoginForm" component={LoginForm} />
             <Route path="/SignUpForm" component={SignupForm}/>
