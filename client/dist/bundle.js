@@ -54743,57 +54743,68 @@ var App = function (_React$Component) {
                 { className: 'navbar-header' },
                 _react2.default.createElement(
                   'a',
-                  { className: 'navbar-brand' },
+                  { className: 'navbar-brand', href: '#' },
                   'Datashrink'
                 )
               ),
               _react2.default.createElement(
-                'ul',
-                { className: 'nav navbar-nav' },
+                'div',
+                { id: 'navbar', className: 'navbar-collaspe' },
                 _react2.default.createElement(
-                  'li',
-                  null,
+                  'ul',
+                  { className: 'nav navbar-nav' },
                   _react2.default.createElement(
-                    _reactRouterDom.Link,
-                    { to: '/Home' },
-                    'Home'
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/Home' },
+                      'Home'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/LoginForm' },
+                      'Log In'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/SignUpForm' },
+                      'Sign Up'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/Create' },
+                      'Create Analysis'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/Public' },
+                      'Public Analyses'
+                    )
                   )
                 ),
                 _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouterDom.Link,
-                    { to: '/LoginForm' },
-                    'Log In'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouterDom.Link,
-                    { to: '/SignUpForm' },
-                    'Sign Up'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouterDom.Link,
-                    { to: '/Create' },
-                    'Create Analysis'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouterDom.Link,
-                    { to: '/Public' },
-                    'Public Analyses'
-                  )
+                  'div',
+                  { className: 'credit-photos' },
+                  'powered by:',
+                  _react2.default.createElement('img', { id: 'footer-images', src: "/images/IBM-Watson-image.png" }),
+                  _react2.default.createElement('img', { id: 'footer-images', src: "/images/twitter_bird_logo_2012.svg.png" })
                 )
               )
             )
@@ -54805,6 +54816,11 @@ var App = function (_React$Component) {
               'h1',
               null,
               'DATASHRINK'
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              'Find out your friends personality.'
             ),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: _LoginForm2.default }),
@@ -54824,6 +54840,19 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+
+// <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+//   <span className="sr-only">Toggle Navigation</span>
+//   <span className="icon-bar"></span>
+//   <span className="icon-bar"></span>
+//   <span className="icon-bar"></span>
+// </button>
+// Datashrink interacts with Watson and Twitter to give you an in-depth personality analysis of yourself. 
+// Datashrink operates by obtainnig all of a user's tweets from Twitter, these tweets are sent to Watson 
+// which does an in-depth personality analysis, which is displayed to you in a histogram.  
+// <footer id="footer" className="panel-footer">
+
+// </footer>
 
 /***/ })
 /******/ ]);

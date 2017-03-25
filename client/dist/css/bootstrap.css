@@ -12,6 +12,7 @@ html {
 body {
   margin: 0;
   padding-top:70px;
+  padding-bottom: 30px;
 }
 article,
 aside,
@@ -6756,3 +6757,17 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
+#footer-images{
+  height: 15px;
+  width: auto;
+}
+
+.credit-photos {
+  position: fixed;
+  color: white;
+  top: 0;
+  left: 87%;
+  height: 30px;
+  width: 100%;
+}
