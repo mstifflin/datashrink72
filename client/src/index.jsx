@@ -68,8 +68,8 @@ class App extends React.Component {
             <h1>datashrink</h1>
             Welcome, {this.state.user}
             <Route path="/Home" />
-            {!this.state.loggedIn && <Route path="/LoginForm" component={LoginForm} />}
-            {!this.state.loggedIn && <Route path="/SignUpForm" component={SignupForm}/>}
+            {!this.state.loggedIn && <Route path="/LoginForm" component={() => <LoginForm update={this.updateLoggedIn} />} />}
+            {!this.state.loggedIn && <Route path="/SignUpForm" component={() => <SignupForm update={this.updateLoggedIn} />} />}
             <Route path="/Create" render={() => <Create {...this.state} /> } />
             <Route path="/Public" component={Public}/>          
             <Route path="/UserAnalyses" component={UserAnalyses}/>
