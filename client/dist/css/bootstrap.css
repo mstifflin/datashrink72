@@ -6771,3 +6771,16 @@ button.close {
   height: 30px;
   width: 100%;
 }
+
+form {
+  width: 200px;
+  height: auto;
+  display: block;
+  background-color: #f2f6fc;
+}
+
+input {
+  display: block;
+}
+
+

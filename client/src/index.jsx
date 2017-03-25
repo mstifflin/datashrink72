@@ -37,7 +37,7 @@ class App extends React.Component {
           <nav className="navbar navbar-inverse navbar-fixed-top">
             <div className="container">
               <div className="navbar-header">
-                <a className="navbar-brand" href="#">Datashrink</a>
+                <a className="navbar-brand" href="#">datashrink</a>
               </div>
               <div id="navbar" className="navbar-collaspe">
                 <ul className="nav navbar-nav">
@@ -57,7 +57,7 @@ class App extends React.Component {
             </div>
           </nav>
           <div className="container">
-            <h1>DATASHRINK</h1>
+            <h1>datashrink</h1>
             <p>Find out your friend's personality.
             </p>
             <Route path="/Home" />
@@ -75,6 +75,10 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+//need to fix how far down the current analysis goes down
+//left justified
+//logo on the upper right of the page
 
  // <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 //   <span className="sr-only">Toggle Navigation</span>

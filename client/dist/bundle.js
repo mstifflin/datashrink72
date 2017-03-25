@@ -54800,7 +54800,7 @@ var App = function (_React$Component) {
                 _react2.default.createElement(
                   'a',
                   { className: 'navbar-brand', href: '#' },
-                  'Datashrink'
+                  'datashrink'
                 )
               ),
               _react2.default.createElement(
@@ -54880,7 +54880,7 @@ var App = function (_React$Component) {
             _react2.default.createElement(
               'h1',
               null,
-              'DATASHRINK'
+              'datashrink'
             ),
             _react2.default.createElement(
               'p',
@@ -54906,6 +54906,10 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
+
+//need to fix how far down the current analysis goes down
+//left justified
+//logo on the upper right of the page
 
 // <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 //   <span className="sr-only">Toggle Navigation</span>
