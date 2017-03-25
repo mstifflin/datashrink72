@@ -1,19 +1,56 @@
-var User = require('../../database/models/users');
 var Analysis = require('../../database/models/analyses');
 var TraitScore = require('../../database/models/analyses_traits');
+var tw = require('../social/twitter.js');
+var personalityHelper = require('./personality-insights');
 
 var analysisId;
-var inputType;
+
+var analyzeProfile = function(req, res) {
+  var analyze = function(text) {
+    var params = {
+      content_items: [{ content: text }],
+      // consumption_preferences: true,
+      raw_scores: true,
+      headers: {
+        'accept-language': 'en',
+        'accept': 'application/json'
+      }
+    };
+    personalityHelper.profileFromText(params)
+      .then(function(profile) {
+        var parseParams = {
+          name: req.body.name,
+          context: req.body.context,
+          private: req.body.private,
+          userId: req.cookies.session
+        }
+        parseProfile(parseParams, profile)
+          .then(function(analysisId) {
+            res.redirect(301, '/analyses/' + analysisId);
+          }); 
+      });
+  }
+
+  if (req.body.context === 'twitter') {
+    tw.analyzeProfile(req.body.name.slice(1))
+      .then(function(tweets) {
+        analyze(tweets);
+      });
+  } else if (req.body.context === 'text') {
+    analyze(JSON.stringify(req.body.text));
+  } else {
+    res.redirect(500, '/');
+  }
+}
 
 var parseProfile = function(params, profile) {
   return new Promise(function(resolve, reject) {
-    inputType = params.inputType;
-
     var analysis = {
       person: params.name,
       context: params.context,
       word_count: profile.word_count,
-      user_id: params.userId // get user id from session?
+      private: params.private,
+      user_id: params.userId
     };
 
     var newAnalysis = new Analysis(analysis);
@@ -40,11 +77,9 @@ var parseTraits = function(category) {
         trait_id: trait.trait_id,
         name: trait.name,
         category: trait.category,
-        percentile: trait.percentile
+        percentile: trait.percentile,
+        raw_score: trait.raw_score
       };
-      if (inputType === 'JSON') {
-        traitObj.raw_score = trait.raw_score;
-      }
       if (trait.children !== undefined) {
         parseTraits(trait.children).then(function() {
           delete trait.children;
@@ -59,4 +94,4 @@ var parseTraits = function(category) {
   });
 }
 
-module.exports.parseProfile = parseProfile;
+module.exports.analyzeProfile = analyzeProfile;

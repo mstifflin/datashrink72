@@ -2934,10 +2934,11 @@ var routes = {
     login: '/login',
     signup: '/signup',
     public: '/publicanalyses',
-    customform: '/analysis/text',
+    customform: '/analysis',
     twitter: '/twitter',
     twitterProfile: '/analysis',
-    analyze: '/analyze/'
+    analyze: '/analyze/',
+    useranalyses: '/useranalyses'
 };
 
 var serverPost = function serverPost(routeName, message) {
@@ -24442,13 +24443,13 @@ var ComparisonChart = _react2.default.createClass({
   },
 
   componentDidUpdate: function componentDidUpdate() {
-    // d3.select('svg' ).remove();
+    d3.select('.comparisonChart').remove();
     var el = _reactDom2.default.findDOMNode(this);
-    _d3ComparisonChart2.default.create(el, this.props.data);
+    _d3ComparisonChart2.default.create(el, this.props.data, this.props.data2);
   },
 
   render: function render() {
-    return _react2.default.createElement('div', { className: 'ComparisonChart' });
+    return _react2.default.createElement('div', null);
   }
 });
 
@@ -24505,7 +24506,6 @@ var Public = function (_React$Component) {
       dataLoaded: false,
       data: ''
     };
-    console.log('Props in public: ', props);
     return _this;
   }
 
@@ -28131,6 +28131,10 @@ var _Public = __webpack_require__(68);
 
 var _Public2 = _interopRequireDefault(_Public);
 
+var _Create = __webpack_require__(106);
+
+var _Create2 = _interopRequireDefault(_Create);
+
 var _reactRouterDom = __webpack_require__(33);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -28160,6 +28164,7 @@ var Analyses = function (_React$Component) {
 
     };
     _this.getSecondSet = _this.getSecondSet.bind(_this);
+    _this.getSecondSetFromForm = _this.getSecondSetFromForm.bind(_this);
     return _this;
   }
 
@@ -28181,19 +28186,38 @@ var Analyses = function (_React$Component) {
       var _this3 = this;
 
       e.preventDefault();
-      console.log('E E E: ', e);
-      console.log(e.target.name);
-      s.analysesGet(e.target.name).then(function (e) {
+      s.analysesGet(e.target.name).then(function (results) {
         _this3.setState({
           secondDataSet: true,
-          data2: e.data
+          data2: results.data
         });
+      });
+    }
+  }, {
+    key: 'getSecondSetFromForm',
+    value: function getSecondSetFromForm(event, state) {
+      var _this4 = this;
+
+      event.preventDefault();
+      s.serverPost('customform', state).then(function (e) {
+        var redirectURL = e.request.responseURL;
+        var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
+        console.log('calling with', hash);
+        s.analysesGet(hash).then(function (results) {
+          console.log('getting secondData Set', results);
+          _this4.setState({
+            secondDataSet: true,
+            data2: results.data
+          });
+        });
+      }).catch(function (err) {
+        console.log('failed', err);
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _react2.default.createElement(
         'div',
@@ -28207,13 +28231,34 @@ var Analyses = function (_React$Component) {
             _react2.default.createElement(
               'div',
               null,
+              'Compare To:',
               _react2.default.createElement(
-                _reactRouterDom.Link,
-                { to: '/Public' },
-                'Compare To:'
+                'ul',
+                null,
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/Public' },
+                    'Public'
+                  )
+                ),
+                _react2.default.createElement(
+                  'li',
+                  null,
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/Create' },
+                    'Create'
+                  )
+                )
               ),
               _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: function component() {
-                  return _react2.default.createElement(_Public2.default, { click: _this4.getSecondSet });
+                  return _react2.default.createElement(_Public2.default, { click: _this5.getSecondSet });
+                } }),
+              _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', component: function component() {
+                  return _react2.default.createElement(_Create2.default, { click: _this5.getSecondSetFromForm });
                 } })
             )
           ),
@@ -28258,6 +28303,7 @@ var _reactRouterDom = __webpack_require__(33);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Create = function Create(props) {
+  console.log('props in create', props);
   return _react2.default.createElement(
     'div',
     null,
@@ -28285,7 +28331,9 @@ var Create = function Create(props) {
           { to: '/CustomForm' },
           'Custom Input'
         ),
-        _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: _CustomForm2.default })
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: function component() {
+            return _react2.default.createElement(_CustomForm2.default, { click: props.click });
+          } })
       )
     )
   );
@@ -28346,8 +28394,6 @@ var LoginForm = function (_React$Component) {
 
     _this.updateFormValue = _this.updateFormValue.bind(_this);
     _this.sendForm = _this.sendForm.bind(_this);
-
-    console.log(_this);
     return _this;
   }
 
@@ -28404,7 +28450,7 @@ var LoginForm = function (_React$Component) {
             'label',
             null,
             'Password:',
-            _react2.default.createElement('input', { type: 'text', name: 'password', onChange: this.updateFormValue, defaultValue: ''
+            _react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.updateFormValue, defaultValue: ''
             })
           ),
           _react2.default.createElement('input', { type: 'submit', defaultValue: 'submit' })
@@ -28529,7 +28575,7 @@ var SignUpForm = function (_React$Component) {
             'label',
             null,
             'Password:',
-            _react2.default.createElement('input', { type: 'text', name: 'password', onChange: this.updateFormValue, defaultValue: ''
+            _react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.updateFormValue, defaultValue: ''
             })
           ),
           _react2.default.createElement(
@@ -39663,7 +39709,7 @@ var BarChart = _react2.default.createClass({
   // },
 
   render: function render() {
-    return _react2.default.createElement('div', { className: 'BarChart' });
+    return _react2.default.createElement('div', null);
   }
 });
 
@@ -39707,15 +39753,8 @@ var BubbleChart = _react2.default.createClass({
     var el = _reactDom2.default.findDOMNode(this);
     _d3BubbleChart2.default.create(el, this.props.data, this.props.explanations);
   },
-
-  // componentDidUpdate: function() {
-  //   d3.select('svg' ).remove();
-  //   var el = ReactDOM.findDOMNode(this);
-  //   d3BubbleChart.create(el, this.props.data, this.props.explanations);
-  // },
-
   render: function render() {
-    return _react2.default.createElement('div', { className: 'BubbleChart' });
+    return _react2.default.createElement('div', null);
   }
 });
 
@@ -39768,9 +39807,12 @@ var CustomForm = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (CustomForm.__proto__ || Object.getPrototypeOf(CustomForm)).call(this, props));
 
+    console.log(_this);
     _this.state = {
       name: '',
-      text: ''
+      text: '',
+      context: 'text',
+      private: true
     };
     _this.updateFormValue = _this.updateFormValue.bind(_this);
     _this.sendForm = _this.sendForm.bind(_this);
@@ -39789,13 +39831,13 @@ var CustomForm = function (_React$Component) {
       event.preventDefault();
       s.serverPost('customform', this.state).then(function (e) {
         window.location.href = e.request.responseURL;
-      }).catch(function (e) {
-        console.log('error', e);
-      });
+      }).catch(function (e) {});
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         'div',
         null,
@@ -39806,7 +39848,9 @@ var CustomForm = function (_React$Component) {
         ),
         _react2.default.createElement(
           'form',
-          { onSubmit: this.sendForm },
+          { onSubmit: function onSubmit(e) {
+              return _this2.props.click === undefined ? _this2.sendForm(e) : _this2.props.click(e, _this2.state);
+            } },
           _react2.default.createElement(
             'label',
             null,
@@ -39874,7 +39918,8 @@ var TwitterSearch = function (_React$Component) {
 
     _this.state = {
       name: '',
-      context: 'twitter'
+      context: 'twitter',
+      private: false
     };
     _this.updateFormValue = _this.updateFormValue.bind(_this);
     _this.sendForm = _this.sendForm.bind(_this);
@@ -39892,7 +39937,9 @@ var TwitterSearch = function (_React$Component) {
     value: function sendForm(event) {
       event.preventDefault();
       console.log(this.state);
-      s.serverPost('twitterProfile', this.state).then(function (e) {}).catch(function (e) {});
+      s.serverPost('twitterProfile', this.state).then(function (e) {
+        window.location.href = e.request.responseURL;
+      }).catch(function (e) {});
     }
   }, {
     key: 'render',
@@ -39942,13 +39989,15 @@ var d3 = _interopRequireWildcard(_d);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var reorder = __webpack_require__(257);
+
 var d3BarChart = {};
 
 d3BarChart.create = function (el, data) {
   //modify width of chart and height of lines
   var totalWidth = 1250;
   var barHeight = 35;
-
+  var sortedData = reorder(data);
   //abstract somewhere
   var twoDecFormat = function twoDecFormat(n) {
     return parseFloat(Math.round(n * 10000) / 100).toFixed(2);
@@ -39981,23 +40030,21 @@ d3BarChart.create = function (el, data) {
   //theres 53 inputs..
   var y = d3.scaleLinear().domain([0, 52]).range([0, barHeight * data.length]);
 
-  var svg = d3.select(el).append('svg').attr('class', 'barChart').attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var svg = d3.select(el).append('svg').attr('class', 'barChart').attr("width", totalWidth).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  svg.append("rect").attr("width", "100%").attr("height", "100%").attr("fill", '#293950');
   //pass in title as prop w/user
   svg.append("g").append('text').attr("x", 30 - margin.left - padding.left).attr("y", 30 - margin.top - padding.top).attr('class', 'bubbleTitle').text("TWITTER PERSONALITY ANALYSIS");
 
   //165 is to move it to the right
-  var bar = svg.selectAll('g').data(data).enter().append('g').attr('class', 'chartNode').attr("transform", function (d, i) {
+
+  var bar = svg.selectAll('.arbitraryClassName').data(sortedData).enter().append('g').attr('class', 'chartNode').attr("transform", function (d, i) {
     return "translate(165," + i * barHeight + ")";
   });
 
   bar.append("rect").attr("width", function (d) {
     return x(d.percentile * 100);
-  }).attr("height", barHeight - 5).attr('data-legend', function (d) {
-    var fullTrait = d.trait_id;
-    var colorGroup = fullTrait.slice(0, fullTrait.indexOf('_'));
-    return colorGroup;
-  }).attr('fill', function (d) {
+  }).attr("height", barHeight - 5).attr('fill', function (d) {
     var fullTrait = d.trait_id;
     var colorGroup = fullTrait.slice(0, fullTrait.indexOf('_'));
     return colorCodes[colorGroup];
@@ -40154,13 +40201,17 @@ var d3 = _interopRequireWildcard(_d);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var d3ComparisonChart = {};
+var reorder = __webpack_require__(257);
 
+var d3ComparisonChart = {};
 d3ComparisonChart.create = function (el, data1, data2) {
   //modify width of chart and height of lines
   // console.log('data being input', data1, data2)
   var totalWidth = 1250;
   var barHeight = 35;
+
+  var sortedData1 = reorder(data1);
+  var sortedData2 = reorder(data2);
 
   //abstract somewhere
   var twoDecFormat = function twoDecFormat(n) {
@@ -40192,16 +40243,17 @@ d3ComparisonChart.create = function (el, data1, data2) {
   var x = d3.scaleLinear().domain([0, 100]).range([0, 450]);
 
   //theres 53 inputs..
-  var y = d3.scaleLinear().domain([0, 52]).range([0, barHeight * data1.length]);
+  var y = d3.scaleLinear().domain([0, 52]).range([0, barHeight * sortedData1.length]);
 
-  var svg = d3.select(el).append('svg').attr('class', 'barChart').attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  console.log('sortedData1', sortedData1);
+  console.log('sortedData2', sortedData2);
+
+  var svg = d3.select(el).append('svg').attr('class', 'comparisonChart').attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   // pass in title as prop w/user
   svg.append("g").append('text').attr("x", 30 - margin.left - padding.left).attr("y", 30 - margin.top - padding.top).attr('class', 'bubbleTitle').text("TWITTER VS FACEBOOK ANALYSIS");
 
-  var bar = svg.selectAll('.data1').data(data1).enter().append('g').attr('class', 'data1')
-  // .attr('class', 'chartNode')
-  .attr("transform", function (d, i) {
+  var bar = svg.selectAll('.data2').data(sortedData2).enter().append('g').attr('class', 'sortedData2').attr("transform", function (d, i) {
     return 'translate(0, ' + i * barHeight + ')';
   });
 
@@ -40229,7 +40281,7 @@ d3ComparisonChart.create = function (el, data1, data2) {
     return trait;
   });
 
-  var bar = svg.selectAll('.data2').data(data2).enter().append('g').attr('class', 'data2').attr("transform", function (d, i) {
+  var bar = svg.selectAll('.data1').data(sortedData1).enter().append('g').attr('class', 'data1').attr("transform", function (d, i) {
     var w = x(d.percentile * 100);
     return 'translate(' + (width / 2 - 85 - w) + ', ' + i * barHeight + ')';
   });
@@ -54691,6 +54743,10 @@ var _Public = __webpack_require__(68);
 
 var _Public2 = _interopRequireDefault(_Public);
 
+var _UserAnalyses = __webpack_require__(258);
+
+var _UserAnalyses2 = _interopRequireDefault(_UserAnalyses);
+
 var _reactRouterDom = __webpack_require__(33);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -54797,6 +54853,15 @@ var App = function (_React$Component) {
                       { to: '/Public' },
                       'Public Analyses'
                     )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/UserAnalyses' },
+                      'My Stored Analyses'
+                    )
                   )
                 ),
                 _react2.default.createElement(
@@ -54820,7 +54885,7 @@ var App = function (_React$Component) {
             _react2.default.createElement(
               'p',
               null,
-              'Find out your friends personality.'
+              'Find out your friend\'s personality.'
             ),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: _LoginForm2.default }),
@@ -54829,6 +54894,7 @@ var App = function (_React$Component) {
                 return _react2.default.createElement(_Create2.default, _this2.state);
               } }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/UserAnalyses', component: _UserAnalyses2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', component: _Analyses2.default })
           )
         )
@@ -54853,6 +54919,191 @@ _reactDom2.default.render(_react2.default.createElement(App, null), document.get
 // <footer id="footer" className="panel-footer">
 
 // </footer>
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (data) {
+  var order = { Adventurousness: 0,
+    'Artistic interests': 1,
+    Emotionality: 2,
+    Imagination: 3,
+    Intellect: 4,
+    'Authority-challenging': 5,
+    Openness: 6,
+    'Achievement striving': 7,
+    Cautiousness: 8,
+    Dutifulness: 9,
+    Orderliness: 10,
+    'Self-discipline': 11,
+    'Self-efficacy': 12,
+    Conscientiousness: 13,
+    'Activity level': 14,
+    Assertiveness: 15,
+    Cheerfulness: 16,
+    'Excitement-seeking': 17,
+    Outgoing: 18,
+    Gregariousness: 19,
+    Extraversion: 20,
+    Altruism: 21,
+    Cooperation: 22,
+    Modesty: 23,
+    Uncompromising: 24,
+    Sympathy: 25,
+    Trust: 26,
+    Agreeableness: 27,
+    Fiery: 28,
+    'Prone to worry': 29,
+    Melancholy: 30,
+    Immoderation: 31,
+    'Self-consciousness': 32,
+    'Susceptible to stress': 33,
+    'Emotional range': 34,
+    Challenge: 35,
+    Closeness: 36,
+    Curiosity: 37,
+    Excitement: 38,
+    Harmony: 39,
+    Ideal: 40,
+    Liberty: 41,
+    Love: 42,
+    Practicality: 43,
+    'Self-expression': 44,
+    Stability: 45,
+    Structure: 46,
+    Conservation: 47,
+    'Openness to change': 48,
+    Hedonism: 49,
+    'Self-enhancement': 50,
+    'Self-transcendence': 51 };
+
+  var ordered = [];
+
+  data.forEach(function (e) {
+    var index = order[e.name];
+    ordered[index] = e;
+  });
+
+  return ordered;
+};
+
+/***/ }),
+/* 258 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(13);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _serverCalls = __webpack_require__(22);
+
+var s = _interopRequireWildcard(_serverCalls);
+
+var _sampledata = __webpack_require__(74);
+
+var globalData = _interopRequireWildcard(_sampledata);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserAnalyses = function (_React$Component) {
+  _inherits(UserAnalyses, _React$Component);
+
+  function UserAnalyses(props) {
+    _classCallCheck(this, UserAnalyses);
+
+    var _this = _possibleConstructorReturn(this, (UserAnalyses.__proto__ || Object.getPrototypeOf(UserAnalyses)).call(this, props));
+
+    _this.state = {
+      dataLoaded: false,
+      data: ''
+    };
+    return _this;
+  }
+
+  _createClass(UserAnalyses, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      s.serverGet('useranalyses').then(function (e) {
+        _this2.setState({
+          dataLoaded: true,
+          data: e.data
+        });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        !this.state.dataLoaded ? _react2.default.createElement(
+          'div',
+          null,
+          'Please sign up or log in to see saved analyses'
+        ) : _react2.default.createElement(
+          'div',
+          null,
+          this.state.data.length === 0 ? _react2.default.createElement(
+            'div',
+            null,
+            'You have no saved analyses.'
+          ) : this.state.data.map(function (e) {
+            return _this3.props.click ? _react2.default.createElement(
+              'div',
+              { key: e._id },
+              _react2.default.createElement(
+                'a',
+                { name: e._id, onClick: _this3.props.click },
+                e.person
+              )
+            ) : _react2.default.createElement(
+              'div',
+              { key: e._id },
+              _react2.default.createElement(
+                'a',
+                { href: 'analyses/' + e._id },
+                e.person
+              )
+            );
+          })
+        )
+      );
+    }
+  }]);
+
+  return UserAnalyses;
+}(_react2.default.Component);
+
+exports.default = UserAnalyses;
 
 /***/ })
 /******/ ]);

@@ -18,7 +18,7 @@ var BarChart = React.createClass({
 
   render: function() {
     return (
-      <div className="BarChart"></div>
+      <div></div>
     );
   }
 });

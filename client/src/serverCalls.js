@@ -4,10 +4,11 @@ var routes = {
     login: '/login',
     signup: '/signup',
     public: '/publicanalyses',
-    customform: '/analysis/text',
+    customform: '/analysis',
     twitter: '/twitter',
     twitterProfile: '/analysis',
-    analyze: '/analyze/'
+    analyze: '/analyze/',
+    useranalyses: '/useranalyses'
 }
 
 const serverPost = (routeName, message) => {

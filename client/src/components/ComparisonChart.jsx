@@ -11,14 +11,14 @@ var ComparisonChart = React.createClass({
   },
 
   componentDidUpdate: function() {
-    // d3.select('svg' ).remove();
+    d3.select('.comparisonChart').remove();
     var el = ReactDOM.findDOMNode(this);
-    d3ComparisonChart.create(el, this.props.data);
+    d3ComparisonChart.create(el, this.props.data, this.props.data2);
   },
 
   render: function() {
     return (
-      <div className="ComparisonChart"></div>
+      <div></div>
     );
   }
 });
