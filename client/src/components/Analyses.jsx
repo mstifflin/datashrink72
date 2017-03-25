@@ -7,6 +7,8 @@ import ComparisonChart from './ComparisonChart.jsx';
 import * as globalData from '../sampledata'
 import Public from './Public.jsx'
 import Create from './Create.jsx'
+import UserAnalyses from './UserAnalyses.jsx'
+
 
 import {
   BrowserRouter as Router,
@@ -25,10 +27,9 @@ class Analyses extends React.Component {
       data2: ''
 
     }
-    this.publicDataClick = this.publicDataClick.bind(this);
+    this.existingDataClick = this.existingDataClick.bind(this);
     this.customFormClick = this.customFormClick.bind(this);
     this.otherTwitterClick = this.otherTwitterClick.bind(this);
-    this.ownTwitterClick = this.ownTwitterClick.bind(this);
   }
 
   componentWillMount() {
@@ -40,10 +41,7 @@ class Analyses extends React.Component {
     })
   } 
 
-  ownTwitterClick(event, state){
 
-
-  }
   otherTwitterClick(event, state){
     console.log('getting', event)
     event.preventDefault()
@@ -63,7 +61,7 @@ class Analyses extends React.Component {
     })
   }
 
-  publicDataClick(e) {
+  existingDataClick(e) {
     e.preventDefault();
     s.analysesGet(e.target.name).then(results => { 
       this.setState({
@@ -99,16 +97,19 @@ class Analyses extends React.Component {
             <div>
               Compare To:
               <ul>
-              <li><Link to="/Public">Public</Link></li>
-              <li><Link to="/Create">Create</Link></li>
+                <li><Link to="/Public">Public</Link></li>
+                <li><Link to="/Create">Create</Link></li>
+                <li><Link to="/UserAnalyses">My Stored Analyses</Link></li>
               </ul>
-              <Route path="/Public" component={() => <Public click={this.publicDataClick} />} />
+
+              <Route path="/Public" component={() => <Public click={this.existingDataClick} />} />
               <Route path="/Create" component={() => 
                 <Create 
                   customClick={this.customFormClick}
                   otherTwitterClick={this.otherTwitterClick}
-                /> } />
-
+                />} 
+              />
+              <Route path="/UserAnalyses" component={() => <UserAnalyses click={this.existingDataClick}/> }/>
             </div>
           </Router>
           {!this.state.secondDataSet ? null :

@@ -19,21 +19,17 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 'guest', 
+      user: 'guest',  //should be changed to username when logged in
       loggedIn: false,
     }
   }
-
-  //the Create style is for illustrative purposes
-    //to pass in props:
-    // <Route path="/Create" render={() => <Create {...this.state} /> } />
-
 
   render () {
     return (
       <Router>
         <div>
           <h1>DATASHRINK</h1>
+          WELCOME, {this.state.user}
           <ul>
             <li><Link to="/Home">Home</Link></li>
             <li><Link to="/LoginForm">Log In</Link></li>
