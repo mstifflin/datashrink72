@@ -26,11 +26,9 @@ class LoginForm extends React.Component {
     console.log(this.state)
     s.serverPost('login', this.state).then(e => {
       this.setState({status: e.data});
-      console.log(e, 'yo');
       this.render();
     }).catch(e => {
       this.setState({status: e.data});
-      console.log(e);
       this.render();
       //tell user the info is correct or server is down
     })

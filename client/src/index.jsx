@@ -19,21 +19,17 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 'guest', 
+      user: 'guest',  //should be changed to username when logged in
       loggedIn: false,
     }
   }
-
-  //the Create style is for illustrative purposes
-    //to pass in props:
-    // <Route path="/Create" render={() => <Create {...this.state} /> } />
-
 
   render () {
     return (
       <Router>
         <div>
           <h1>DATASHRINK</h1>
+          WELCOME, {this.state.user}
           <ul>
             <li><Link to="/Home">Home</Link></li>
             <li><Link to="/LoginForm">Log In</Link></li>
@@ -46,7 +42,7 @@ class App extends React.Component {
           <Route path="/Home" />
           <Route path="/LoginForm" component={LoginForm} />
           <Route path="/SignUpForm" component={SignupForm}/>
-          <Route path="/Create" render={() => <Create {...this.state} /> } />
+          <Route path="/Create" component={() => <Create ownTwitter="true"/>} />
           <Route path="/Public" component={Public}/>
           <Route path="/UserAnalyses" component={UserAnalyses}/>
           <Route path="/analyses/:id" component={Analyses} />

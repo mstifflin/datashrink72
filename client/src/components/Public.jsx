@@ -29,7 +29,7 @@ class Public extends React.Component {
           <div>
             {this.state.data.map(e => {
               return this.props.click ? 
-                (<div key={e._id}><a name={e._id} onClick={this.props.click} >{e.person}</a></div>) :
+                (<div key={e._id}><a name={e._id} href="#" onClick={this.props.click} >{e.person}</a></div>) :
                 (<div key={e._id}><a href={`analyses/${e._id}`} >{e.person}</a></div>)
             })}
           </div>
