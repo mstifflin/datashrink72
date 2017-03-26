@@ -8,6 +8,7 @@ import ComparisonChart from './components/ComparisonChart.jsx'
 import Analyses from './components/Analyses.jsx'
 import Public from './components/Public.jsx'
 import UserAnalyses from './components/UserAnalyses.jsx'
+import * as s from './serverCalls.js'
 
 import {
   BrowserRouter as Router,
@@ -19,10 +20,23 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 'Guest', 
+      user: 'Guest',
       loggedIn: false,
     }
     this.updateLoggedIn = this.updateLoggedIn.bind(this);
+  }
+
+  componentWillMount() {
+    console.log('HELLO WORLD IN componentWillMount IN INDEX.JSX');
+    s.serverGet('session').then((e) => {
+      console.log(e.data);
+      if (e.data.username) {
+        this.setState({
+          user: e.data.username,
+          loggedIn: true
+        })
+      }
+    });
   }
 
   //the Create style is for illustrative purposes

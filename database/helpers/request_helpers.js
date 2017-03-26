@@ -16,7 +16,6 @@ module.exports = {
 				console.log('there was an error in looking up the username in the database', err);
 				res.send(err);
 			} else if (user) {
-				console.log('user: ', user);
 				var id = user._id
 				if (User.comparePassword(password, user.salt, user.password)) {
 					//send a response that the user has successfully logged in
@@ -31,7 +30,7 @@ module.exports = {
 								user_id: id
 							}
 							res.cookie('session', newSession.user_id);
-							sessions[username] = newSession;
+							sessions[newSession.user_id] = newSession;
 							res.send(JSON.stringify(username));
 						}
 					})
@@ -77,7 +76,7 @@ module.exports = {
 										user_id: id
 									}
 									res.cookie('session', newSession.user_id);
-									sessions[username] = newSession;
+									sessions[newSession.user_id] = newSession;
 									res.send('account created');
 								}
 							});
@@ -133,7 +132,7 @@ module.exports = {
 		  var cookie = req.cookies;
 			for (var prop in cookie) {
 	    		if (!cookie.hasOwnProperty(prop)) {
-	        		continue;
+	        	continue;
 	    		}    
 	    		res.cookie(prop, '', {expires: new Date(0)});
 	    	}
@@ -142,37 +141,31 @@ module.exports = {
 	)},
 
 	getPublicAnalyses: function(req, res) {
-		Analysis.find({private: false}, function(err, publicArray) {
+		Analysis.find({private: false})
+		.exec(function(err, publicArray) {
 			if (err) { res.status(500).send('Databases failed to query'); }
 			res.send(JSON.stringify(publicArray));
 		});
 	},
 
 	getUserAnalyses: function(req, res) {
-		console.log('In get user analysis: ', req.cookies.session);
-		console.log('Session in get user analysis: ', sessions);
-		if (req.cookies.session !== undefined) {
-			Analysis.find({user_id: req.cookies.session}, function(err, userAnalyses) {
+		if (req.cookies.session === undefined) { res.send('No user.'); }
+		else {
+			Analysis.find({user_id: req.cookies.session})
+			.exec(function(err, userAnalyses) {
 				if (err) { res.status(500).send('Databases failed to query'); }
 				res.send(JSON.stringify(userAnalyses));
 			});			
-		} else {
-			res.send('No user.');
 		}
 	},
 
-	checkIfUserIsLoggedin: function(session) {
-		if (!session) {
-			return false;
-		} else {
-			if (sessions[session.username]){
-					return true;
-			} else {
-				return false;
-			}
+	hasSession: function(req, res) {
+		if (sessions[req.cookies.session]) { 
+			res.send(sessions[req.cookies.session]); 
+		} else { 
+			module.exports.logoutUser(req, res);
 		}
 	}
-
 }
 
 function validateEmail(email) {
