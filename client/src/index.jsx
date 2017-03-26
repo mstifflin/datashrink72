@@ -70,7 +70,7 @@ class App extends React.Component {
             <Route path="/Home" />
             {!this.state.loggedIn && <Route path="/LoginForm" component={() => <LoginForm update={this.updateLoggedIn} />} />}
             {!this.state.loggedIn && <Route path="/SignUpForm" component={() => <SignupForm update={this.updateLoggedIn} />} />}
-            <Route path="/Create" render={() => <Create {...this.state} /> } />
+            <Route path="/Create" render={() => <Create ownTwitter={true} {...this.state} /> } />
             <Route path="/Public" component={Public}/>          
             <Route path="/UserAnalyses" component={UserAnalyses}/>
             <Route path="/analyses/:id" component={Analyses} />
