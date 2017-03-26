@@ -14,7 +14,8 @@ class UserAnalyses extends React.Component {
   }
 
   componentWillMount() {
-    s.serverGet('useranalyses').then(e => {
+    s.serverGet('user').then(e => {
+      console.log(e);
       this.setState({
         dataLoaded: true,
         data: e.data
@@ -25,7 +26,7 @@ class UserAnalyses extends React.Component {
   render () {
     return (
       <div>
-        {!this.state.dataLoaded ? <div>Please sign up or log in to see saved analyses</div> :
+        {!this.state.dataLoaded ? <div>Please sign up or log in to see saved analyses.</div> :
           <div>
           {this.state.data.length === 0 ? <div>You have no saved analyses.</div> : 
             this.state.data.map(e => {

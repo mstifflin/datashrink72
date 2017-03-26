@@ -23,7 +23,10 @@ class LoginForm extends React.Component {
   sendForm(event) {
     event.preventDefault()
     s.serverPost('login', this.state).then(e => {
-      this.props.update(this.state.username);
+      console.log('E in sendForm in loginForm: ', e);
+      if (e.data) {
+        this.props.update(e.data);
+      } // TODO: tell the user their login failed (when e.data === false)
     }).catch(e => {
       this.setState({status: e.data});
       this.props.update(this.state.username);
@@ -40,11 +43,11 @@ class LoginForm extends React.Component {
         <form onSubmit={this.sendForm}>
           <label>
             Username:
-            <input type="text" name='username' onChange={this.updateFormValue} defaultValue=''/>
+            <input type="text" name='username' refs='username' onChange={this.updateFormValue} defaultValue=''/>
           </label>
           <label>
             Password:
-            <input type="password" name='password' onChange={this.updateFormValue} defaultValue=''
+            <input type="password" name='password' refs='password' onChange={this.updateFormValue} defaultValue=''
             />
           </label>
           <input type="submit" defaultValue ='submit' />
@@ -53,7 +56,6 @@ class LoginForm extends React.Component {
     );
   }
 }
-
 
 export default LoginForm
 

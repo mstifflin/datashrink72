@@ -8,6 +8,7 @@ import ComparisonChart from './components/ComparisonChart.jsx'
 import Analyses from './components/Analyses.jsx'
 import Public from './components/Public.jsx'
 import UserAnalyses from './components/UserAnalyses.jsx'
+import * as s from './serverCalls.js'
 
 import {
   BrowserRouter as Router,
@@ -19,20 +20,33 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 'Guest', 
+      user: 'Guest',
       loggedIn: false,
     }
     this.updateLoggedIn = this.updateLoggedIn.bind(this);
+  }
+
+  componentWillMount() {
+    console.log('HELLO WORLD IN componentWillMount IN INDEX.JSX');
+    s.serverGet('session').then((e) => {
+      console.log(e.data);
+      if (e.data.username) {
+        this.setState({
+          user: e.data.username,
+          loggedIn: true
+        })
+      }
+    });
   }
 
   //the Create style is for illustrative purposes
     //to pass in props:
     // <Route path="/Create" render={() => <Create {...this.state} /> } />
   updateLoggedIn(username) {
-    username = username || 'Guest';
+    username = username;
     this.setState({
       user: username,
-      loggedIn: !this.state.loggedIn
+      loggedIn: true
     });
   }
 
@@ -54,7 +68,7 @@ class App extends React.Component {
                   {this.state.loggedIn && <li><a href='\logout'>Logout</a></li> }
                   <li><Link to="/Create">Create Analysis</Link></li>
                   <li><Link to="/Public">Public Analyses</Link></li>
-                  <li><Link to="/UserAnalyses">My Stored Analyses</Link></li>
+                  <li><Link to="/User">My Stored Analyses</Link></li>
                 </ul>
                 <div className="credit-photos">
                   powered by: 
@@ -72,7 +86,7 @@ class App extends React.Component {
             {!this.state.loggedIn && <Route path="/SignUpForm" component={() => <SignupForm update={this.updateLoggedIn} />} />}
             <Route path="/Create" render={() => <Create ownTwitter={true} {...this.state} /> } />
             <Route path="/Public" component={Public}/>          
-            <Route path="/UserAnalyses" component={UserAnalyses}/>
+            <Route path="/User" component={UserAnalyses}/>
             <Route path="/analyses/:id" component={Analyses} />
           </div>
         </div>
