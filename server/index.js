@@ -90,6 +90,7 @@ app.get('/useranalyses', function(req, res) {
 });
 
 app.get('*', (req, res) => {
+  console.log('IN GET *: ', req.cookies.session);
   res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 });
 

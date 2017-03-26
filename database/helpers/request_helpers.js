@@ -10,43 +10,38 @@ module.exports = {
 	loginUser: function(req, res) {
 		username = req.body.username;
 		password = req.body.password;
-		//var boolean = checkIfUserIsLoggedin(req.cookies.session);
-		// if (boolean) {
-		// 	res.send('you\'re already logged in');
-		// } else {
-			User.findOne({username: username})
-			.exec(function(err, user) {
-				if (err) {
-					console.log('there was an error in looking up the username in the database', err);
-					res.send(err);
-				} else if (user) {
-					id = user._id
-					if (User.comparePassword(password, user.salt, user.password)) {
-						//send a response that the user has successfully logged in
-						//create a new session for the user
-						crypto.randomBytes(40, function(err, session) {
-							if (err) {
-								console.log(err);
-							} else {
-								var newSession = {
-									username: username,
-									sessionID: session.toString(),
-									user_id: id
-								}
-								res.cookie('session', newSession.user_id);
-								sessions[username] = newSession;
-								res.send('you are successfully logged in');
+		User.findOne({username: username})
+		.exec(function(err, user) {
+			if (err) {
+				console.log('there was an error in looking up the username in the database', err);
+				res.send(err);
+			} else if (user) {
+				id = user._id
+				if (User.comparePassword(password, user.salt, user.password)) {
+					//send a response that the user has successfully logged in
+					//create a new session for the user
+					crypto.randomBytes(40, function(err, session) {
+						if (err) {
+							console.log(err);
+						} else {
+							var newSession = {
+								username: username,
+								sessionID: session.toString(),
+								user_id: id
 							}
-						})
-					} else {
-						console.log('attempted password does not equal actual password');
-						res.send('login in failed');
-					}
+							res.cookie('session', newSession.user_id);
+							sessions[username] = newSession;
+							res.send('you are successfully logged in');
+						}
+					})
 				} else {
-					res.send('login failed');
+					console.log('attempted password does not equal actual password');
+					res.send('login in failed');
 				}
-			})
-		// }
+			} else {
+				res.send('login failed');
+			}
+		})
 	},
 
 	signup: function(req, res) {
@@ -104,7 +99,7 @@ module.exports = {
 	  Analysis.findOne({_id: url})
 	  .exec(function(err, analysis) {
 	    if (err) {
-	      console.log('error1 there was an error looking up your analysis', err)
+	      console.log('There was an error looking up your analysis', err)
 	    } else if (analysis) {
 	    	//response is the bundle of data that will be sent back
 	    	//formatting the way the sample data is formatted
@@ -119,9 +114,8 @@ module.exports = {
 	      AnalysisTrait.find({analysis_id: url})
 	      .exec(function(err, analysisTraits) {
 	      	if (err) {
-	      		console.log('error2 there was an error looking up the analysisTrait', err);
-	    		// res.send('No analysis found.');
-	      	
+	      		console.log('There was an error looking up the analysisTrait', err);
+	    			// res.send('No analysis found.');
 	      	} else {
 	      		response.traits = analysisTraits.slice();
 	      		res.send(JSON.stringify(response));
@@ -135,7 +129,7 @@ module.exports = {
 
 	logoutUser: function(req, res) {
 		req.session.destroy(function() {
-		    cookie = req.cookies;
+		  var cookie = req.cookies;
 			for (var prop in cookie) {
 	    		if (!cookie.hasOwnProperty(prop)) {
 	        		continue;
@@ -154,6 +148,8 @@ module.exports = {
 	},
 
 	getUserAnalyses: function(req, res) {
+		console.log('In get user analysis: ', req.cookies.session);
+		console.log('Session in get user analysis: ', sessions);
 		if (req.cookies.session !== undefined) {
 			Analysis.find({user_id: req.cookies.session}, function(err, userAnalyses) {
 				if (err) { res.status(500).send('Databases failed to query'); }
