@@ -28615,7 +28615,7 @@ var LoginForm = function (_React$Component) {
     _this.state = {
       username: '',
       password: '',
-      status: ''
+      status: false
     };
 
     _this.updateFormValue = _this.updateFormValue.bind(_this);
@@ -28635,13 +28635,13 @@ var LoginForm = function (_React$Component) {
       var _this2 = this;
 
       event.preventDefault();
-      console.log(this.state);
       s.serverPost('login', this.state).then(function (e) {
-        _this2.setState({ status: e.data });
-        _this2.render();
+        _this2.props.update(_this2.state.username);
       }).catch(function (e) {
         _this2.setState({ status: e.data });
-        _this2.render();
+        _this2.props.update(_this2.state.username);
+      }).catch(function (e) {
+        console.log(e);
         //tell user the info is correct or server is down
       });
     }
@@ -28657,27 +28657,22 @@ var LoginForm = function (_React$Component) {
           'Log In'
         ),
         _react2.default.createElement(
-          'p',
-          null,
-          this.state.status
-        ),
-        _react2.default.createElement(
           'form',
           { onSubmit: this.sendForm },
           _react2.default.createElement(
             'label',
             null,
-            'Username:'
+            'Username:',
+            _react2.default.createElement('input', { type: 'text', name: 'username', onChange: this.updateFormValue, defaultValue: '' })
           ),
-          _react2.default.createElement('input', { type: 'text', name: 'username', onChange: this.updateFormValue, defaultValue: '' }),
           _react2.default.createElement(
             'label',
             null,
-            'Password:'
+            'Password:',
+            _react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.updateFormValue, defaultValue: ''
+            })
           ),
-          _react2.default.createElement('input', { type: 'text', name: 'password', onChange: this.updateFormValue, defaultValue: ''
-          }),
-          _react2.default.createElement('input', { id: 'button', type: 'submit', defaultValue: 'submit' })
+          _react2.default.createElement('input', { type: 'submit', defaultValue: 'submit' })
         )
       );
     }
@@ -28737,7 +28732,7 @@ var SignUpForm = function (_React$Component) {
       username: '',
       password: '',
       email: '',
-      status: ''
+      status: false
     };
 
     _this.updateFormValue = _this.updateFormValue.bind(_this);
@@ -28757,15 +28752,9 @@ var SignUpForm = function (_React$Component) {
       var _this2 = this;
 
       event.preventDefault();
-      console.log(this.state);
       s.serverPost('signup', this.state).then(function (e) {
-        //if successful send back message results to app
-        _this2.setState({ status: e.data });
-        _this2.render();
-        console.log(e, 'yo');
+        _this2.props.update(_this2.state.username);
       }).catch(function (e) {
-        _this2.setState({ status: e.data });
-        _this2.render();
         console.log(e);
         //tell user the info is correct or server is down
       });
@@ -54933,6 +54922,8 @@ exports.default = valueEqual;
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(4);
@@ -54994,13 +54985,28 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
-      user: 'guest', //should be changed to username when logged in
+      user: 'Guest',
       loggedIn: false
     };
+    _this.updateLoggedIn = _this.updateLoggedIn.bind(_this);
     return _this;
   }
 
+  //the Create style is for illustrative purposes
+  //to pass in props:
+  // <Route path="/Create" render={() => <Create {...this.state} /> } />
+
+
   _createClass(App, [{
+    key: 'updateLoggedIn',
+    value: function updateLoggedIn(username) {
+      username = username || 'Guest';
+      this.setState({
+        user: username,
+        loggedIn: !this.state.loggedIn
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -55041,7 +55047,7 @@ var App = function (_React$Component) {
                       'Home'
                     )
                   ),
-                  _react2.default.createElement(
+                  !this.state.loggedIn && _react2.default.createElement(
                     'li',
                     null,
                     _react2.default.createElement(
@@ -55050,13 +55056,22 @@ var App = function (_React$Component) {
                       'Log In'
                     )
                   ),
-                  _react2.default.createElement(
+                  !this.state.loggedIn && _react2.default.createElement(
                     'li',
                     null,
                     _react2.default.createElement(
                       _reactRouterDom.Link,
                       { to: '/SignUpForm' },
                       'Sign Up'
+                    )
+                  ),
+                  this.state.loggedIn && _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      'a',
+                      { href: '\\logout' },
+                      'Logout'
                     )
                   ),
                   _react2.default.createElement(
@@ -55108,10 +55123,14 @@ var App = function (_React$Component) {
             'Welcome, ',
             this.state.user,
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: _LoginForm2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: _SignupForm2.default }),
+            !this.state.loggedIn && _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: function component() {
+                return _react2.default.createElement(_LoginForm2.default, { update: _this2.updateLoggedIn });
+              } }),
+            !this.state.loggedIn && _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: function component() {
+                return _react2.default.createElement(_SignupForm2.default, { update: _this2.updateLoggedIn });
+              } }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', render: function render() {
-                return _react2.default.createElement(_Create2.default, _this2.state);
+                return _react2.default.createElement(_Create2.default, _extends({ ownTwitter: true }, _this2.state));
               } }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/UserAnalyses', component: _UserAnalyses2.default }),
