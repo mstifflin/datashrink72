@@ -62,11 +62,11 @@ app.post('/signup', function(req, res) {
 });
 
 app.post('/login', function(req, res) {
-  if (dbHelpers.checkIfUserIsLoggedin(req.cookies.session)) {
-    res.send('you are already logged in')
-  } else {
+  // if (dbHelpers.checkIfUserIsLoggedin(req.cookies.session)) {
+  //   res.send('you are already logged in')
+  // } else {
     dbHelpers.loginUser(req, res);     
-  }
+  // }
 });
 
 app.post('/logout', function(req, res) {
@@ -93,8 +93,6 @@ app.get('*', (req, res) => {
   console.log('IN GET *: ', req.cookies.session);
   res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 });
-
-
 
 app.listen(process.env.PORT || 3000, function() {
   console.log('Listening on port 3000.');

@@ -16,7 +16,8 @@ module.exports = {
 				console.log('there was an error in looking up the username in the database', err);
 				res.send(err);
 			} else if (user) {
-				id = user._id
+				console.log('user: ', user);
+				var id = user._id
 				if (User.comparePassword(password, user.salt, user.password)) {
 					//send a response that the user has successfully logged in
 					//create a new session for the user
@@ -31,15 +32,15 @@ module.exports = {
 							}
 							res.cookie('session', newSession.user_id);
 							sessions[username] = newSession;
-							res.send('you are successfully logged in');
+							res.send(JSON.stringify(username));
 						}
 					})
 				} else {
 					console.log('attempted password does not equal actual password');
-					res.send('login in failed');
+					res.send('false');
 				}
 			} else {
-				res.send('login failed');
+				res.send('false');
 			}
 		})
 	},
@@ -156,7 +157,6 @@ module.exports = {
 				res.send(JSON.stringify(userAnalyses));
 			});			
 		} else {
-			console.log('in else');
 			res.send('No user.');
 		}
 	},

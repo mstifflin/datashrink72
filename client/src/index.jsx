@@ -29,10 +29,10 @@ class App extends React.Component {
     //to pass in props:
     // <Route path="/Create" render={() => <Create {...this.state} /> } />
   updateLoggedIn(username) {
-    username = username || 'Guest';
+    username = username;
     this.setState({
       user: username,
-      loggedIn: !this.state.loggedIn
+      loggedIn: true
     });
   }
 
