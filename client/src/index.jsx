@@ -59,6 +59,15 @@ class App extends React.Component {
     });
   }
 
+
+// =======
+//             {!this.state.loggedIn && <Route path="/LoginForm" render={() => <LoginForm update={this.updateLoggedIn} />} />}
+//             {!this.state.loggedIn && <Route path="/SignUpForm" render={() => <SignupForm update={this.updateLoggedIn} />} />}
+//             <Route path="/Create" render={() => <Create ownTwitter={true} {...this.state} toggleSpinner={this.toggleSpinner} /> } />
+//             <Route path="/Public" render={() => <Public toggleSpinner={this.toggleSpinner} /> }/>          
+// >>>>>>> implemented spinner
+
+
   render () {
 
     return (
@@ -106,11 +115,11 @@ class App extends React.Component {
             </h1>
             <p className="welcome">Welcome, {this.state.user}</p>
             <Route path="/Home" />
-
-            {!this.state.loggedIn && <Route path="/LoginForm" render={() => <LoginForm update={this.updateLoggedIn} />} />}
-            {!this.state.loggedIn && <Route path="/SignUpForm" render={() => <SignupForm update={this.updateLoggedIn} />} />}
-            <Route path="/Create" render={() => <Create ownTwitter={true} {...this.state} toggleSpinner={this.toggleSpinner} /> } />
-            <Route path="/Public" render={() => <Public toggleSpinner={this.toggleSpinner} /> }/>          
+            {!this.state.loggedIn && <Route path="/LoginForm" component={() => <LoginForm update={this.updateLoggedIn} />} />}
+            {!this.state.loggedIn && <Route path="/SignUpForm" component={() => <SignupForm update={this.updateLoggedIn} />} />}
+            <Route path="/TwitterSearch" component={() => <TwitterSearch toggleSpinner={this.toggleSpinner} />} />
+            <Route path="/CustomForm" component={() => <CustomForm toggleSpinner={this.toggleSpinner}/>}/>
+            <Route path="/Public" component={() => <Public toggleSpinner={this.toggleSpinner} />} />          
             <Route path="/User" component={UserAnalyses}/>
             <Route path="/analyses/:id" render={(nativeProps) => <Analyses nativeProps={nativeProps} toggleSpinner={this.toggleSpinner} /> } />
           </div>
