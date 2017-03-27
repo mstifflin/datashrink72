@@ -6830,3 +6830,7 @@ label {
   right: 100px;
 }
 
+.header {
+  display: inline-block;
+}
+

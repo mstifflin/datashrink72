@@ -12,21 +12,24 @@ class TwitterSearch extends React.Component {
     }
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
+    console.log(props)
   }
 
 
   updateFormValue(e) {
-    const name = e.target.name
+    const name = e.target.name;
     this.setState({[name]: e.target.value});
   }
 
   sendForm(event) {
-    event.preventDefault()
-    console.log(this.state)
+    event.preventDefault();
+    this.props.toggleSpinner();
     s.serverPost('twitterProfile', this.state)
     .then(e => {
+      this.props.toggleSpinner();
       window.location.href = e.request.responseURL;
     }).catch(e => {
+      this.props.toggleSpinner();
     })
   }
 

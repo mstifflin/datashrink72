@@ -22,14 +22,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      spinner: false,
       user: 'Guest',
       loggedIn: false,
     }
     this.updateLoggedIn = this.updateLoggedIn.bind(this);
+    this.toggleSpinner = this.toggleSpinner.bind(this);
   }
 
   componentWillMount() {
-    console.log('HELLO WORLD IN componentWillMount IN INDEX.JSX');
     s.serverGet('session').then((e) => {
       console.log(e.data);
       if (e.data.username) {
@@ -39,6 +40,12 @@ class App extends React.Component {
         })
       }
     });
+  }
+
+  toggleSpinner() {
+    this.setState({
+      spinner : !this.state.spinner
+    })
   }
 
   //the Create style is for illustrative purposes
@@ -51,6 +58,15 @@ class App extends React.Component {
       loggedIn: true
     });
   }
+
+
+// =======
+//             {!this.state.loggedIn && <Route path="/LoginForm" render={() => <LoginForm update={this.updateLoggedIn} />} />}
+//             {!this.state.loggedIn && <Route path="/SignUpForm" render={() => <SignupForm update={this.updateLoggedIn} />} />}
+//             <Route path="/Create" render={() => <Create ownTwitter={true} {...this.state} toggleSpinner={this.toggleSpinner} /> } />
+//             <Route path="/Public" render={() => <Public toggleSpinner={this.toggleSpinner} /> }/>          
+// >>>>>>> implemented spinner
+
 
   render () {
 
@@ -93,16 +109,19 @@ class App extends React.Component {
           </nav>
           <img id="datashrink" src={"/images/datashrink_360.jpg"} />
           <div className="container">
-            <h1>datashrink</h1>
+            <h1 className="header">datashrink
+              <span>&nbsp;&nbsp;&nbsp;</span>
+              {this.state.spinner && <img id="spinner" className="header" src={"/images/spinner.gif"} />}
+            </h1>
             <p className="welcome">Welcome, {this.state.user}</p>
             <Route path="/Home" />
             {!this.state.loggedIn && <Route path="/LoginForm" component={() => <LoginForm update={this.updateLoggedIn} />} />}
             {!this.state.loggedIn && <Route path="/SignUpForm" component={() => <SignupForm update={this.updateLoggedIn} />} />}
-            <Route path="/TwitterSearch" component={TwitterSearch} />
-            <Route path="/CustomForm" component={CustomForm}/>
-            <Route path="/Public" component={Public}/>          
+            <Route path="/TwitterSearch" component={() => <TwitterSearch toggleSpinner={this.toggleSpinner} />} />
+            <Route path="/CustomForm" component={() => <CustomForm toggleSpinner={this.toggleSpinner}/>}/>
+            <Route path="/Public" component={() => <Public toggleSpinner={this.toggleSpinner} />} />          
             <Route path="/User" component={UserAnalyses}/>
-            <Route path="/analyses/:id" component={Analyses} />
+            <Route path="/analyses/:id" render={(nativeProps) => <Analyses nativeProps={nativeProps} toggleSpinner={this.toggleSpinner} /> } />
           </div>
         </div>
       </Router>

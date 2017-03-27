@@ -24730,6 +24730,7 @@ var _reactRouterDom = __webpack_require__(33);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Create = function Create(props) {
+  console.log(props);
   return _react2.default.createElement(
     _reactRouterDom.BrowserRouter,
     null,
@@ -24760,11 +24761,11 @@ var Create = function Create(props) {
         _react2.default.createElement('img', { className: 'list-pic', src: "/images/whatever.jpg" }),
         'Custom Input'
       ),
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: function component() {
-          return _react2.default.createElement(_TwitterSearch2.default, { click: props.otherTwitterClick });
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', render: function render() {
+          return _react2.default.createElement(_TwitterSearch2.default, { toggleSpinner: props.toggleSpinner, click: props.otherTwitterClick });
         } }),
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: function component() {
-          return _react2.default.createElement(_CustomForm2.default, { click: props.customClick });
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', render: function render() {
+          return _react2.default.createElement(_CustomForm2.default, { toggleSpinner: props.toggleSpinner, click: props.customClick });
         } })
     )
   );
@@ -24823,6 +24824,7 @@ var Public = function (_React$Component) {
       dataLoaded: false,
       data: ''
     };
+    console.log('loading props', props);
     return _this;
   }
 
@@ -24836,6 +24838,8 @@ var Public = function (_React$Component) {
           dataLoaded: true,
           data: e.data
         });
+      }).catch(function (e) {
+        _this2.props.toggleSpinner();
       });
     }
   }, {
@@ -28435,9 +28439,9 @@ var Analyses = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      s.analysesGet(this.props.match.params.id).then(function (e) {
-
-        console.log(e);
+      this.props.toggleSpinner();
+      s.analysesGet(this.props.nativeProps.match.params.id).then(function (e) {
+        _this2.props.toggleSpinner();
         _this2.setState({
           dataLoaded: true,
           data: e.data
@@ -28449,10 +28453,10 @@ var Analyses = function (_React$Component) {
     value: function otherTwitterClick(event, state) {
       var _this3 = this;
 
-      console.log('getting', event);
       event.preventDefault();
+      this.props.toggleSpinner();
       s.serverPost('twitterProfile', state).then(function (e) {
-        console.log(e);
+        _this3.props.toggleSpinner();
         var redirectURL = e.request.responseURL;
         var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
         s.analysesGet(hash).then(function (results) {
@@ -28462,6 +28466,7 @@ var Analyses = function (_React$Component) {
           });
         });
       }).catch(function (err) {
+        _this3.props.toggleSpinner();
         console.log('failed', err);
       });
     }
@@ -28471,11 +28476,15 @@ var Analyses = function (_React$Component) {
       var _this4 = this;
 
       e.preventDefault();
+      this.props.toggleSpinner();
       s.analysesGet(e.target.name).then(function (results) {
+        _this4.props.toggleSpinner();
         _this4.setState({
           secondDataSet: true,
           data2: results.data
         });
+      }).catch(function (err) {
+        _this4.props.toggleSpinner();
       });
     }
   }, {
@@ -28484,16 +28493,19 @@ var Analyses = function (_React$Component) {
       var _this5 = this;
 
       event.preventDefault();
+      this.props.toggleSpinner();
       s.serverPost('customform', state).then(function (e) {
         var redirectURL = e.request.responseURL;
         var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
         s.analysesGet(hash).then(function (results) {
+          _this5.props.toggleSpinner();
           _this5.setState({
             secondDataSet: true,
             data2: results.data
           });
         });
       }).catch(function (err) {
+        _this5.props.toggleSpinner();
         console.log('failed', err);
       });
     }
@@ -40030,7 +40042,6 @@ var CustomForm = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (CustomForm.__proto__ || Object.getPrototypeOf(CustomForm)).call(this, props));
 
-    console.log(_this);
     _this.state = {
       name: '',
       text: '',
@@ -40051,15 +40062,21 @@ var CustomForm = function (_React$Component) {
   }, {
     key: 'sendForm',
     value: function sendForm(event) {
+      var _this2 = this;
+
       event.preventDefault();
+      this.props.toggleSpinner();
       s.serverPost('customform', this.state).then(function (e) {
+        _this2.props.toggleSpinner();
         window.location.href = e.request.responseURL;
-      }).catch(function (e) {});
+      }).catch(function (e) {
+        _this2.toggleSpinner();
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _react2.default.createElement(
         'div',
@@ -40077,7 +40094,7 @@ var CustomForm = function (_React$Component) {
         _react2.default.createElement(
           'form',
           { className: 'custom', onSubmit: function onSubmit(e) {
-              return _this2.props.click === undefined ? _this2.sendForm(e) : _this2.props.click(e, _this2.state);
+              return _this3.props.click === undefined ? _this3.sendForm(e) : _this3.props.click(e, _this3.state);
             } },
           _react2.default.createElement(
             'label',
@@ -40156,6 +40173,7 @@ var TwitterSearch = function (_React$Component) {
     };
     _this.updateFormValue = _this.updateFormValue.bind(_this);
     _this.sendForm = _this.sendForm.bind(_this);
+    console.log(props);
     return _this;
   }
 
@@ -40168,16 +40186,21 @@ var TwitterSearch = function (_React$Component) {
   }, {
     key: 'sendForm',
     value: function sendForm(event) {
+      var _this2 = this;
+
       event.preventDefault();
-      console.log(this.state);
+      this.props.toggleSpinner();
       s.serverPost('twitterProfile', this.state).then(function (e) {
+        _this2.props.toggleSpinner();
         window.location.href = e.request.responseURL;
-      }).catch(function (e) {});
+      }).catch(function (e) {
+        _this2.props.toggleSpinner();
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _react2.default.createElement(
         'div',
@@ -40190,7 +40213,7 @@ var TwitterSearch = function (_React$Component) {
         _react2.default.createElement(
           'form',
           { onSubmit: function onSubmit(e) {
-              return _this2.props.click === undefined ? _this2.sendForm(e) : _this2.props.click(e, _this2.state);
+              return _this3.props.click === undefined ? _this3.sendForm(e) : _this3.props.click(e, _this3.state);
             } },
           _react2.default.createElement(
             'label',
@@ -55035,10 +55058,12 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
+      spinner: false,
       user: 'Guest',
       loggedIn: false
     };
     _this.updateLoggedIn = _this.updateLoggedIn.bind(_this);
+    _this.toggleSpinner = _this.toggleSpinner.bind(_this);
     return _this;
   }
 
@@ -55047,7 +55072,6 @@ var App = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      console.log('HELLO WORLD IN componentWillMount IN INDEX.JSX');
       s.serverGet('session').then(function (e) {
         console.log(e.data);
         if (e.data.username) {
@@ -55056,6 +55080,13 @@ var App = function (_React$Component) {
             loggedIn: true
           });
         }
+      });
+    }
+  }, {
+    key: 'toggleSpinner',
+    value: function toggleSpinner() {
+      this.setState({
+        spinner: !this.state.spinner
       });
     }
 
@@ -55072,6 +55103,15 @@ var App = function (_React$Component) {
         loggedIn: true
       });
     }
+
+    // =======
+    //             {!this.state.loggedIn && <Route path="/LoginForm" render={() => <LoginForm update={this.updateLoggedIn} />} />}
+    //             {!this.state.loggedIn && <Route path="/SignUpForm" render={() => <SignupForm update={this.updateLoggedIn} />} />}
+    //             <Route path="/Create" render={() => <Create ownTwitter={true} {...this.state} toggleSpinner={this.toggleSpinner} /> } />
+    //             <Route path="/Public" render={() => <Public toggleSpinner={this.toggleSpinner} /> }/>          
+    // >>>>>>> implemented spinner
+
+
   }, {
     key: 'render',
     value: function render() {
@@ -55216,8 +55256,14 @@ var App = function (_React$Component) {
             { className: 'container' },
             _react2.default.createElement(
               'h1',
-              null,
-              'datashrink'
+              { className: 'header' },
+              'datashrink',
+              _react2.default.createElement(
+                'span',
+                null,
+                '\xA0\xA0\xA0'
+              ),
+              this.state.spinner && _react2.default.createElement('img', { id: 'spinner', className: 'header', src: "/images/spinner.gif" })
             ),
             _react2.default.createElement(
               'p',
@@ -55232,11 +55278,19 @@ var App = function (_React$Component) {
             !this.state.loggedIn && _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: function component() {
                 return _react2.default.createElement(_SignupForm2.default, { update: _this3.updateLoggedIn });
               } }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: _TwitterSearch2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: _CustomForm2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: function component() {
+                return _react2.default.createElement(_TwitterSearch2.default, { toggleSpinner: _this3.toggleSpinner });
+              } }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: function component() {
+                return _react2.default.createElement(_CustomForm2.default, { toggleSpinner: _this3.toggleSpinner });
+              } }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: function component() {
+                return _react2.default.createElement(_Public2.default, { toggleSpinner: _this3.toggleSpinner });
+              } }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/User', component: _UserAnalyses2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', component: _Analyses2.default })
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', render: function render(nativeProps) {
+                return _react2.default.createElement(_Analyses2.default, { nativeProps: nativeProps, toggleSpinner: _this3.toggleSpinner });
+              } })
           )
         )
       );
