@@ -1,12 +1,19 @@
 import * as d3 from 'd3';
+var reorder = require('./d3order.js')
 
 var d3ComparisonChart = {};
-
 d3ComparisonChart.create = function(el, data1, data2) {
   //modify width of chart and height of lines
   // console.log('data being input', data1, data2)
   var totalWidth = 1250;
   var barHeight = 35;
+
+  var sortedData1 = reorder(data1.traits);
+  var sortedData2 = reorder(data2.traits);
+
+  var data1Name = data1.name;
+  var data2Name = data2.name;
+
 
   //abstract somewhere
   const twoDecFormat = (n) => parseFloat(Math.round(n * 10000) / 100).toFixed(2);
@@ -18,7 +25,7 @@ d3ComparisonChart.create = function(el, data1, data2) {
   var padding = {top: 0, right: 0, bottom: 0, left: 0};
 
   var outerWidth = totalWidth;
-  var outerHeight = barHeight * data1.length + margin.top + margin.bottom + padding.top + padding.bottom;
+  var outerHeight = barHeight * sortedData1.length + margin.top + margin.bottom + padding.top + padding.bottom;
   var innerWidth = outerWidth - margin.left - margin.right;
   var innerHeight = outerHeight - margin.top - margin.bottom;
   var width = innerWidth - padding.left - padding.right;
@@ -46,31 +53,41 @@ d3ComparisonChart.create = function(el, data1, data2) {
   //theres 53 inputs..
   var y = d3.scaleLinear()
     .domain([0, 52])
-    .range([0, barHeight * data1.length])
-
-
+    .range([0, barHeight * sortedData1.length])
 
   var svg = d3.select(el).append('svg')
-    .attr('class', 'barChart')
+    .attr('class', 'comparisonChart')
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   // pass in title as prop w/user
-  svg.append("g").append('text')
-    .attr("x", 30 - margin.left - padding.left)             
-    .attr("y", 30 - margin.top - padding.top)
+  svg.append("g")
+  svg.append("text")
+      .attr('x', width / 2)
+      .style("text-anchor", "middle")
+      .attr('class', 'bubbleTitle')
+      .attr('y', -50)
+      .text('vs')
+
+  svg.append("text")
+    .attr('x', width / 2 + 80)
     .attr('class', 'bubbleTitle')
-    .text("TWITTER VS FACEBOOK ANALYSIS");
+    .attr('y', -50)
+    .text(data2Name)
+
+  svg.append("text")
+    .attr('x', width / 2 - 80)
+    .style('text-anchor', 'end')
+    .attr('class', 'bubbleTitle')
+    .attr('y', -50)
+    .text(data1Name)
   
-
-
-  var bar = svg.selectAll('.data1')
-    .data(data1)
+  var bar = svg.selectAll('.data2')
+    .data(sortedData2)
     .enter().append('g')
-    .attr('class', 'data1')
-    // .attr('class', 'chartNode')
+    .attr('class', 'sortedData2')
     .attr("transform", (d,i) => `translate(0, ${i * barHeight})`)
 
     bar.append("rect")
@@ -112,10 +129,10 @@ d3ComparisonChart.create = function(el, data1, data2) {
         return trait;
       });
 
-    var bar = svg.selectAll('.data2')
-      .data(data2)
+    var bar = svg.selectAll('.data1')
+      .data(sortedData1)
       .enter().append('g')
-      .attr('class', 'data2')
+      .attr('class', 'data1')
       .attr("transform", (d,i) => {
         var w = x(d.percentile * 100);
         return `translate(${width / 2 - 85 - w}, ${i * barHeight})`

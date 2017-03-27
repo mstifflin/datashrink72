@@ -7,7 +7,9 @@ var routes = {
     customform: '/analysis',
     twitter: '/twitter',
     twitterProfile: '/analysis',
-    analyze: '/analyze/'
+    analyze: '/analyze/',
+    user: '/useranalyses',
+    session: '/hasSession'
 }
 
 const serverPost = (routeName, message) => {

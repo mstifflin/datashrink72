@@ -4,7 +4,7 @@ import * as s from '../serverCalls.js';
 import * as globalData from '../sampledata'
 
 
-class Public extends React.Component {
+class UserAnalyses extends React.Component {
   constructor(props) {
     super(props)
     this.state = { 
@@ -14,7 +14,8 @@ class Public extends React.Component {
   }
 
   componentWillMount() {
-    s.serverGet('public').then(e => {
+    s.serverGet('user').then(e => {
+      console.log(e);
       this.setState({
         dataLoaded: true,
         data: e.data
@@ -25,11 +26,12 @@ class Public extends React.Component {
   render () {
     return (
       <div>
-        {!this.state.dataLoaded ? null :
+        {!this.state.dataLoaded ? <div>Please sign up or log in to see saved analyses</div> :
           <div className="link-list">
-            {this.state.data.map(e => {
+          {this.state.data.length === 0 ? <div>You have no saved analyses.</div> : 
+            this.state.data.map(e => {
               return this.props.click ? 
-                (<div key={e._id}><a name={e._id} href="#" onClick={this.props.click} >{e.person}</a></div>) :
+                (<div key={e._id}><a name={e._id} onClick={this.props.click} >{e.person}</a></div>) :
                 (<div key={e._id}><a href={`analyses/${e._id}`} >{e.person}</a></div>)
             })}
           </div>
@@ -39,6 +41,6 @@ class Public extends React.Component {
   }
 }
 
-export default Public
+export default UserAnalyses
 
 

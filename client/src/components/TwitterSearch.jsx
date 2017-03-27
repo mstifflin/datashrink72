@@ -34,12 +34,12 @@ class TwitterSearch extends React.Component {
     return (
       <div>
       <h2>Enter your own input to analyze</h2>
-      <form onSubmit={this.sendForm}>
+      <form onSubmit={(e) => this.props.click === undefined ? this.sendForm(e) : this.props.click(e, this.state)}>
         <label>
           Analyze tweets from: 
           <input type='text' name='name' onChange={this.updateFormValue} defaultValue='@'/>
         </label>
-        <input type="submit" defaultValue ='submit'/>
+        <input className="submit" type="submit" defaultValue ='submit'/>
       </form>
       </div>
     )

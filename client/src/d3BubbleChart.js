@@ -7,6 +7,8 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
   data['children'] = data['traits'];
   const twoDecFormat = (n) => parseFloat(Math.round(n * 10000) / 100).toFixed(2);
   //d3's layout wants a 'children property'
+  var dataName = data.name.toLowerCase();
+  var dataContext = data.context === 'twitter' ? 'tweet' : 'text';
 
   var colorCodes = {
     facet: '#79872b',
@@ -24,6 +26,7 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
 
   //set dimensions of the chart
   var svg = d3.select(el).append('svg')
+    .attr('class', 'bubbleChart')
     .attr('width', 1250)
     .attr('height', 1250)
     .attr('background', '#293950');
@@ -33,6 +36,13 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
     .attr("width", "100%")
     .attr("height", "100%")
     .attr("fill", '#293950');
+
+  // svg.append("g").append('text')
+  //     .attr("x", 30)             
+  //     .attr("y", 30)
+  //     .attr('class', 'bubbleTitle')
+  //     .text(`datashrink ${dataContext} analysis: ${dataName}`);
+
 
   //packs in the circles
   var rootV = d3.hierarchy(data)
@@ -101,7 +111,7 @@ d3BubbleChart.create = function(el, dataOrig, explanations) {
       .attr("x", 30)             
       .attr("y", 30)
       .attr('class', 'bubbleTitle')
-      .text("TWITTER PERSONALITY ANALYSIS");
+      .text(`datashrink ${dataContext} analysis: ${dataName}`);
 
 
   var legend = svg.append('g')

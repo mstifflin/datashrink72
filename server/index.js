@@ -32,12 +32,10 @@ app.use(passport.session());
 /**** SOCIAL MEDIA ****/
 /**********************/
 
-
-
 app.get('/twitter', tw.toAuth);
 app.get('/twitter/return', tw.fromAuth, tw.toAnalysis, 
   watsonHelpers.analyzeProfile);
-//TODO change render test to analysis
+// //TODO change render test to analysis
 app.get('/twitterProfile', ensureLogIn, tw.renderTest);
 app.get('/twitterProfile/*', tw.testAnalysis);
 // app.get('/twitterProfile', ensureLogIn, tw.toAnalysis);
@@ -55,43 +53,17 @@ app.post('/analysis', watsonHelpers.analyzeProfile);
 /**** NATIVE ****/
 /****************/
 
-app.post('/signup', function(req, res) {
-  if (dbHelpers.checkIfUserIsLoggedin(req.cookies.session)) {
-    res.send('you are already logged in');
-  } else {
-    dbHelpers.signup(req, res);
-  }
-});
-
-app.post('/login', function(req, res) {
-  if (dbHelpers.checkIfUserIsLoggedin(req.cookies.session)) {
-    res.send('you are already logged in')
-  } else {
-    dbHelpers.loginUser(req, res);     
-  }
-});
-
-app.post('/logout', function(req, res) {
-  dbHelpers.logoutUser(req, res);  
-});
-
-app.get('/logout', function(req, res) {
-  dbHelpers.logoutUser(req, res);  
-});
-
-app.get('/analyze/*', function(req, res) {
-  dbHelpers.findAllDataFromAnAnalysis(req, res); 
-});
-
-app.get('/publicanalyses', function(req, res) {
-  dbHelpers.getPublicAnalyses(req, res);
-});
+app.get('/hasSession', dbHelpers.hasSession);
+app.post('/signup', dbHelpers.signup);
+app.post('/login', dbHelpers.loginUser);     
+app.get('/logout', dbHelpers.logoutUser);  
+app.get('/analyze/*', dbHelpers.findAllDataFromAnAnalysis); 
+app.get('/publicanalyses', dbHelpers.getPublicAnalyses);
+app.get('/useranalyses', dbHelpers.getUserAnalyses);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 });
-
-
 
 app.listen(process.env.PORT || 3000, function() {
   console.log('Listening on port 3000.');

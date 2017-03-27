@@ -13,6 +13,7 @@ import {
 class CustomForm extends React.Component {
   constructor(props) {
     super(props)
+    console.log(this)
     this.state = { 
       name: '',
       text: '',
@@ -34,23 +35,27 @@ class CustomForm extends React.Component {
     .then(e => {
       window.location.href = e.request.responseURL;
     }).catch(e => {
-      console.log('error', e);
     })
   }
 
   render () {
     return (
-      <div>
-      <h2>Enter your own input to analyze</h2>
-      <form onSubmit={this.sendForm}>
+      <div className="container-fluid">
+      <h2>custom text analysis</h2>
+      <p>Paste any text you like into the form below.
+        The minimum number of words needed to conduct an analysis is 100, 
+        but we recommend using a sample of 1000 words or more for greater accuracy.
+      </p>
+      <form className="custom" onSubmit={(e) => this.props.click === undefined ? this.sendForm(e) : this.props.click(e, this.state)}>
         <label>
-          Name your input
+          Who are you analyzing?
           <p></p>
           <input type="text" name='name' onChange={this.updateFormValue} defaultValue=''/>          
           <p></p>
         </label>
-        <textarea rows='30' cols='60' name='text' onChange={this.updateFormValue} defaultValue=''/>
-        <input type="submit" defaultValue ='submit'/>
+        <label>Paste your text in here.</label>
+        <textarea rows='30' cols='60' name='text' className="custom-form" onChange={this.updateFormValue} defaultValue=''/>
+        <input type="submit" className="submit" defaultValue ='submit'/>
       </form>
       </div>
     )

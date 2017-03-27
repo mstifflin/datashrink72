@@ -10,19 +10,21 @@ import {
 
 var Create = function(props) {
  return (
-    <div>
   <Router>
-   <div>
-    <a href="\twitter">Twitter</a>
-    <br></br>
-    <Link to="/TwitterSearch">Twitter Account </Link>
-    <Route path="/TwitterSearch" component={TwitterSearch}/>
-    <br/>
-    <Link to="/CustomForm">Custom Input</Link>
-    <Route path="/CustomForm" component={CustomForm}/>
-   </div>
+    <div className="link-list">
+    {!props.ownTwitter ? null : 
+      <div>
+        <a href="\twitter"><img className="list-pic" src={"/images/you.jpg"} />My Twitter Account</a> 
+        <br />
+      </div>
+    }
+    <Link to="/TwitterSearch"><img className="list-pic" src={"/images/anyone.png"} />Public Twitter Account</Link>
+    <br />
+    <Link to="/CustomForm"><img className="list-pic" src={"/images/whatever.jpg"} />Custom Input</Link>
+    <Route path="/TwitterSearch" component={() => <TwitterSearch click={props.otherTwitterClick}/>} />
+    <Route path="/CustomForm" component={() => <CustomForm click={props.customClick} /> }/>
+    </div>
   </Router>
-  </div>
  )
 }
 

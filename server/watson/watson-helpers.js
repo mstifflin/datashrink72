@@ -22,7 +22,7 @@ var analyzeProfile = function(req, res) {
           name: req.body.name,
           context: req.body.context,
           private: req.body.private,
-          userId: 0 // userId from session
+          userId: req.cookies.session
         }
         parseProfile(parseParams, profile)
           .then(function(analysisId) {
@@ -32,10 +32,16 @@ var analyzeProfile = function(req, res) {
   }
 
   if (req.body.context === 'twitter') {
-    tw.analyzeProfile(req.body.name.slice(1))
-      .then(function(tweets) {
-        analyze(tweets);
-      });
+    Analysis.findOne({ person: req.body.name }, function(err, analysis) {
+      if (analysis) {
+        res.redirect(301, '/analyses/' + analysis.id);
+      } else {
+        tw.analyzeProfile(req.body.name.slice(1))
+          .then(function(tweets) {
+            analyze(tweets);
+          });
+      }
+    })
   } else if (req.body.context === 'text') {
     analyze(JSON.stringify(req.body.text));
   } else {

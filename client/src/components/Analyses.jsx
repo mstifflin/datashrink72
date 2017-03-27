@@ -6,6 +6,9 @@ import BarChart from './BarChart.jsx';
 import ComparisonChart from './ComparisonChart.jsx';
 import * as globalData from '../sampledata'
 import Public from './Public.jsx'
+import Create from './Create.jsx'
+import UserAnalyses from './UserAnalyses.jsx'
+
 
 import {
   BrowserRouter as Router,
@@ -24,11 +27,15 @@ class Analyses extends React.Component {
       data2: ''
 
     }
-    this.getSecondSet = this.getSecondSet.bind(this);
+    this.existingDataClick = this.existingDataClick.bind(this);
+    this.customFormClick = this.customFormClick.bind(this);
+    this.otherTwitterClick = this.otherTwitterClick.bind(this);
   }
 
   componentWillMount() {
     s.analysesGet(this.props.match.params.id).then(e => {
+      
+      console.log(e)
       this.setState({
         dataLoaded: true,
         data: e.data
@@ -36,16 +43,51 @@ class Analyses extends React.Component {
     })
   } 
 
-  getSecondSet(e) {
+
+  otherTwitterClick(event, state){
+    console.log('getting', event)
+    event.preventDefault()
+    s.serverPost('twitterProfile', state)
+    .then(e => {
+      console.log(e);
+      var redirectURL = e.request.responseURL;
+      var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
+      s.analysesGet(hash).then(results => {
+        this.setState({
+          secondDataSet: true,
+          data2: results.data
+        });
+      })
+    }).catch(err => {
+      console.log('failed', err)
+    })
+  }
+
+  existingDataClick(e) {
     e.preventDefault();
-    console.log('E E E: ', e);
-    console.log(e.target.name);
-    s.analysesGet(e.target.name).then(e => { 
+    s.analysesGet(e.target.name).then(results => { 
       this.setState({
         secondDataSet: true,
-        data2: e.data
+        data2: results.data
       });
     });
+  }
+
+  customFormClick(event, state) {
+    event.preventDefault()
+    s.serverPost('customform', state)
+    .then(e => {
+      var redirectURL = e.request.responseURL;
+      var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
+      s.analysesGet(hash).then(results => {
+        this.setState({
+          secondDataSet: true,
+          data2: results.data
+        });
+      })
+    }).catch(err => {
+      console.log('failed', err)
+    })
   }
 
   render () {
@@ -55,13 +97,26 @@ class Analyses extends React.Component {
           <div>
           <Router>
             <div>
-              <Link to="/Public">Compare To:</Link>
-              <Route path="/Public" component={() => <Public click={this.getSecondSet} />} />
+              Compare To:
+              <ul>
+                <li><Link to="/Public">Public</Link></li>
+                <li><Link to="/Create">Create</Link></li>
+                <li><Link to="/UserAnalyses">My Stored Analyses</Link></li>
+              </ul>
+
+              <Route path="/Public" component={() => <Public click={this.existingDataClick} />} />
+              <Route path="/Create" component={() => 
+                <Create 
+                  customClick={this.customFormClick}
+                  otherTwitterClick={this.otherTwitterClick}
+                />} 
+              />
+              <Route path="/UserAnalyses" component={() => <UserAnalyses click={this.existingDataClick}/> }/>
             </div>
           </Router>
           {!this.state.secondDataSet ? null :
-            <ComparisonChart data={this.state.data.traits} data2={this.state.data2.traits} /> }
-          <BarChart data={this.state.data.traits} />
+            <ComparisonChart data={this.state.data} data2={this.state.data2} /> }
+          <BarChart data={this.state.data} />
           <BubbleChart data={this.state.data} explanations={this.state.explanations}/>
           </div>
         }
