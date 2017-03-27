@@ -34,6 +34,8 @@ class Analyses extends React.Component {
 
   componentWillMount() {
     s.analysesGet(this.props.match.params.id).then(e => {
+      
+      console.log(e)
       this.setState({
         dataLoaded: true,
         data: e.data
@@ -113,8 +115,8 @@ class Analyses extends React.Component {
             </div>
           </Router>
           {!this.state.secondDataSet ? null :
-            <ComparisonChart data={this.state.data.traits} data2={this.state.data2.traits} /> }
-          <BarChart data={this.state.data.traits} />
+            <ComparisonChart data={this.state.data} data2={this.state.data2} /> }
+          <BarChart data={this.state.data} />
           <BubbleChart data={this.state.data} explanations={this.state.explanations}/>
           </div>
         }
