@@ -24734,13 +24734,14 @@ var Create = function Create(props) {
     null,
     _react2.default.createElement(
       'div',
-      null,
+      { className: 'link-list' },
       !props.ownTwitter ? null : _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           'a',
           { href: '\\twitter' },
+          _react2.default.createElement('img', { className: 'list-pic', src: "/images/you.jpg" }),
           'My Twitter Account'
         ),
         _react2.default.createElement('br', null)
@@ -24748,12 +24749,14 @@ var Create = function Create(props) {
       _react2.default.createElement(
         _reactRouterDom.Link,
         { to: '/TwitterSearch' },
+        _react2.default.createElement('img', { className: 'list-pic', src: "/images/anyone.png" }),
         'Public Twitter Account'
       ),
       _react2.default.createElement('br', null),
       _react2.default.createElement(
         _reactRouterDom.Link,
         { to: '/CustomForm' },
+        _react2.default.createElement('img', { className: 'list-pic', src: "/images/whatever.jpg" }),
         'Custom Input'
       ),
       _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: function component() {
@@ -24844,7 +24847,7 @@ var Public = function (_React$Component) {
         null,
         !this.state.dataLoaded ? null : _react2.default.createElement(
           'div',
-          null,
+          { className: 'link-list' },
           this.state.data.map(function (e) {
             return _this3.props.click ? _react2.default.createElement(
               'div',
@@ -24954,7 +24957,7 @@ var UserAnalyses = function (_React$Component) {
           'Please sign up or log in to see saved analyses'
         ) : _react2.default.createElement(
           'div',
-          null,
+          { className: 'link-list' },
           this.state.data.length === 0 ? _react2.default.createElement(
             'div',
             null,
@@ -28672,7 +28675,7 @@ var LoginForm = function (_React$Component) {
             _react2.default.createElement('input', { type: 'password', name: 'password', onChange: this.updateFormValue, defaultValue: ''
             })
           ),
-          _react2.default.createElement('input', { type: 'submit', defaultValue: 'submit' })
+          _react2.default.createElement('input', { type: 'submit', className: 'submit', defaultValue: 'submit' })
         )
       );
     }
@@ -28797,7 +28800,7 @@ var SignUpForm = function (_React$Component) {
             'Email:',
             _react2.default.createElement('input', { type: 'text', name: 'email', onChange: this.updateFormValue, defaultValue: '' })
           ),
-          _react2.default.createElement('input', { type: 'submit', defaultValue: 'submit' })
+          _react2.default.createElement('input', { type: 'submit', className: 'submit', defaultValue: 'submit' })
         )
       );
     }
@@ -39922,7 +39925,7 @@ var BarChart = _react2.default.createClass({
   // },
 
   render: function render() {
-    return _react2.default.createElement('div', null);
+    return _react2.default.createElement('div', { className: 'chart' });
   }
 });
 
@@ -39967,7 +39970,7 @@ var BubbleChart = _react2.default.createClass({
     _d3BubbleChart2.default.create(el, this.props.data, this.props.explanations);
   },
   render: function render() {
-    return _react2.default.createElement('div', null);
+    return _react2.default.createElement('div', { className: 'chart' });
   }
 });
 
@@ -40061,7 +40064,7 @@ var CustomForm = function (_React$Component) {
         ),
         _react2.default.createElement(
           'form',
-          { onSubmit: function onSubmit(e) {
+          { className: 'custom', onSubmit: function onSubmit(e) {
               return _this2.props.click === undefined ? _this2.sendForm(e) : _this2.props.click(e, _this2.state);
             } },
           _react2.default.createElement(
@@ -40072,8 +40075,8 @@ var CustomForm = function (_React$Component) {
             _react2.default.createElement('input', { type: 'text', name: 'name', onChange: this.updateFormValue, defaultValue: '' }),
             _react2.default.createElement('p', null)
           ),
-          _react2.default.createElement('textarea', { rows: '30', cols: '60', name: 'text', onChange: this.updateFormValue, defaultValue: '' }),
-          _react2.default.createElement('input', { type: 'submit', defaultValue: 'submit' })
+          _react2.default.createElement('textarea', { rows: '30', cols: '60', name: 'text', className: 'custom-form', onChange: this.updateFormValue, defaultValue: '' }),
+          _react2.default.createElement('input', { type: 'submit', className: 'submit', defaultValue: 'submit' })
         )
       );
     }
@@ -40178,7 +40181,7 @@ var TwitterSearch = function (_React$Component) {
             'Analyze tweets from:',
             _react2.default.createElement('input', { type: 'text', name: 'name', onChange: this.updateFormValue, defaultValue: '@' })
           ),
-          _react2.default.createElement('input', { type: 'submit', defaultValue: 'submit' })
+          _react2.default.createElement('input', { className: 'submit', type: 'submit', defaultValue: 'submit' })
         )
       );
     }
@@ -55112,6 +55115,7 @@ var App = function (_React$Component) {
               )
             )
           ),
+          _react2.default.createElement('img', { id: 'datashrink', src: "/images/datashrink_360.jpg" }),
           _react2.default.createElement(
             'div',
             { className: 'container' },
@@ -55120,8 +55124,12 @@ var App = function (_React$Component) {
               null,
               'datashrink'
             ),
-            'Welcome, ',
-            this.state.user,
+            _react2.default.createElement(
+              'p',
+              { className: 'welcome' },
+              'Welcome, ',
+              this.state.user
+            ),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Home' }),
             !this.state.loggedIn && _react2.default.createElement(_reactRouterDom.Route, { path: '/LoginForm', component: function component() {
                 return _react2.default.createElement(_LoginForm2.default, { update: _this2.updateLoggedIn });
