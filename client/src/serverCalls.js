@@ -8,7 +8,8 @@ var routes = {
     twitter: '/twitter',
     twitterProfile: '/analysis',
     analyze: '/analyze/',
-    useranalyses: '/useranalyses'
+    user: '/useranalyses',
+    session: '/hasSession'
 }
 
 const serverPost = (routeName, message) => {

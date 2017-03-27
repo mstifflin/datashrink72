@@ -14,7 +14,8 @@ class UserAnalyses extends React.Component {
   }
 
   componentWillMount() {
-    s.serverGet('useranalyses').then(e => {
+    s.serverGet('user').then(e => {
+      console.log(e);
       this.setState({
         dataLoaded: true,
         data: e.data

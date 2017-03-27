@@ -1,12 +1,14 @@
 var passport = require('passport');
 var Strategy = require('passport-twitter').Strategy;
 var Twitter = require('twitter');
-var API = require('./API_KEYS.js');
+// var API = require('./API_KEYS.js');
 
-// var API = {
-//   twitterKey: process.env.S1_KEY,
-//   twitterSecret: process.env.S1_SECRET
-// }
+var API = {
+  twitterKey: process.env.S1_KEY,
+  twitterSecret: process.env.S1_SECRET
+  twitterKey: '3AgtiXGQxmljq8Wy4ofJGhU6h', // consumer key
+  twitterSecret: 'h70NrluR9oDGcKBflt2Fl6fiMJjhvztSwW1mlPpc8BgySTooIU' //consumer secret
+}
 
 var client = new Twitter({
   consumer_key: API.twitterKey,
