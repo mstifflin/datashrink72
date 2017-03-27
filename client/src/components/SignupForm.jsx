@@ -9,13 +9,14 @@ class SignUpForm extends React.Component {
       username: '',
       password: '',
       email: '',
-      status: false
+      status: false,
+      error: false,
+      errorMessage: ''
     }
 
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
   }
-
 
   updateFormValue(e) {
     const name = e.target.name
@@ -23,20 +24,30 @@ class SignUpForm extends React.Component {
   }
 
   sendForm(event) {
-    event.preventDefault()
+    event.preventDefault();
     s.serverPost('signup', this.state).then(e => {
-      this.props.update(this.state.username);
+      if (e.data.username) {
+        this.props.update(e.data.username);
+      }
+      if (e.data.error) {
+        this.setState({
+          error: true,
+          errorMessage: e.data.error
+        });
+      }
     }).catch(e => {
-      console.log(e);
-      //tell user the info is correct or server is down
-    })
+      this.setState({
+        error: true,
+        errorMessage: 'There was a server error. Please wait then try again.'
+      })
+    }); 
   }
 
   render () {
     return (
       <div>
       <h2>Sign Up</h2>
-      <p>{this.state.status}</p>
+      <p>{this.state.error && this.state.errorMessage}</p>
       <form onSubmit={this.sendForm}>
         <label>
           Username:
@@ -49,7 +60,7 @@ class SignUpForm extends React.Component {
         </label>
         <label>
           Email:
-          <input type="text" name='email' onChange={this.updateFormValue} defaultValue=''/>
+          <input type="email" name='email' onChange={this.updateFormValue} defaultValue=''/>
         </label>
         <input type="submit" className="submit" defaultValue ='submit' />
       </form>
