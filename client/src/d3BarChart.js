@@ -6,6 +6,10 @@ var d3BarChart = {};
 
 d3BarChart.create = function(el, data) {
   //modify width of chart and height of lines
+  var dataName = data.name.toLowerCase();
+  var dataContext = data.context === 'twitter' ? 'tweet' : 'text';
+  var data = data.traits;
+
   var totalWidth = 1250;
   var barHeight = 35;
   var sortedData = reorder(data);
@@ -66,7 +70,7 @@ d3BarChart.create = function(el, data) {
     .attr("x", 30 - margin.left - padding.left)             
     .attr("y", 30 - margin.top - padding.top)
     .attr('class', 'bubbleTitle')
-    .text("TWITTER PERSONALITY ANALYSIS");
+    .text(`datashrink ${dataContext} analysis: ${dataName}`);
   
   //165 is to move it to the right
 

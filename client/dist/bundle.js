@@ -28431,6 +28431,8 @@ var Analyses = function (_React$Component) {
       var _this2 = this;
 
       s.analysesGet(this.props.match.params.id).then(function (e) {
+
+        console.log(e);
         _this2.setState({
           dataLoaded: true,
           data: e.data
@@ -28554,8 +28556,8 @@ var Analyses = function (_React$Component) {
                 } })
             )
           ),
-          !this.state.secondDataSet ? null : _react2.default.createElement(_ComparisonChart2.default, { data: this.state.data.traits, data2: this.state.data2.traits }),
-          _react2.default.createElement(_BarChart2.default, { data: this.state.data.traits }),
+          !this.state.secondDataSet ? null : _react2.default.createElement(_ComparisonChart2.default, { data: this.state.data, data2: this.state.data2 }),
+          _react2.default.createElement(_BarChart2.default, { data: this.state.data }),
           _react2.default.createElement(_BubbleChart2.default, { data: this.state.data, explanations: this.state.explanations })
         )
       );
@@ -40212,6 +40214,10 @@ var d3BarChart = {};
 
 d3BarChart.create = function (el, data) {
   //modify width of chart and height of lines
+  var dataName = data.name.toLowerCase();
+  var dataContext = data.context === 'twitter' ? 'tweet' : 'text';
+  var data = data.traits;
+
   var totalWidth = 1250;
   var barHeight = 35;
   var sortedData = reorder(data);
@@ -40251,7 +40257,7 @@ d3BarChart.create = function (el, data) {
 
   svg.append("rect").attr("width", "100%").attr("height", "100%").attr("fill", '#293950');
   //pass in title as prop w/user
-  svg.append("g").append('text').attr("x", 30 - margin.left - padding.left).attr("y", 30 - margin.top - padding.top).attr('class', 'bubbleTitle').text("TWITTER PERSONALITY ANALYSIS");
+  svg.append("g").append('text').attr("x", 30 - margin.left - padding.left).attr("y", 30 - margin.top - padding.top).attr('class', 'bubbleTitle').text('datashrink ' + dataContext + ' analysis: ' + dataName);
 
   //165 is to move it to the right
 
@@ -40322,6 +40328,8 @@ d3BubbleChart.create = function (el, dataOrig, explanations) {
     return parseFloat(Math.round(n * 10000) / 100).toFixed(2);
   };
   //d3's layout wants a 'children property'
+  var dataName = data.name.toLowerCase();
+  var dataContext = data.context === 'twitter' ? 'tweet' : 'text';
 
   var colorCodes = {
     facet: '#79872b',
@@ -40333,10 +40341,17 @@ d3BubbleChart.create = function (el, dataOrig, explanations) {
   var legendData = [{ name: 'facet', color: '#79872b' }, { name: 'big5', color: '#145b57' }, { name: 'need', color: '#a55d22' }, { name: 'value', color: '#a0558d' }];
 
   //set dimensions of the chart
-  var svg = d3.select(el).append('svg').attr('width', 1250).attr('height', 1250).attr('background', '#293950');
+  var svg = d3.select(el).append('svg').attr('class', 'bubbleChart').attr('width', 1250).attr('height', 1250).attr('background', '#293950');
 
   //fill in rectangle
   svg.append("rect").attr("width", "100%").attr("height", "100%").attr("fill", '#293950');
+
+  // svg.append("g").append('text')
+  //     .attr("x", 30)             
+  //     .attr("y", 30)
+  //     .attr('class', 'bubbleTitle')
+  //     .text(`datashrink ${dataContext} analysis: ${dataName}`);
+
 
   //packs in the circles
   var rootV = d3.hierarchy(data);
@@ -40385,7 +40400,7 @@ d3BubbleChart.create = function (el, dataOrig, explanations) {
     return d.data.name + ': ' + twoDecFormat(d.data.percentile) + (explanations[d.data.name] ? '\n\n' + explanations[d.data.name] : '');
   });
 
-  svg.append("g").append('text').attr("x", 30).attr("y", 30).attr('class', 'bubbleTitle').text("TWITTER PERSONALITY ANALYSIS");
+  svg.append("g").append('text').attr("x", 30).attr("y", 30).attr('class', 'bubbleTitle').text('datashrink ' + dataContext + ' analysis: ' + dataName);
 
   var legend = svg.append('g').selectAll('g').data(legendData).enter().append('g').attr('transform', function (d, i) {
     console.log(i);
@@ -40427,8 +40442,11 @@ d3ComparisonChart.create = function (el, data1, data2) {
   var totalWidth = 1250;
   var barHeight = 35;
 
-  var sortedData1 = reorder(data1);
-  var sortedData2 = reorder(data2);
+  var sortedData1 = reorder(data1.traits);
+  var sortedData2 = reorder(data2.traits);
+
+  var data1Name = data1.name;
+  var data2Name = data2.name;
 
   //abstract somewhere
   var twoDecFormat = function twoDecFormat(n) {
@@ -40442,7 +40460,7 @@ d3ComparisonChart.create = function (el, data1, data2) {
   var padding = { top: 0, right: 0, bottom: 0, left: 0 };
 
   var outerWidth = totalWidth;
-  var outerHeight = barHeight * data1.length + margin.top + margin.bottom + padding.top + padding.bottom;
+  var outerHeight = barHeight * sortedData1.length + margin.top + margin.bottom + padding.top + padding.bottom;
   var innerWidth = outerWidth - margin.left - margin.right;
   var innerHeight = outerHeight - margin.top - margin.bottom;
   var width = innerWidth - padding.left - padding.right;
@@ -40462,13 +40480,15 @@ d3ComparisonChart.create = function (el, data1, data2) {
   //theres 53 inputs..
   var y = d3.scaleLinear().domain([0, 52]).range([0, barHeight * sortedData1.length]);
 
-  console.log('sortedData1', sortedData1);
-  console.log('sortedData2', sortedData2);
-
   var svg = d3.select(el).append('svg').attr('class', 'comparisonChart').attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom).append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   // pass in title as prop w/user
-  svg.append("g").append('text').attr("x", 30 - margin.left - padding.left).attr("y", 30 - margin.top - padding.top).attr('class', 'bubbleTitle').text("TWITTER VS FACEBOOK ANALYSIS");
+  svg.append("g");
+  svg.append("text").attr('x', width / 2).style("text-anchor", "middle").attr('class', 'bubbleTitle').attr('y', -50).text('vs');
+
+  svg.append("text").attr('x', width / 2 + 80).attr('class', 'bubbleTitle').attr('y', -50).text(data2Name);
+
+  svg.append("text").attr('x', width / 2 - 80).style('text-anchor', 'end').attr('class', 'bubbleTitle').attr('y', -50).text(data1Name);
 
   var bar = svg.selectAll('.data2').data(sortedData2).enter().append('g').attr('class', 'sortedData2').attr("transform", function (d, i) {
     return 'translate(0, ' + i * barHeight + ')';
