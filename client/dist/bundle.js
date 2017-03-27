@@ -28425,8 +28425,9 @@ var Analyses = function (_React$Component) {
       data: '',
       explanations: globalData.explanations,
       secondDataSet: false,
-      data2: ''
-
+      data2: '',
+      error: false,
+      errorMessage: ''
     };
     _this.existingDataClick = _this.existingDataClick.bind(_this);
     _this.customFormClick = _this.customFormClick.bind(_this);
@@ -28467,7 +28468,7 @@ var Analyses = function (_React$Component) {
         });
       }).catch(function (err) {
         _this3.props.toggleSpinner();
-        console.log('failed', err);
+        console.log('Failed', err);
       });
     }
   }, {
@@ -28506,7 +28507,7 @@ var Analyses = function (_React$Component) {
         });
       }).catch(function (err) {
         _this5.props.toggleSpinner();
-        console.log('failed', err);
+        console.log('Failed', err);
       });
     }
   }, {
@@ -28634,7 +28635,9 @@ var LoginForm = function (_React$Component) {
     _this.state = {
       username: '',
       password: '',
-      status: false
+      status: false,
+      error: false,
+      errorMessage: ''
     };
 
     _this.updateFormValue = _this.updateFormValue.bind(_this);
@@ -28655,16 +28658,20 @@ var LoginForm = function (_React$Component) {
 
       event.preventDefault();
       s.serverPost('login', this.state).then(function (e) {
-        console.log('E in sendForm in loginForm: ', e);
-        if (e.data) {
-          _this2.props.update(e.data);
-        } // TODO: tell the user their login failed (when e.data === false)
+        if (e.data.username) {
+          _this2.props.update(e.data.username);
+        }
+        if (e.data.error) {
+          _this2.setState({
+            error: true,
+            errorMessage: e.data.error
+          });
+        }
       }).catch(function (e) {
-        _this2.setState({ status: e.data });
-        _this2.props.update(_this2.state.username);
-      }).catch(function (e) {
-        console.log(e);
-        //tell user the info is correct or server is down
+        _this2.setState({
+          error: true,
+          errorMessage: 'There was a server error. Please wait and try again.'
+        });
       });
     }
   }, {
@@ -28677,6 +28684,11 @@ var LoginForm = function (_React$Component) {
           'h2',
           null,
           'Log In'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          this.state.error && this.state.errorMessage
         ),
         _react2.default.createElement(
           'form',
@@ -28754,7 +28766,9 @@ var SignUpForm = function (_React$Component) {
       username: '',
       password: '',
       email: '',
-      status: false
+      status: false,
+      error: false,
+      errorMessage: ''
     };
 
     _this.updateFormValue = _this.updateFormValue.bind(_this);
@@ -28775,10 +28789,20 @@ var SignUpForm = function (_React$Component) {
 
       event.preventDefault();
       s.serverPost('signup', this.state).then(function (e) {
-        _this2.props.update(_this2.state.username);
+        if (e.data.username) {
+          _this2.props.update(e.data.username);
+        }
+        if (e.data.error) {
+          _this2.setState({
+            error: true,
+            errorMessage: e.data.error
+          });
+        }
       }).catch(function (e) {
-        console.log(e);
-        //tell user the info is correct or server is down
+        _this2.setState({
+          error: true,
+          errorMessage: 'There was a server error. Please wait then try again.'
+        });
       });
     }
   }, {
@@ -28795,7 +28819,7 @@ var SignUpForm = function (_React$Component) {
         _react2.default.createElement(
           'p',
           null,
-          this.state.status
+          this.state.error && this.state.errorMessage
         ),
         _react2.default.createElement(
           'form',
@@ -28817,7 +28841,7 @@ var SignUpForm = function (_React$Component) {
             'label',
             null,
             'Email:',
-            _react2.default.createElement('input', { type: 'text', name: 'email', onChange: this.updateFormValue, defaultValue: '' })
+            _react2.default.createElement('input', { type: 'email', name: 'email', onChange: this.updateFormValue, defaultValue: '' })
           ),
           _react2.default.createElement('input', { type: 'submit', className: 'submit', defaultValue: 'submit' })
         )
@@ -40444,7 +40468,6 @@ d3BubbleChart.create = function (el, dataOrig, explanations) {
   svg.append("g").append('text').attr("x", 30).attr("y", 30).attr('class', 'bubbleTitle').text('datashrink ' + dataContext + ' analysis: ' + dataName);
 
   var legend = svg.append('g').selectAll('g').data(legendData).enter().append('g').attr('transform', function (d, i) {
-    console.log(i);
     return 'translate(1100, ' + (i * 15 + 35) + ')';
   });
   legend.append('rect').attr('fill', function (d) {
@@ -55073,7 +55096,6 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       s.serverGet('session').then(function (e) {
-        console.log(e.data);
         if (e.data.username) {
           _this2.setState({
             user: e.data.username,
