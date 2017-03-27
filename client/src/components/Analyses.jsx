@@ -9,7 +9,6 @@ import Public from './Public.jsx'
 import Create from './Create.jsx'
 import UserAnalyses from './UserAnalyses.jsx'
 
-
 import {
   BrowserRouter as Router,
   Route,
@@ -24,8 +23,9 @@ class Analyses extends React.Component {
       data: '',
       explanations: globalData.explanations,
       secondDataSet: false,
-      data2: ''
-
+      data2: '',
+      error: false,
+      errorMessage: ''
     }
     this.existingDataClick = this.existingDataClick.bind(this);
     this.customFormClick = this.customFormClick.bind(this);
@@ -43,8 +43,7 @@ class Analyses extends React.Component {
     })
   } 
 
-
-  otherTwitterClick(event, state){  
+  otherTwitterClick(event, state){
     event.preventDefault()
     this.props.toggleSpinner()
     s.serverPost('twitterProfile', state)
@@ -60,7 +59,7 @@ class Analyses extends React.Component {
       })
     }).catch(err => {
       this.props.toggleSpinner()
-      console.log('failed', err)
+      console.log('Failed', err)
     })
   }
 
@@ -95,7 +94,7 @@ class Analyses extends React.Component {
       })
     }).catch(err => {
       this.props.toggleSpinner()
-      console.log('failed', err)
+      console.log('Failed', err)
     })
   }
 
