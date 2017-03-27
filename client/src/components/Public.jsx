@@ -11,6 +11,7 @@ class Public extends React.Component {
       dataLoaded: false,
       data: '',
     }
+    console.log('loading props',props)
   }
 
   componentWillMount() {
@@ -19,7 +20,9 @@ class Public extends React.Component {
         dataLoaded: true,
         data: e.data
       })
-    })
+    }).catch(e => {
+      this.props.toggleSpinner();
+    });
   } 
 
   render () {
