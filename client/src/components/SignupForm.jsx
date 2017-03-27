@@ -30,19 +30,28 @@ class SignUpForm extends React.Component {
 
   sendForm(event) {
     event.preventDefault();
-    if (this.validateEmail()) {
+    if (!this.validateEmail()) {
+      this.setState({
+        error: true,
+        errorMessage: 'Please enter a valid email address.'
+      });
+    } else {
       s.serverPost('signup', this.state).then(e => {
         if (e.data.username) {
           this.props.update(e.data.username);
-        } //TODO: error handling for when server returns an error (when e.data.error === true)
-        // {error: 'Error message'}
+        }
+        if (e.data.error) {
+          this.setState({
+            error: true,
+            errorMessage: e.data.error
+          });
+        }
       }).catch(e => {
-        console.log(e);
-        // tell user the info is correct or server is down
-      });      
-    } else {
-      console.log('FAILED TO VALIDATE EMAIL IN SENDFORM IN SIGNUPFORM');
-      //TODO: ERROR HANDLING FOR FAILED EMAIL
+        this.setState({
+          error: true,
+          errorMessage: 'There was a server error. Please wait then try again.'
+        })
+      }); 
     }
   }
 
@@ -50,7 +59,7 @@ class SignUpForm extends React.Component {
     return (
       <div>
       <h2>Sign Up</h2>
-      <p>{this.state.status}</p>
+      <p>{this.state.error && this.state.errorMessage}</p>
       <form onSubmit={this.sendForm}>
         <label>
           Username:

@@ -27,14 +27,19 @@ class LoginForm extends React.Component {
     s.serverPost('login', this.state).then(e => {
       if (e.data.username) {
         this.props.update(e.data.username);
-      } // TODO: tell the user their login failed (when e.data.error === true)
-        // {error: 'Error message'}
-    }).catch(e => {
-      this.setState({status: e.data});
-      this.props.update(this.state.username);
+      }
+      if (e.data.error) {
+        this.setState({
+          error: true,
+          errorMessage: e.data.error
+        });
+      }
     }).catch(e => {
       console.log(e);
-      //tell user the info is correct or server is down
+      this.setState({
+        error: true,
+        errorMessage: 'There was a server error. Please wait and try again.'
+      })
     })
   }
 
@@ -42,6 +47,7 @@ class LoginForm extends React.Component {
     return (
       <div>
       <h2>Log In</h2>
+      <p>{this.state.error && this.state.errorMessage}</p>
         <form onSubmit={this.sendForm}>
           <label>
             Username:

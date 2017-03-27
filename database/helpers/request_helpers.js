@@ -54,7 +54,7 @@ module.exports = {
 
 		User.findOne({username: username})
 		.exec(function(err, user) {
-			if (err) { res.send('There was an error querying the user database.'); }
+			if (err) { res.send(JSON.stringify({error: 'There was an error querying the user database.'})); }
 			else if(user) {
 				res.send(JSON.stringify({error: 'Username already exists. Please login.'}));					
 			} else {
@@ -66,8 +66,8 @@ module.exports = {
 				});
 				newUser.save(function(err, newUser) {
 					if (err) {
-						console.log('there was an error in creating a new user', err);
-						res.send('There was an error saving to the user');
+						console.log('There was an error in creating a new user', err);
+						res.send(JSON.stringify({error: 'There was an error saving to the user'}));
 					} else {
 						id = newUser._id;
 						createSession(username, id, res);
