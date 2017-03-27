@@ -9,6 +9,7 @@ var sessions = {};
 var createSession = function(username, id, res) {
 	crypto.randomBytes(40, function(err, session) {
 		if (err) {
+			console.log('Crypto hash error: ', err);
 			res.send(JSON.stringify({error: 'Crypto failed to create session hash.'}));
 		} else {
 			var newSession = {
@@ -55,7 +56,7 @@ module.exports = {
 		.exec(function(err, user) {
 			if (err) { res.send('There was an error querying the user database.'); }
 			else if(user) {
-				res.send('Username already exists. Please login.');					
+				res.send(JSON.stringify({error: 'Username already exists. Please login.'}));					
 			} else {
 				var newUser = new User({
 					username: username,
@@ -78,34 +79,32 @@ module.exports = {
 
 	findAllDataFromAnAnalysis: function(req, res) {
 	  var routeLength = '/analyze/'.length
-	  var url = req.url.slice(routeLength);
-	  Analysis.findOne({_id: url})
+	  var id = req.url.slice(routeLength);
+	  Analysis.findOne({_id: id})
 	  .exec(function(err, analysis) {
 	    if (err) {
-	      console.log('There was an error looking up your analysis', err)
+	      console.log('There was an error looking up your analysis', err);
+	      res.send(JSON.stringify({error: 'The analysis database failed to query.'}));
 	    } else if (analysis) {
-	    	//response is the bundle of data that will be sent back
-	    	//formatting the way the sample data is formatted
 	      var response = {
 	      	name: analysis.person,
 	      	context: analysis.context,
 	      	word_count: analysis.word_count,
 	      	user_id: analysis.user_id
 	      };
-
 	      //use the id of the analysis to query for all rows of the analyses_traits table 
-	      AnalysisTrait.find({analysis_id: url})
+	      AnalysisTrait.find({analysis_id: id})
 	      .exec(function(err, analysisTraits) {
 	      	if (err) {
 	      		console.log('There was an error looking up the analysisTrait', err);
-	    			// res.send('No analysis found.');
+	    			res.send(JSON.stringify({error: 'No analysis found.'}));
 	      	} else {
 	      		response.traits = analysisTraits.slice();
 	      		res.send(JSON.stringify(response));
 	      	}
 	      });
 	    } else {
-	    	res.send('No analysis found.');
+	    	res.send(JSON.stringify({error: 'No analysis found.'}));
 	    }
 	  });
 	},
@@ -126,7 +125,7 @@ module.exports = {
 	getPublicAnalyses: function(req, res) {
 		Analysis.find({private: false})
 		.exec(function(err, publicArray) {
-			if (err) { res.status(500).send('Databases failed to query'); }
+			if (err) { res.status(500).send(JSON.stringify({error: 'Databases failed to query'})); }
 			res.send(JSON.stringify(publicArray));
 		});
 	},
@@ -136,7 +135,7 @@ module.exports = {
 		else {
 			Analysis.find({user_id: req.cookies.session})
 			.exec(function(err, userAnalyses) {
-				if (err) { res.status(500).send('Databases failed to query'); }
+				if (err) { res.status(500).send(JSON.stringify({error: 'Databases failed to query'})); }
 				res.send(JSON.stringify(userAnalyses));
 			});			
 		}

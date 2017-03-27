@@ -23,7 +23,9 @@ class Analyses extends React.Component {
       data: '',
       explanations: globalData.explanations,
       secondDataSet: false,
-      data2: ''
+      data2: '',
+      error: false,
+      errorMessage: ''
     }
     this.existingDataClick = this.existingDataClick.bind(this);
     this.customFormClick = this.customFormClick.bind(this);
