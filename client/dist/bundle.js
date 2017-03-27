@@ -24696,7 +24696,7 @@ var ComparisonChart = _react2.default.createClass({
   },
 
   render: function render() {
-    return _react2.default.createElement('div', null);
+    return _react2.default.createElement('div', { className: 'chart' });
   }
 });
 
@@ -40063,11 +40063,16 @@ var CustomForm = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'container-fluid' },
         _react2.default.createElement(
           'h2',
           null,
-          'Enter your own input to analyze'
+          'custom text analysis'
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Paste any text you like into the form below. The minimum number of words needed to conduct an analysis is 100, but we recommend using a sample of 1000 words or more for greater accuracy.'
         ),
         _react2.default.createElement(
           'form',
@@ -40077,10 +40082,15 @@ var CustomForm = function (_React$Component) {
           _react2.default.createElement(
             'label',
             null,
-            'Name your input',
+            'Who are you analyzing?',
             _react2.default.createElement('p', null),
             _react2.default.createElement('input', { type: 'text', name: 'name', onChange: this.updateFormValue, defaultValue: '' }),
             _react2.default.createElement('p', null)
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Paste your text in here.'
           ),
           _react2.default.createElement('textarea', { rows: '30', cols: '60', name: 'text', className: 'custom-form', onChange: this.updateFormValue, defaultValue: '' }),
           _react2.default.createElement('input', { type: 'submit', className: 'submit', defaultValue: 'submit' })
@@ -54950,8 +54960,6 @@ exports.default = valueEqual;
 "use strict";
 
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(4);
@@ -54993,6 +55001,14 @@ var _Public2 = _interopRequireDefault(_Public);
 var _UserAnalyses = __webpack_require__(71);
 
 var _UserAnalyses2 = _interopRequireDefault(_UserAnalyses);
+
+var _TwitterSearch = __webpack_require__(133);
+
+var _TwitterSearch2 = _interopRequireDefault(_TwitterSearch);
+
+var _CustomForm = __webpack_require__(132);
+
+var _CustomForm2 = _interopRequireDefault(_CustomForm);
 
 var _serverCalls = __webpack_require__(17);
 
@@ -55077,8 +55093,8 @@ var App = function (_React$Component) {
                 'div',
                 { className: 'navbar-header' },
                 _react2.default.createElement(
-                  'a',
-                  { className: 'navbar-brand', href: '#' },
+                  _reactRouterDom.Link,
+                  { to: '/Home', className: 'navbar-brand' },
                   'datashrink'
                 )
               ),
@@ -55090,56 +55106,44 @@ var App = function (_React$Component) {
                   { className: 'nav navbar-nav' },
                   _react2.default.createElement(
                     'li',
-                    null,
-                    _react2.default.createElement(
-                      _reactRouterDom.Link,
-                      { to: '/Home' },
-                      'Home'
-                    )
-                  ),
-                  !this.state.loggedIn && _react2.default.createElement(
-                    'li',
-                    null,
-                    _react2.default.createElement(
-                      _reactRouterDom.Link,
-                      { to: '/LoginForm' },
-                      'Log In'
-                    )
-                  ),
-                  !this.state.loggedIn && _react2.default.createElement(
-                    'li',
-                    null,
-                    _react2.default.createElement(
-                      _reactRouterDom.Link,
-                      { to: '/SignUpForm' },
-                      'Sign Up'
-                    )
-                  ),
-                  this.state.loggedIn && _react2.default.createElement(
-                    'li',
-                    null,
+                    { className: 'dropdown' },
                     _react2.default.createElement(
                       'a',
-                      { href: '\\logout' },
-                      'Logout'
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'li',
-                    null,
+                      { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown',
+                        role: 'button', 'aria-haspopup': 'true', 'aria-expanded': 'false' },
+                      'new analysis',
+                      _react2.default.createElement('span', { className: 'caret' })
+                    ),
                     _react2.default.createElement(
-                      _reactRouterDom.Link,
-                      { to: '/Create' },
-                      'Create Analysis'
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'li',
-                    null,
-                    _react2.default.createElement(
-                      _reactRouterDom.Link,
-                      { to: '/Public' },
-                      'Public Analyses'
+                      'ul',
+                      { className: 'dropdown-menu' },
+                      _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                          'a',
+                          { href: '\\twitter' },
+                          'my twitter'
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                          _reactRouterDom.Link,
+                          { to: '/TwitterSearch' },
+                          'public twitter'
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'li',
+                        null,
+                        _react2.default.createElement(
+                          _reactRouterDom.Link,
+                          { to: '/CustomForm' },
+                          'custom text'
+                        )
+                      )
                     )
                   ),
                   _react2.default.createElement(
@@ -55148,16 +55152,60 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                       _reactRouterDom.Link,
                       { to: '/User' },
-                      'My Stored Analyses'
+                      'saved analyses'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/Public' },
+                      'browse analyses'
                     )
                   )
                 ),
                 _react2.default.createElement(
-                  'div',
-                  { className: 'credit-photos' },
-                  'powered by:',
-                  _react2.default.createElement('img', { id: 'footer-images', src: "/images/IBM-Watson-image.png" }),
-                  _react2.default.createElement('img', { id: 'footer-images', src: "/images/twitterLogo.png" })
+                  'ul',
+                  { className: 'nav navbar-nav navbar-right' },
+                  !this.state.loggedIn && _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/LoginForm' },
+                      'log in'
+                    )
+                  ),
+                  !this.state.loggedIn && _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      _reactRouterDom.Link,
+                      { to: '/SignUpForm' },
+                      'sign up'
+                    )
+                  ),
+                  this.state.loggedIn && _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      'a',
+                      { href: '\\logout' },
+                      'logout'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'credit-photos' },
+                      'powered by:',
+                      _react2.default.createElement('img', { id: 'footer-images', src: "/images/IBM-Watson-image.png" }),
+                      _react2.default.createElement('img', { id: 'footer-images', src: "/images/twitterLogo.png" })
+                    )
+                  )
                 )
               )
             )
@@ -55184,9 +55232,8 @@ var App = function (_React$Component) {
             !this.state.loggedIn && _react2.default.createElement(_reactRouterDom.Route, { path: '/SignUpForm', component: function component() {
                 return _react2.default.createElement(_SignupForm2.default, { update: _this3.updateLoggedIn });
               } }),
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/Create', render: function render() {
-                return _react2.default.createElement(_Create2.default, _extends({ ownTwitter: true }, _this3.state));
-              } }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/TwitterSearch', component: _TwitterSearch2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { path: '/CustomForm', component: _CustomForm2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/Public', component: _Public2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/User', component: _UserAnalyses2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { path: '/analyses/:id', component: _Analyses2.default })
