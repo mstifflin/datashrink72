@@ -33,9 +33,9 @@ class Analyses extends React.Component {
   }
 
   componentWillMount() {
-    s.analysesGet(this.props.match.params.id).then(e => {
-      
-      console.log(e)
+    this.props.toggleSpinner()
+    s.analysesGet(this.props.nativeProps.match.params.id).then(e => {
+      this.props.toggleSpinner()
       this.setState({
         dataLoaded: true,
         data: e.data
@@ -44,12 +44,12 @@ class Analyses extends React.Component {
   } 
 
 
-  otherTwitterClick(event, state){
-    console.log('getting', event)
+  otherTwitterClick(event, state){  
     event.preventDefault()
+    this.props.toggleSpinner()
     s.serverPost('twitterProfile', state)
     .then(e => {
-      console.log(e);
+      this.props.toggleSpinner()
       var redirectURL = e.request.responseURL;
       var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
       s.analysesGet(hash).then(results => {
@@ -59,33 +59,42 @@ class Analyses extends React.Component {
         });
       })
     }).catch(err => {
+      this.props.toggleSpinner()
       console.log('failed', err)
     })
   }
 
   existingDataClick(e) {
     e.preventDefault();
+    this.props.toggleSpinner()
     s.analysesGet(e.target.name).then(results => { 
+      this.props.toggleSpinner()
       this.setState({
         secondDataSet: true,
         data2: results.data
       });
-    });
+    }).catch(err => {
+      this.props.toggleSpinner();
+
+    })
   }
 
   customFormClick(event, state) {
-    event.preventDefault()
+    event.preventDefault();
+    this.props.toggleSpinner();
     s.serverPost('customform', state)
     .then(e => {
       var redirectURL = e.request.responseURL;
       var hash = redirectURL.slice(redirectURL.indexOf('analyses/') + 'analyses/'.length);
       s.analysesGet(hash).then(results => {
+        this.props.toggleSpinner();
         this.setState({
           secondDataSet: true,
           data2: results.data
         });
       })
     }).catch(err => {
+      this.props.toggleSpinner()
       console.log('failed', err)
     })
   }

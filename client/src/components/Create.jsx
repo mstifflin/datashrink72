@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom'
 
 var Create = function(props) {
+  console.log(props)
  return (
   <Router>
     <div className="link-list">
@@ -21,8 +22,8 @@ var Create = function(props) {
     <Link to="/TwitterSearch"><img className="list-pic" src={"/images/anyone.png"} />Public Twitter Account</Link>
     <br />
     <Link to="/CustomForm"><img className="list-pic" src={"/images/whatever.jpg"} />Custom Input</Link>
-    <Route path="/TwitterSearch" component={() => <TwitterSearch click={props.otherTwitterClick}/>} />
-    <Route path="/CustomForm" component={() => <CustomForm click={props.customClick} /> }/>
+    <Route path="/TwitterSearch" render={() => <TwitterSearch toggleSpinner={props.toggleSpinner} click={props.otherTwitterClick}/>} />
+    <Route path="/CustomForm" render={() => <CustomForm toggleSpinner={props.toggleSpinner} click={props.customClick} /> }/>
     </div>
   </Router>
  )

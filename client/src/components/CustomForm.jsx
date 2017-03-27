@@ -13,7 +13,6 @@ import {
 class CustomForm extends React.Component {
   constructor(props) {
     super(props)
-    console.log(this)
     this.state = { 
       name: '',
       text: '',
@@ -31,10 +30,15 @@ class CustomForm extends React.Component {
 
   sendForm(event) {
     event.preventDefault()
+    this.props.toggleSpinner()
     s.serverPost('customform', this.state)
     .then(e => {
+      this.props.toggleSpinner()
       window.location.href = e.request.responseURL;
     }).catch(e => {
+      this.toggleSpinner()
+
+        
     })
   }
 
