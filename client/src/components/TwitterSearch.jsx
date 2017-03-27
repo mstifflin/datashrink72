@@ -27,7 +27,6 @@ class TwitterSearch extends React.Component {
     .then(e => {
       window.location.href = e.request.responseURL;
     }).catch(e => {
-      console.log(e);
     })
   }
 
@@ -41,7 +40,6 @@ class TwitterSearch extends React.Component {
           <input type='text' name='name' onChange={this.updateFormValue} defaultValue='@'/>
         </label>
         <input className="submit" type="submit" defaultValue ='submit'/>
-        <p>{this.state.error}</p>
       </form>
       </div>
     )

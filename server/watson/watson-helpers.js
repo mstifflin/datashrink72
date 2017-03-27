@@ -28,12 +28,6 @@ var analyzeProfile = function(req, res) {
           .then(function(analysisId) {
             res.redirect(301, '/analyses/' + analysisId);
           }); 
-      })
-      .catch(function(error) {
-        console.log(error.error);
-        // res.status(400);
-        res.render('error', error.error);
-        // res.redirect(400, '/create');
       });
   }
 

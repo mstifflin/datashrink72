@@ -40210,9 +40210,7 @@ var TwitterSearch = function (_React$Component) {
       console.log(this.state);
       s.serverPost('twitterProfile', this.state).then(function (e) {
         window.location.href = e.request.responseURL;
-      }).catch(function (e) {
-        console.log(e);
-      });
+      }).catch(function (e) {});
     }
   }, {
     key: 'render',
@@ -40238,12 +40236,7 @@ var TwitterSearch = function (_React$Component) {
             'Analyze tweets from:',
             _react2.default.createElement('input', { type: 'text', name: 'name', onChange: this.updateFormValue, defaultValue: '@' })
           ),
-          _react2.default.createElement('input', { className: 'submit', type: 'submit', defaultValue: 'submit' }),
-          _react2.default.createElement(
-            'p',
-            null,
-            this.state.error
-          )
+          _react2.default.createElement('input', { className: 'submit', type: 'submit', defaultValue: 'submit' })
         )
       );
     }
