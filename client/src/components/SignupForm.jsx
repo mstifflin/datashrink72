@@ -9,27 +9,41 @@ class SignUpForm extends React.Component {
       username: '',
       password: '',
       email: '',
-      status: false
+      status: false,
+      error: false,
+      errorMessage: ''
     }
 
     this.updateFormValue = this.updateFormValue.bind(this);
     this.sendForm = this.sendForm.bind(this);
   }
 
-
   updateFormValue(e) {
     const name = e.target.name
     this.setState({[name]: e.target.value});
   }
 
+  validateEmail() {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(this.state.email);
+  }
+
   sendForm(event) {
-    event.preventDefault()
-    s.serverPost('signup', this.state).then(e => {
-      this.props.update(this.state.username);
-    }).catch(e => {
-      console.log(e);
-      //tell user the info is correct or server is down
-    })
+    event.preventDefault();
+    if (this.validateEmail()) {
+      s.serverPost('signup', this.state).then(e => {
+        if (e.data.username) {
+          this.props.update(e.data.username);
+        } //TODO: error handling for when server returns an error (when e.data.error === true)
+        // {error: 'Error message'}
+      }).catch(e => {
+        console.log(e);
+        // tell user the info is correct or server is down
+      });      
+    } else {
+      console.log('FAILED TO VALIDATE EMAIL IN SENDFORM IN SIGNUPFORM');
+      //TODO: ERROR HANDLING FOR FAILED EMAIL
+    }
   }
 
   render () {

@@ -6,6 +6,23 @@ var crypto = require('crypto');
 
 var sessions = {};
 
+var createSession = function(username, id, res) {
+	crypto.randomBytes(40, function(err, session) {
+		if (err) {
+			res.send(JSON.stringify({error: 'Crypto failed to create session hash.'}));
+		} else {
+			var newSession = {
+				username: username,
+				sessionID: session.toString(),
+				user_id: id
+			}
+			res.cookie('session', newSession.user_id);
+			sessions[newSession.user_id] = newSession;
+			res.send(JSON.stringify({username: username}));
+		}
+	});
+};
+
 module.exports = {
 	loginUser: function(req, res) {
 		username = req.body.username;
@@ -13,33 +30,18 @@ module.exports = {
 		User.findOne({username: username})
 		.exec(function(err, user) {
 			if (err) {
-				console.log('there was an error in looking up the username in the database', err);
-				res.send(err);
+				console.log('There was an error in looking up the username in the database: \n', err);
+				res.send(JSON.stringify({error: 'The database query for a user resulted in error.'}));
 			} else if (user) {
 				var id = user._id
 				if (User.comparePassword(password, user.salt, user.password)) {
-					//send a response that the user has successfully logged in
-					//create a new session for the user
-					crypto.randomBytes(40, function(err, session) {
-						if (err) {
-							console.log(err);
-						} else {
-							var newSession = {
-								username: username,
-								sessionID: session.toString(),
-								user_id: id
-							}
-							res.cookie('session', newSession.user_id);
-							sessions[newSession.user_id] = newSession;
-							res.send(JSON.stringify(username));
-						}
-					})
+					createSession(username, id, res);
 				} else {
-					console.log('attempted password does not equal actual password');
-					res.send('false');
+					console.log('Attempted password does not equal actual password');
+					res.send(JSON.stringify({error: 'Invalid login credentials'}));
 				}
 			} else {
-				res.send('false');
+				res.send(JSON.stringify({error: 'User doesn\'t exist. Please sign up.'}));
 			}
 		})
 	},
@@ -49,48 +51,29 @@ module.exports = {
 		email = req.body.email;
 		password = req.body.password;
 
-		if (validateEmail(email)) {
-			User.findOne({username: username})
-			.exec(function(err, user) {
-				if(!user) {
-					var newUser = new User({
-						username: username,
-						password: password, //password should automatically hash on save
-						email: email,
-						salt: undefined //salt should be automatically generated on save
-					});
-					newUser.save(function(err, newUser) {
-						if (err) {
-							console.log('there was an error in creating a new user', err);
-							res.send(err);
-						} else {
-							id = newUser._id;
-							// crypto
-							crypto.randomBytes(40, function(err, session) {
-								if (err) {
-									console.log(err);
-								} else {
-									var newSession = {
-										username: username,
-										sessionID: session.toString(),
-										user_id: id
-									}
-									res.cookie('session', newSession.user_id);
-									sessions[newSession.user_id] = newSession;
-									res.send('account created');
-								}
-							});
-						}
-					});
-				} else {
-					//account already exists redirect them back to the login page
-					res.send('user already exists');
-					//res.redirect('whatever the login route is');
-				}
-			})
-		} else {
-			res.send('not a valid email address');
-		}
+		User.findOne({username: username})
+		.exec(function(err, user) {
+			if (err) { res.send('There was an error querying the user database.'); }
+			else if(user) {
+				res.send('Username already exists. Please login.');					
+			} else {
+				var newUser = new User({
+					username: username,
+					password: password, //password should automatically hash on save
+					email: email,
+					salt: undefined //salt should be automatically generated on save
+				});
+				newUser.save(function(err, newUser) {
+					if (err) {
+						console.log('there was an error in creating a new user', err);
+						res.send('There was an error saving to the user');
+					} else {
+						id = newUser._id;
+						createSession(username, id, res);
+					}
+				});
+			}
+		})
 	},
 
 	findAllDataFromAnAnalysis: function(req, res) {
