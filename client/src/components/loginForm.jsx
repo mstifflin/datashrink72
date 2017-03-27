@@ -35,7 +35,6 @@ class LoginForm extends React.Component {
         });
       }
     }).catch(e => {
-      console.log(e);
       this.setState({
         error: true,
         errorMessage: 'There was a server error. Please wait and try again.'

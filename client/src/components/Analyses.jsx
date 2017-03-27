@@ -59,7 +59,7 @@ class Analyses extends React.Component {
       })
     }).catch(err => {
       this.props.toggleSpinner()
-      console.log('failed', err)
+      console.log('Failed', err)
     })
   }
 
@@ -94,7 +94,7 @@ class Analyses extends React.Component {
       })
     }).catch(err => {
       this.props.toggleSpinner()
-      console.log('failed', err)
+      console.log('Failed', err)
     })
   }
 
