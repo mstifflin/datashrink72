@@ -1,8 +1,11 @@
 # Project Name
 
 > Link to gallery: https://imgur.com/a/JSQyA
+
 > ![uber vs lyft - analysis of Twitter profiles](http://imgur.com/TOdQs5O)
+
 > ![obama vs trump - analysis of Twitter profiles](http://imgur.com/0hSl4Rn)
+
 > ![leela vs fry - analysis of Twicher profiles](http://imgur.com/mUZxa7A)
 
 ## Team
